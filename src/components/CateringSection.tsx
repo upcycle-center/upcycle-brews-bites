@@ -324,16 +324,7 @@ export default function CateringSection() {
         <div style={{ font: "400 22px 'Anton', sans-serif", textTransform: 'uppercase', color: COLORS.gold, marginBottom: 14 }}>
           Your Quote Estimate
         </div>
-        {quote.summaryLines.map((line, i) => (
-          <div key={i} style={{ padding: '6px 0', borderBottom: '1px dotted oklch(96% 0.01 95 / 0.2)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', font: "400 13.5px 'Inter'" }}>
-              <span>{line.label}</span>
-              <span style={{ font: "700 13.5px 'Inter'" }}>${line.value}</span>
-            </div>
-            {line.note && <div style={{ font: "400 11.5px/1.5 'Inter'", opacity: 0.7, marginTop: 2 }}>{line.note}</div>}
-          </div>
-        ))}
-        <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 14, font: "800 20px 'Inter'" }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', font: "800 20px 'Inter'" }}>
           <span>Estimated Total</span>
           <span style={{ color: COLORS.gold }}>${quote.grandTotal}</span>
         </div>
