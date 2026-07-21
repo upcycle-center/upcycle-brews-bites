@@ -5,7 +5,6 @@ import { computeQuote } from '../quote';
 const CATERING_INTRO_ALIGN: 'center' | 'left' = 'center';
 
 export default function CateringSection() {
-  const [serviceType, setServiceType] = useState<'onsite' | 'offsite'>('onsite');
   const [selectedPackageIds, setSelectedPackageIds] = useState<string[]>([]);
   const [expandedPackageId, setExpandedPackageId] = useState<string | null>(null);
   const [adults, setAdults] = useState(10);
@@ -62,28 +61,6 @@ export default function CateringSection() {
           </div>
           <div>Build your quote below and we'll confirm the final pricing after a quick chat to make sure everything is just right.</div>
         </div>
-      </div>
-
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginBottom: 32 }}>
-        {(['onsite', 'offsite'] as const).map((type) => {
-          const active = serviceType === type;
-          return (
-            <button
-              key={type}
-              onClick={() => setServiceType(type)}
-              style={{
-                padding: '9px 18px',
-                borderRadius: 999,
-                border: `1.5px solid ${active ? COLORS.skyDeep : 'oklch(80% 0.01 150)'}`,
-                background: active ? COLORS.skyDeep : 'transparent',
-                color: active ? 'oklch(98% 0.01 90)' : 'oklch(35% 0.02 150)',
-                font: "700 13px 'Inter'",
-              }}
-            >
-              {type === 'onsite' ? 'On-Site Service' : 'Off-Site / Private Event'}
-            </button>
-          );
-        })}
       </div>
 
       <div className="two-col-grid" style={{ display: 'grid', gap: 20, maxWidth: 820, margin: '0 auto 36px' }}>
