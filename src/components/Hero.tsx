@@ -1,18 +1,25 @@
-import ImagePlaceholder from './ImagePlaceholder';
 import { COLORS } from '../data';
 
 export default function Hero() {
   return (
     <section
-      className="hero-grid"
       style={{
-        display: 'grid',
-        gap: 0,
+        display: 'flex',
+        justifyContent: 'center',
         background: COLORS.green,
         color: 'oklch(97% 0.01 95)',
       }}
     >
-      <div style={{ padding: '64px 48px', display: 'flex', flexDirection: 'column', gap: 20, justifyContent: 'center' }}>
+      <div
+        style={{
+          padding: '64px 48px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 20,
+          maxWidth: 720,
+          width: '100%',
+        }}
+      >
         <span
           style={{
             display: 'inline-flex',
@@ -26,7 +33,7 @@ export default function Hero() {
             color: 'oklch(86% 0.06 220)',
           }}
         >
-          PARKED AT SPEAKEASY MOTORS
+          WE'RE OPEN!
         </span>
         <h1
           style={{
@@ -37,14 +44,19 @@ export default function Hero() {
             color: 'oklch(96% 0.01 95)',
           }}
         >
-          Second life.
+          Craft cocktails. Local bites.
           <br />
-          <span style={{ color: COLORS.gold }}>First bite.</span>
+          <span style={{ color: COLORS.gold }}>The perfect pairing.</span>
         </h1>
         <p style={{ font: "400 17px/1.6 'Inter'", color: 'oklch(88% 0.01 95)', maxWidth: '46ch', margin: 0 }}>
-          A rotating-vendor food truck built on the same idea as our home base: give things a second purpose. UPCYCLE
-          Brews &amp; Bites resides at Speakeasy Motors, a craft distillery inside a newly renovated 19th-century
-          winery house — pallet-wood counters, wine-bottle lighting, and a menu that changes with our guest chefs.
+          Discover the best of Upstate New York with UPCYCLE Brews &amp; Bites and The Baldwin Speakeasy by Liquid
+          Mercantile. Together, we're bringing handcrafted food, signature cocktails, local brews, and unforgettable
+          experiences to one destination.
+        </p>
+        <p style={{ font: "400 17px/1.6 'Inter'", color: 'oklch(88% 0.01 95)', maxWidth: '46ch', margin: 0 }}>
+          Featuring chef-inspired menus, rotating guest chefs, regional vendors, and community events, every visit
+          offers something new to enjoy. Come hungry, stay for the cocktails, and gather with friends for the perfect
+          pairing of great food, great drinks, and great company.
         </p>
         <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
           <a
@@ -77,9 +89,6 @@ export default function Hero() {
             Plan Catering
           </a>
         </div>
-      </div>
-      <div style={{ position: 'relative', height: 520 }}>
-        <ImagePlaceholder label="Drop truck / distillery photo" style={{ width: '100%', height: 520 }} />
       </div>
     </section>
   );

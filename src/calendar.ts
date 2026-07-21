@@ -53,7 +53,7 @@ export function buildCalendarCells(year: number, month: number): CalendarCell[] 
     } else if (isRetailOnly) {
       dayEvents = [
         {
-          label: 'Meet the Farmers — 4P–7P. Retail/market only, no food service. Canned beer/drinks, no bar service.',
+          label: 'Meet the Farmers — Vendors Market only, no food/bar service. 4P–7P',
           category: 'retail',
           canRsvp: false,
         },
