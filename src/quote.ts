@@ -3,6 +3,8 @@ import {
   ALCOHOL_TIERS,
   CATERING_PACKAGES,
   CONTACT_EMAIL,
+  QUOTE_ENDPOINT_SECRET,
+  QUOTE_ENDPOINT_URL,
   TIP_RATE,
   calcBookingFee,
   type CateringPackage,
@@ -131,4 +133,45 @@ export function computeQuote(
     summaryLines,
     mailtoHref,
   };
+}
+
+/** True once QUOTE_ENDPOINT_URL has been filled in with a deployed Apps Script Web App URL. */
+export function isQuoteEndpointConfigured(): boolean {
+  return QUOTE_ENDPOINT_URL.trim().length > 0;
+}
+
+/**
+ * POSTs the quote breakdown to the Apps Script backend, which emails a PDF
+ * to the business. Uses a text/plain body (not application/json) so the
+ * browser sends it as a CORS "simple request" — Apps Script Web Apps don't
+ * handle the preflight OPTIONS request a JSON content-type would trigger.
+ */
+export async function submitQuotePdf(
+  quote: QuoteResult,
+  adults: number,
+  children: number,
+): Promise<{ ok: boolean; error?: string }> {
+  if (!isQuoteEndpointConfigured()) {
+    return { ok: false, error: 'not_configured' };
+  }
+
+  const payload = {
+    adults,
+    children,
+    grandTotal: quote.grandTotal,
+    summaryLines: quote.summaryLines,
+    ...(QUOTE_ENDPOINT_SECRET ? { secret: QUOTE_ENDPOINT_SECRET } : {}),
+  };
+
+  try {
+    const res = await fetch(QUOTE_ENDPOINT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+    });
+    const json = (await res.json()) as { ok: boolean; error?: string };
+    return json;
+  } catch {
+    return { ok: false, error: 'network_error' };
+  }
 }

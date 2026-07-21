@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react';
 import { ADD_ONS, ALCOHOL_TIERS, CATERING_PACKAGES, COLORS } from '../data';
-import { computeQuote } from '../quote';
+import { computeQuote, isQuoteEndpointConfigured, submitQuotePdf } from '../quote';
+
+type SubmitStatus = 'idle' | 'sending' | 'sent' | 'error';
 
 const CATERING_INTRO_ALIGN: 'center' | 'left' = 'center';
 
@@ -13,6 +15,7 @@ export default function CateringSection() {
   const [expandedBarId, setExpandedBarId] = useState<string | null>(null);
   const [addOnSelections, setAddOnSelections] = useState<Record<string, boolean>>({});
   const [expandedAddOnId, setExpandedAddOnId] = useState<string | null>(null);
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('idle');
 
   const addOnsLocked = barServiceId === 'none';
 
@@ -34,6 +37,21 @@ export default function CateringSection() {
     () => computeQuote(selectedPackageIds, adults, children, barServiceId, addOnSelections),
     [selectedPackageIds, adults, children, barServiceId, addOnSelections],
   );
+
+  const requestQuote = async () => {
+    if (!isQuoteEndpointConfigured()) {
+      window.open(quote.mailtoHref, '_blank', 'noopener');
+      return;
+    }
+    setSubmitStatus('sending');
+    const result = await submitQuotePdf(quote, adults, children);
+    if (result.ok) {
+      setSubmitStatus('sent');
+    } else {
+      setSubmitStatus('error');
+      window.open(quote.mailtoHref, '_blank', 'noopener');
+    }
+  };
 
   return (
     <section id="catering-section" style={{ padding: '64px 32px', background: 'oklch(97% 0.008 95)' }}>
@@ -304,23 +322,35 @@ export default function CateringSection() {
           A $250 non-refundable deposit secures your date. All packages include insurance liability. Travel fees for
           Off-Site/Private events beyond 30 miles discussed upon consultation.
         </p>
-        <a
-          href={quote.mailtoHref}
-          target="_blank"
-          rel="noopener"
+        <button
+          onClick={requestQuote}
+          disabled={submitStatus === 'sending'}
           style={{
             display: 'flex',
             justifyContent: 'center',
+            width: '100%',
             marginTop: 16,
             padding: '13px 0',
             borderRadius: 9,
+            border: 'none',
             background: COLORS.gold,
             color: 'oklch(20% 0.03 90)',
             font: "800 14px 'Inter'",
+            opacity: submitStatus === 'sending' ? 0.7 : 1,
           }}
         >
-          Request This Quote
-        </a>
+          {submitStatus === 'sending' ? 'Sending…' : 'Request This Quote'}
+        </button>
+        {submitStatus === 'sent' && (
+          <p style={{ font: "600 12.5px 'Inter'", color: COLORS.gold, textAlign: 'center', margin: '10px 0 0' }}>
+            Quote sent! We'll be in touch soon.
+          </p>
+        )}
+        {submitStatus === 'error' && (
+          <p style={{ font: "600 12.5px 'Inter'", color: 'oklch(80% 0.12 40)', textAlign: 'center', margin: '10px 0 0' }}>
+            Something went wrong sending automatically — opening your email client instead.
+          </p>
+        )}
       </div>
     </section>
   );

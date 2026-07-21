@@ -331,6 +331,15 @@ export const RSVP_URL = 'https://www.eventbrite.com/o/60183746723';
 export const VISIT_US_URL = 'https://share.google/RjhrxRhreqaAY210Q';
 export const CONTACT_EMAIL = 'info@upcyclebrews.com';
 
+/**
+ * Google Apps Script Web App URL that emails the catering quote PDF to
+ * CONTACT_EMAIL — see google-apps-script/README.md for deploy steps. Until
+ * this is filled in, the quote button falls back to a plain mailto: link.
+ */
+export const QUOTE_ENDPOINT_URL = '';
+/** Optional shared secret — only used if you enabled the check in Code.gs. */
+export const QUOTE_ENDPOINT_SECRET = '';
+
 export const DIETARY_LABELS: Record<DietaryTag, string> = {
   GF: 'Gluten-Free',
   V: 'Vegetarian',
