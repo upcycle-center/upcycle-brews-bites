@@ -5,7 +5,6 @@ export default function Hero() {
     <section
       style={{
         display: 'flex',
-        justifyContent: 'center',
         background: COLORS.green,
         color: 'oklch(97% 0.01 95)',
       }}
@@ -17,7 +16,6 @@ export default function Hero() {
           flexDirection: 'column',
           gap: 20,
           maxWidth: 720,
-          width: '100%',
         }}
       >
         <span
