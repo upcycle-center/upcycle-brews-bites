@@ -1,0 +1,109 @@
+:root {
+  --color-green: oklch(24% 0.045 152);
+  --color-green-deep: oklch(20% 0.04 152);
+  --color-gold: oklch(74% 0.14 85);
+  --color-gold-deep: oklch(60% 0.13 70);
+  --color-sky: oklch(78% 0.08 220);
+  --color-sky-deep: oklch(48% 0.09 220);
+  --color-paper: oklch(98% 0.006 95);
+  --color-text: oklch(22% 0.02 150);
+
+  --cat-chef-bg: oklch(93% 0.05 245);
+  --cat-chef-border: oklch(75% 0.1 245);
+  --cat-brunch-bg: oklch(92% 0.07 310);
+  --cat-brunch-border: oklch(76% 0.12 310);
+  --cat-yard-bg: oklch(94% 0.05 150);
+  --cat-yard-border: oklch(78% 0.08 150);
+  --cat-sunset-bg: oklch(93% 0.1 95);
+  --cat-sunset-border: oklch(80% 0.14 95);
+  --cat-closed-bg: oklch(90% 0.005 95);
+  --cat-closed-border: oklch(75% 0.01 95);
+  --cat-retail-bg: oklch(88% 0.1 45);
+  --cat-retail-border: oklch(70% 0.14 45);
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-paper);
+  font-family: 'Inter', sans-serif;
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--color-sky-deep);
+  text-decoration: none;
+}
+a:hover {
+  color: oklch(60% 0.1 220);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--color-gold);
+}
+
+#root {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  background: var(--color-paper);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.hero-grid {
+  grid-template-columns: 1.1fr 1fr;
+}
+.banner-grid {
+  grid-template-columns: 260px 1fr;
+}
+.banner-image-col {
+  height: 100%;
+}
+.chef-spotlight-grid {
+  grid-template-columns: 340px 1fr;
+}
+.two-col-grid {
+  grid-template-columns: 1fr 1fr;
+}
+.calendar-scroll {
+  overflow-x: auto;
+}
+.calendar-grid {
+  min-width: 560px;
+}
+
+@media (max-width: 860px) {
+  .hero-grid,
+  .banner-grid,
+  .chef-spotlight-grid {
+    grid-template-columns: 1fr;
+  }
+  .banner-image-col {
+    height: 160px;
+  }
+  .promo-banner {
+    height: auto !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .two-col-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
