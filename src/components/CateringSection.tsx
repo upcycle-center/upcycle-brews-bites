@@ -1,8 +1,19 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ChangeEvent, type CSSProperties } from 'react';
 import { ADD_ONS, ALCOHOL_TIERS, CATERING_PACKAGES, COLORS } from '../data';
-import { computeQuote, isQuoteEndpointConfigured, submitQuotePdf } from '../quote';
+import { computeQuote, isContactComplete, isQuoteEndpointConfigured, submitQuotePdf, type ContactInfo } from '../quote';
 
 type SubmitStatus = 'idle' | 'sending' | 'sent' | 'error';
+
+const EMPTY_CONTACT: ContactInfo = { firstName: '', lastName: '', email: '', phone: '' };
+
+const CONTACT_INPUT_STYLE: CSSProperties = {
+  padding: '10px 12px',
+  borderRadius: 7,
+  border: '1px solid oklch(96% 0.01 95 / 0.3)',
+  background: 'oklch(97% 0.01 95 / 0.08)',
+  color: 'oklch(97% 0.01 95)',
+  font: "400 13px 'Inter'",
+};
 
 const CATERING_INTRO_ALIGN: 'center' | 'left' = 'center';
 
@@ -15,7 +26,12 @@ export default function CateringSection() {
   const [expandedBarId, setExpandedBarId] = useState<string | null>(null);
   const [addOnSelections, setAddOnSelections] = useState<Record<string, boolean>>({});
   const [expandedAddOnId, setExpandedAddOnId] = useState<string | null>(null);
+  const [contact, setContact] = useState<ContactInfo>(EMPTY_CONTACT);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('idle');
+
+  const updateContact = (field: keyof ContactInfo) => (e: ChangeEvent<HTMLInputElement>) => {
+    setContact((prev) => ({ ...prev, [field]: e.target.value }));
+  };
 
   const addOnsLocked = barServiceId === 'none';
 
@@ -34,17 +50,20 @@ export default function CateringSection() {
   };
 
   const quote = useMemo(
-    () => computeQuote(selectedPackageIds, adults, children, barServiceId, addOnSelections),
-    [selectedPackageIds, adults, children, barServiceId, addOnSelections],
+    () => computeQuote(selectedPackageIds, adults, children, barServiceId, addOnSelections, contact),
+    [selectedPackageIds, adults, children, barServiceId, addOnSelections, contact],
   );
 
+  const contactComplete = isContactComplete(contact);
+
   const requestQuote = async () => {
+    if (!contactComplete) return;
     if (!isQuoteEndpointConfigured()) {
       window.open(quote.mailtoHref, '_blank', 'noopener');
       return;
     }
     setSubmitStatus('sending');
-    const result = await submitQuotePdf(quote, adults, children);
+    const result = await submitQuotePdf(quote, adults, children, contact);
     if (result.ok) {
       setSubmitStatus('sent');
     } else {
@@ -322,9 +341,46 @@ export default function CateringSection() {
           A $250 non-refundable deposit secures your date. All packages include insurance liability. Travel fees for
           Off-Site/Private events beyond 30 miles discussed upon consultation.
         </p>
+
+        <div style={{ marginTop: 20, paddingTop: 18, borderTop: '1px dotted oklch(96% 0.01 95 / 0.2)' }}>
+          <div style={{ font: "700 13px 'Inter'", marginBottom: 10 }}>Your Info</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+            <input
+              type="text"
+              placeholder="First Name"
+              value={contact.firstName}
+              onChange={updateContact('firstName')}
+              style={CONTACT_INPUT_STYLE}
+            />
+            <input
+              type="text"
+              placeholder="Last Name"
+              value={contact.lastName}
+              onChange={updateContact('lastName')}
+              style={CONTACT_INPUT_STYLE}
+            />
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+            <input
+              type="email"
+              placeholder="Email"
+              value={contact.email}
+              onChange={updateContact('email')}
+              style={CONTACT_INPUT_STYLE}
+            />
+            <input
+              type="tel"
+              placeholder="Phone"
+              value={contact.phone}
+              onChange={updateContact('phone')}
+              style={CONTACT_INPUT_STYLE}
+            />
+          </div>
+        </div>
+
         <button
           onClick={requestQuote}
-          disabled={submitStatus === 'sending'}
+          disabled={submitStatus === 'sending' || !contactComplete}
           style={{
             display: 'flex',
             justifyContent: 'center',
@@ -336,14 +392,20 @@ export default function CateringSection() {
             background: COLORS.gold,
             color: 'oklch(20% 0.03 90)',
             font: "800 14px 'Inter'",
-            opacity: submitStatus === 'sending' ? 0.7 : 1,
+            opacity: submitStatus === 'sending' || !contactComplete ? 0.5 : 1,
+            cursor: submitStatus === 'sending' || !contactComplete ? 'not-allowed' : 'pointer',
           }}
         >
           {submitStatus === 'sending' ? 'Sending…' : 'Request This Quote'}
         </button>
+        {!contactComplete && (
+          <p style={{ font: "400 11.5px 'Inter'", opacity: 0.7, textAlign: 'center', margin: '10px 0 0' }}>
+            Fill in your name, email, and phone above so we can follow up.
+          </p>
+        )}
         {submitStatus === 'sent' && (
           <p style={{ font: "600 12.5px 'Inter'", color: COLORS.gold, textAlign: 'center', margin: '10px 0 0' }}>
-            Quote sent! We'll be in touch soon.
+            Quote sent! We'll be in touch soon — check your email for a copy.
           </p>
         )}
         {submitStatus === 'error' && (

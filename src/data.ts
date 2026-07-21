@@ -336,7 +336,8 @@ export const CONTACT_EMAIL = 'info@upcyclebrews.com';
  * CONTACT_EMAIL — see google-apps-script/README.md for deploy steps. Until
  * this is filled in, the quote button falls back to a plain mailto: link.
  */
-export const QUOTE_ENDPOINT_URL = '';
+export const QUOTE_ENDPOINT_URL =
+  'https://script.google.com/macros/s/AKfycbz-YhaaMEjUSoU-j1jOGtwFn72oMuEyZcc_ug-Bupdsjd3z4dU8yQoRi2F0O6Ap8lZb/exec';
 /** Optional shared secret — only used if you enabled the check in Code.gs. */
 export const QUOTE_ENDPOINT_SECRET = '';
 

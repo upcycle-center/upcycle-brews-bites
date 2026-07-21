@@ -28,6 +28,24 @@ export interface SummaryLine {
   note?: string;
 }
 
+export interface ContactInfo {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+}
+
+export const EMPTY_CONTACT: ContactInfo = { firstName: '', lastName: '', email: '', phone: '' };
+
+export function isContactComplete(contact: ContactInfo): boolean {
+  return (
+    contact.firstName.trim().length > 0 &&
+    contact.lastName.trim().length > 0 &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email.trim()) &&
+    contact.phone.trim().length > 0
+  );
+}
+
 export interface QuoteResult {
   packageBreakdowns: PackageBreakdown[];
   foodTotal: number;
@@ -48,6 +66,7 @@ export function computeQuote(
   children: number,
   barServiceId: string,
   addOnSelections: Record<string, boolean>,
+  contact: ContactInfo = EMPTY_CONTACT,
 ): QuoteResult {
   const totalGuests = adults + children;
   const chosenPackages: CateringPackage[] = CATERING_PACKAGES.filter((p) => selectedPackageIds.includes(p.id));
@@ -107,7 +126,11 @@ export function computeQuote(
     ...(subtotalBeforeFees > 0 ? [{ label: 'Tip Jar (18%)', value: Math.round(tipAmount) }] : []),
   ];
 
+  const fullName = `${contact.firstName} ${contact.lastName}`.trim();
   const quoteBodyLines = [
+    ...(fullName ? [`Name: ${fullName}`] : []),
+    ...(contact.email ? [`Email: ${contact.email}`] : []),
+    ...(contact.phone ? [`Phone: ${contact.phone}`] : []),
     ...packageBreakdowns.map((p) => `Package: ${p.name} ($${Math.round(p.bookingFee)} booking fee + $${p.perPerson}/guest)`),
     `Adults: ${adults}`,
     `Children: ${children}`,
@@ -142,20 +165,32 @@ export function isQuoteEndpointConfigured(): boolean {
 
 /**
  * POSTs the quote breakdown to the Apps Script backend, which emails a PDF
- * to the business. Uses a text/plain body (not application/json) so the
- * browser sends it as a CORS "simple request" — Apps Script Web Apps don't
- * handle the preflight OPTIONS request a JSON content-type would trigger.
+ * to the business (and Bccs the requester as their confirmation copy).
+ *
+ * Uses `mode: 'no-cors'` deliberately: Apps Script Web Apps execute on the
+ * initial POST to script.google.com, then 302-redirect to a
+ * script.googleusercontent.com URL to serve the response body. Both fetch
+ * and curl downgrade a POST to a GET when following that redirect, so the
+ * JSON `{ok:true}` response is not reliably readable client-side — but the
+ * script has already run and sent the email by that point regardless. So
+ * this can't distinguish "sent successfully" from "server-side error" the
+ * way a normal API call could; a thrown error here means the request never
+ * reached Google at all (offline, DNS failure, etc.), not a script failure.
  */
 export async function submitQuotePdf(
   quote: QuoteResult,
   adults: number,
   children: number,
+  contact: ContactInfo,
 ): Promise<{ ok: boolean; error?: string }> {
   if (!isQuoteEndpointConfigured()) {
     return { ok: false, error: 'not_configured' };
   }
 
   const payload = {
+    name: `${contact.firstName} ${contact.lastName}`.trim(),
+    email: contact.email.trim(),
+    phone: contact.phone.trim(),
     adults,
     children,
     grandTotal: quote.grandTotal,
@@ -164,13 +199,13 @@ export async function submitQuotePdf(
   };
 
   try {
-    const res = await fetch(QUOTE_ENDPOINT_URL, {
+    await fetch(QUOTE_ENDPOINT_URL, {
       method: 'POST',
+      mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload),
     });
-    const json = (await res.json()) as { ok: boolean; error?: string };
-    return json;
+    return { ok: true };
   } catch {
     return { ok: false, error: 'network_error' };
   }

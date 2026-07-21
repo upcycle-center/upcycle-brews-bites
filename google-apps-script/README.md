@@ -1,8 +1,11 @@
 # Catering quote email backend (Google Apps Script)
 
 Turns "Request This Quote" into a real submission: the site POSTs the quote
-breakdown to this script, which renders it as a PDF and emails it to
-`info@upcyclebrews.com` as an attachment — no `mailto:` link, no manual step.
+breakdown (plus the requester's name, email, and phone) to this script, which
+renders it as a PDF and emails it to `info@upcyclebrews.com` as an
+attachment — no `mailto:` link, no manual step. The requester is Bcc'd on
+that same email as their confirmation copy, as long as they gave a
+valid-looking email address.
 
 ## Deploy (5 minutes)
 
@@ -40,12 +43,24 @@ breakdown to this script, which renders it as a PDF and emails it to
   proceeding (see comment in `doPost` in `Code.gs` for where to add it).
 - **Re-deploying after edits**: editing `Code.gs` in the script editor does
   NOT update the live `/exec` URL. Use **Deploy → Manage deployments → Edit
-  (pencil icon) → New version → Deploy** to push code changes live.
+  (pencil icon) → New version → Deploy** to push code changes live — the URL
+  stays the same, so nothing needs to change in `src/data.ts` when you do this.
 - **Testing**: you can test the endpoint directly with:
   ```bash
-  curl -X POST 'YOUR_WEB_APP_URL' \
+  curl -L --post302 --post303 -X POST 'YOUR_WEB_APP_URL' \
     -H 'Content-Type: text/plain;charset=utf-8' \
-    -d '{"adults":10,"children":0,"grandTotal":490,"summaryLines":[{"label":"Grazing Tables — Booking Fee","value":235},{"label":"Grazing Tables — Adults: 10 × $18/guest","value":180},{"label":"Tip Jar (18%)","value":75}]}'
+    -d '{"name":"Jane Doe","email":"jane@example.com","phone":"845-555-1234","adults":10,"children":0,"grandTotal":490,"summaryLines":[{"label":"Grazing Tables — Booking Fee","value":235},{"label":"Grazing Tables — Adults: 10 × $18/guest","value":180},{"label":"Tip Jar (18%)","value":75}]}'
   ```
-  A `{"ok":true}` response means the email sent — check the
-  `info@upcyclebrews.com` inbox for the PDF.
+  `--post302 --post303` keep curl from downgrading the POST to a GET when it
+  follows Apps Script's redirect (the default `-L` behavior silently does
+  this, which looks like a broken "Page Not Found" response even though the
+  script already ran and sent the email). A `{"ok":true}` response confirms
+  it end-to-end; check the `info@upcyclebrews.com` inbox for the PDF, and the
+  `jane@example.com` inbox for the Bcc'd confirmation copy.
+- **The front end can't read the success/failure response.** The site posts
+  with `mode: 'no-cors'` (see the comment above `submitQuotePdf` in
+  `src/quote.ts` for why) and just shows "sent" optimistically once the
+  request goes out — it can't detect a script-side error the way a normal API
+  response would let it. If quotes stop arriving, check **Executions** in the
+  Apps Script editor (left sidebar) for failures rather than trusting the
+  site's UI.
