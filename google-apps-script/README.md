@@ -2,10 +2,17 @@
 
 Turns "Request This Quote" into a real submission: the site POSTs the quote
 breakdown (plus the requester's name, email, and phone) to this script, which
-renders it as a PDF and emails it to `info@upcyclebrews.com` as an
-attachment — no `mailto:` link, no manual step. The requester is Bcc'd on
-that same email as their confirmation copy, as long as they gave a
-valid-looking email address.
+renders it as a PDF and sends **two separate emails**, both with the PDF
+attached:
+1. An internal notification to `info@upcyclebrews.com` with the requester's
+   contact info and the full breakdown.
+2. A confirmation to the requester (if they gave a valid-looking email) with
+   its own customer-facing message: thanks for the request, expect a
+   follow-up in 24–48 hours.
+
+These are two distinct `sendEmail` calls, not a Bcc — a Bcc'd copy is always
+byte-for-byte identical to the primary email, so it can't carry the
+requester-facing wording separately from the internal notification.
 
 ## Deploy (5 minutes)
 
@@ -33,6 +40,12 @@ valid-looking email address.
 
 ## Notes
 
+- **⚠️ Every time `Code.gs` changes in this repo, you must redeploy it** —
+  pulling the latest file into the script editor is not enough on its own.
+  Go to **Deploy → Manage deployments → Edit (pencil icon) → New version →
+  Deploy**. Forgetting this step is why a feature can look "missing" even
+  though the code for it is already in this repo — the live script is just
+  running an older version.
 - **Daily quota**: Workspace accounts get 1,500 `GmailApp.sendEmail()` calls/day
   — far more than a catering quote form will ever need.
 - **Public endpoint**: "Who has access: Anyone" is required so the public
@@ -55,8 +68,9 @@ valid-looking email address.
   follows Apps Script's redirect (the default `-L` behavior silently does
   this, which looks like a broken "Page Not Found" response even though the
   script already ran and sent the email). A `{"ok":true}` response confirms
-  it end-to-end; check the `info@upcyclebrews.com` inbox for the PDF, and the
-  `jane@example.com` inbox for the Bcc'd confirmation copy.
+  it end-to-end; check the `info@upcyclebrews.com` inbox for the internal
+  notification PDF, and the `jane@example.com` inbox for the separate
+  confirmation email and its own copy of the PDF.
 - **The front end can't read the success/failure response.** The site posts
   with `mode: 'no-cors'` (see the comment above `submitQuotePdf` in
   `src/quote.ts` for why) and just shows "sent" optimistically once the

@@ -3,9 +3,12 @@
  *
  * Deployed as a Web App (see google-apps-script/README.md for setup steps).
  * Receives the quote breakdown from the site's catering calculator, renders
- * it as a PDF, and emails it to RECIPIENT_EMAIL as an attachment — Bcc'ing
- * the requester (if they gave a valid-looking email) as their confirmation
- * that the request went through.
+ * it as a PDF, and sends two emails: an internal notification to
+ * RECIPIENT_EMAIL, and (if the requester gave a valid-looking email) a
+ * separate confirmation email to the requester with its own message and
+ * the same PDF attached. These are two distinct sendEmail calls rather than
+ * a Bcc, since a Bcc'd copy is always identical to the primary email and
+ * can't carry different, customer-facing wording.
  */
 
 var RECIPIENT_EMAIL = 'info@upcyclebrews.com';
@@ -25,23 +28,17 @@ function doPost(e) {
     var pdfBlob = buildQuotePdf(data);
     var requesterEmail = data.email && EMAIL_RE.test(data.email) ? data.email : null;
 
-    var bodyLines = [
-      'A new catering quote request came in from the website.',
-      'See the attached PDF for the full breakdown.',
-      '',
-      'Name: ' + (data.name || '(not given)'),
-      'Email: ' + (data.email || '(not given)'),
-      'Phone: ' + (data.phone || '(not given)'),
-      '',
-      'Adults: ' + data.adults + (data.children ? '\nChildren: ' + data.children : ''),
-      'Estimated Total: $' + data.grandTotal,
-    ];
-
-    GmailApp.sendEmail(RECIPIENT_EMAIL, buildSubject(data), bodyLines.join('\n'), {
+    GmailApp.sendEmail(RECIPIENT_EMAIL, buildInternalSubject(data), buildInternalBody(data), {
       attachments: [pdfBlob],
       name: 'UPCYCLE Brews & Bites Website',
-      bcc: requesterEmail || undefined,
     });
+
+    if (requesterEmail) {
+      GmailApp.sendEmail(requesterEmail, buildConfirmationSubject(), buildConfirmationBody(data), {
+        attachments: [pdfBlob],
+        name: 'UPCYCLE Brews & Bites',
+      });
+    }
 
     return jsonResponse({ ok: true });
   } catch (err) {
@@ -49,9 +46,45 @@ function doPost(e) {
   }
 }
 
-function buildSubject(data) {
+function buildInternalSubject(data) {
   var who = data.name ? data.name + ' — ' : '';
   return 'Catering Quote Request — ' + who + 'UPCYCLE Brews & Bites';
+}
+
+function buildInternalBody(data) {
+  return [
+    'A new catering quote request came in from the website.',
+    'See the attached PDF for the full breakdown.',
+    '',
+    'Name: ' + (data.name || '(not given)'),
+    'Email: ' + (data.email || '(not given)'),
+    'Phone: ' + (data.phone || '(not given)'),
+    '',
+    'Adults: ' + data.adults + (data.children ? '\nChildren: ' + data.children : ''),
+    'Estimated Total: $' + data.grandTotal,
+  ].join('\n');
+}
+
+function buildConfirmationSubject() {
+  return 'Your Catering Quote Request — UPCYCLE Brews & Bites';
+}
+
+function buildConfirmationBody(data) {
+  var firstName = data.name ? String(data.name).split(' ')[0] : 'there';
+  return [
+    'Hi ' + firstName + ',',
+    '',
+    "Thanks for requesting a catering quote from UPCYCLE Brews & Bites! Your request has been submitted — attached is a copy of your quote estimate for your records.",
+    '',
+    "We'll follow up within 24–48 hours to confirm the details and finalize your quote.",
+    '',
+    'Estimated Total: $' + data.grandTotal,
+    '',
+    'Questions in the meantime? Just reply to this email, or reach us at info@upcyclebrews.com / 845.428.2687.',
+    '',
+    'See you soon,',
+    'UPCYCLE Brews & Bites',
+  ].join('\n');
 }
 
 function buildQuotePdf(data) {

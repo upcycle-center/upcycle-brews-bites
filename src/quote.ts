@@ -164,8 +164,10 @@ export function isQuoteEndpointConfigured(): boolean {
 }
 
 /**
- * POSTs the quote breakdown to the Apps Script backend, which emails a PDF
- * to the business (and Bccs the requester as their confirmation copy).
+ * POSTs the quote breakdown to the Apps Script backend, which sends two
+ * emails (each with the PDF attached): an internal notification to the
+ * business, and a separate confirmation to the requester with its own
+ * customer-facing message.
  *
  * Uses `mode: 'no-cors'` deliberately: Apps Script Web Apps execute on the
  * initial POST to script.google.com, then 302-redirect to a
