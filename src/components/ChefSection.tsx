@@ -197,13 +197,13 @@ export default function ChefSection() {
           </div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           {eventDays.length === 0 && (
             <p style={{ textAlign: 'center', font: "400 13px 'Inter'", color: 'oklch(50% 0.02 150)', margin: 0 }}>
               No events scheduled this month.
             </p>
           )}
-          {eventDays.map((cell) => {
+          {eventDays.map((cell, i) => {
             const dateLabel = new Date(calendarYear, calendarMonth, cell.day).toLocaleDateString('en-US', {
               weekday: 'long',
               month: 'long',
@@ -213,10 +213,8 @@ export default function ChefSection() {
               <div
                 key={cell.day}
                 style={{
-                  padding: '14px 16px',
-                  borderRadius: 10,
-                  border: '1px solid oklch(90% 0.01 95)',
-                  background: 'oklch(97% 0.006 95)',
+                  padding: '16px 4px',
+                  borderTop: i === 0 ? 'none' : '1px solid oklch(90% 0.01 95)',
                 }}
               >
                 <div
@@ -246,22 +244,14 @@ export default function ChefSection() {
                     </span>
                   )}
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {cell.eventTiles
                     .filter((tile) => tile.canRsvp)
                     .map((tile) => {
                       const tileKey = `${cell.day}-${tile.key}`;
                       const expanded = expandedTileKey === tileKey;
                       return (
-                        <div
-                          key={tile.key}
-                          style={{
-                            padding: '10px 12px',
-                            borderRadius: 8,
-                            background: 'oklch(100% 0 0)',
-                            border: '1px solid oklch(90% 0.01 95)',
-                          }}
-                        >
+                        <div key={tile.key}>
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
                             <div style={{ font: "600 12.5px 'Inter'", color: 'oklch(22% 0.02 150)' }}>{tile.label}</div>
                             <a
