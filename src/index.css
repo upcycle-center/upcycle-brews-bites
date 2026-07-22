@@ -64,6 +64,10 @@ img {
 .two-col-grid {
   grid-template-columns: 1fr 1fr;
 }
+.happening-grid {
+  grid-template-columns: 1fr 1fr;
+  column-gap: 32px;
+}
 
 .hero-content {
   max-width: 720px;
@@ -100,8 +104,18 @@ img {
 }
 
 @media (max-width: 640px) {
-  .two-col-grid {
+  .two-col-grid,
+  .happening-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* Offsets anchor-jump targets so the sticky header doesn't cover the
+   section heading when navigating via the hamburger menu links. */
+#menu-section,
+#sips-section,
+#catering-section,
+#chef-section {
+  scroll-margin-top: 112px;
 }
 

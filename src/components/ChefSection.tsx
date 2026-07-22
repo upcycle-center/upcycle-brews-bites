@@ -198,7 +198,7 @@ export default function ChefSection() {
           </div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div className="happening-grid" style={{ display: 'grid' }}>
           {eventDays.length === 0 && (
             <p style={{ textAlign: 'center', font: "400 13px 'Inter'", color: 'oklch(50% 0.02 150)', margin: 0 }}>
               No events scheduled this month.
@@ -215,7 +215,7 @@ export default function ChefSection() {
                 key={cell.day}
                 style={{
                   padding: '16px 4px',
-                  borderTop: i === 0 ? 'none' : '1px solid oklch(90% 0.01 95)',
+                  borderBottom: i === eventDays.length - 1 ? 'none' : '1px solid oklch(90% 0.01 95)',
                 }}
               >
                 <div

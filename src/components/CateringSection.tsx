@@ -1,4 +1,4 @@
-import { useMemo, useState, type ChangeEvent, type CSSProperties } from 'react';
+import { useEffect, useMemo, useState, type ChangeEvent, type CSSProperties } from 'react';
 import { ADD_ONS, ALCOHOL_TIERS, CATERING_PACKAGES, COLORS } from '../data';
 import {
   computeQuote,
@@ -25,6 +25,33 @@ const CATERING_INTRO_ALIGN: 'center' | 'left' = 'center';
 
 const MIN_EVENT_DATE = getMinEventDate();
 
+const MIN_EVENT_DATE_LABEL = (() => {
+  const [y, m, d] = MIN_EVENT_DATE.split('-').map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+})();
+
+const DATE_INPUT_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+const MOBILE_BREAKPOINT = 640;
+
+/**
+ * Mobile browsers' native `type="date"` calendar widgets vary wildly and can
+ * be confusing to operate accurately on a touchscreen, so below the mobile
+ * breakpoint we swap to a plain text field for manual yyyy-mm-dd entry.
+ */
+function useIsMobile(): boolean {
+  const [isMobile, setIsMobile] = useState(
+    () => window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches,
+  );
+  useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
+    const listener = () => setIsMobile(mql.matches);
+    mql.addEventListener('change', listener);
+    return () => mql.removeEventListener('change', listener);
+  }, []);
+  return isMobile;
+}
+
 export default function CateringSection() {
   const [selectedPackageIds, setSelectedPackageIds] = useState<string[]>([]);
   const [expandedPackageId, setExpandedPackageId] = useState<string | null>(null);
@@ -36,6 +63,7 @@ export default function CateringSection() {
   const [expandedAddOnId, setExpandedAddOnId] = useState<string | null>(null);
   const [contact, setContact] = useState<ContactInfo>(EMPTY_CONTACT);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('idle');
+  const isMobile = useIsMobile();
 
   const updateContact = (field: keyof ContactInfo) => (e: ChangeEvent<HTMLInputElement>) => {
     setContact((prev) => ({ ...prev, [field]: e.target.value }));
@@ -63,6 +91,13 @@ export default function CateringSection() {
   );
 
   const contactComplete = isContactComplete(contact);
+
+  const eventDateRaw = contact.eventDate.trim();
+  const eventDateValid = DATE_INPUT_RE.test(eventDateRaw);
+  const eventDateTooSoon = eventDateValid && eventDateRaw < MIN_EVENT_DATE;
+  const altDateRaw = contact.altDate.trim();
+  const altDateValid = DATE_INPUT_RE.test(altDateRaw);
+  const altDateTooSoon = altDateValid && altDateRaw < MIN_EVENT_DATE;
 
   const requestQuote = async () => {
     if (!contactComplete) return;
@@ -377,27 +412,74 @@ export default function CateringSection() {
           <div className="two-col-grid" style={{ display: 'grid', gap: 10, marginTop: 10 }}>
             <div style={{ display: 'grid', gap: 4 }}>
               <label style={{ font: "600 11px 'Inter'", opacity: 0.75 }}>Tentative Event Date</label>
-              <input
-                type="date"
-                min={MIN_EVENT_DATE}
-                value={contact.eventDate}
-                onChange={updateContact('eventDate')}
-                style={CONTACT_INPUT_STYLE}
-              />
+              {isMobile ? (
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  placeholder="YYYY-MM-DD"
+                  maxLength={10}
+                  value={contact.eventDate}
+                  onChange={updateContact('eventDate')}
+                  style={CONTACT_INPUT_STYLE}
+                />
+              ) : (
+                <input
+                  type="date"
+                  min={MIN_EVENT_DATE}
+                  value={contact.eventDate}
+                  onChange={updateContact('eventDate')}
+                  style={CONTACT_INPUT_STYLE}
+                />
+              )}
+              {eventDateRaw.length > 0 && !eventDateValid && (
+                <span style={{ font: "400 11px 'Inter'", color: 'oklch(72% 0.18 30)' }}>
+                  Enter the date as YYYY-MM-DD.
+                </span>
+              )}
+              {eventDateValid && eventDateTooSoon && (
+                <span style={{ font: "400 11px 'Inter'", color: 'oklch(72% 0.18 30)' }}>
+                  Please choose {MIN_EVENT_DATE_LABEL} or later.
+                </span>
+              )}
             </div>
             <div style={{ display: 'grid', gap: 4 }}>
               <label style={{ font: "600 11px 'Inter'", opacity: 0.75 }}>Alternative Date (optional)</label>
-              <input
-                type="date"
-                min={MIN_EVENT_DATE}
-                value={contact.altDate}
-                onChange={updateContact('altDate')}
-                style={CONTACT_INPUT_STYLE}
-              />
+              {isMobile ? (
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  placeholder="YYYY-MM-DD"
+                  maxLength={10}
+                  value={contact.altDate}
+                  onChange={updateContact('altDate')}
+                  style={CONTACT_INPUT_STYLE}
+                />
+              ) : (
+                <input
+                  type="date"
+                  min={MIN_EVENT_DATE}
+                  value={contact.altDate}
+                  onChange={updateContact('altDate')}
+                  style={CONTACT_INPUT_STYLE}
+                />
+              )}
+              {altDateRaw.length > 0 && !altDateValid && (
+                <span style={{ font: "400 11px 'Inter'", color: 'oklch(72% 0.18 30)' }}>
+                  Enter the date as YYYY-MM-DD.
+                </span>
+              )}
+              {altDateValid && altDateTooSoon && (
+                <span style={{ font: "400 11px 'Inter'", color: 'oklch(72% 0.18 30)' }}>
+                  Please choose {MIN_EVENT_DATE_LABEL} or later.
+                </span>
+              )}
             </div>
           </div>
           <p style={{ font: "400 11px 'Inter'", opacity: 0.6, margin: '6px 0 0' }}>
-            We require at least 7 days' notice to book an event.
+            We require at least 7 days' notice to book an event
+            {isMobile ? ' — enter your date as YYYY-MM-DD' : ''} ({MIN_EVENT_DATE_LABEL} or later).
           </p>
         </div>
 
