@@ -342,7 +342,7 @@ export default function CateringSection() {
 
         <div style={{ marginTop: 20, paddingTop: 18, borderTop: '1px dotted oklch(96% 0.01 95 / 0.2)' }}>
           <div style={{ font: "700 13px 'Inter'", marginBottom: 10 }}>Your Info</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+          <div className="two-col-grid" style={{ display: 'grid', gap: 10, marginBottom: 10 }}>
             <input
               type="text"
               placeholder="First Name"
@@ -358,7 +358,7 @@ export default function CateringSection() {
               style={CONTACT_INPUT_STYLE}
             />
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+          <div className="two-col-grid" style={{ display: 'grid', gap: 10 }}>
             <input
               type="email"
               placeholder="Email"
@@ -374,7 +374,7 @@ export default function CateringSection() {
               style={CONTACT_INPUT_STYLE}
             />
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 10 }}>
+          <div className="two-col-grid" style={{ display: 'grid', gap: 10, marginTop: 10 }}>
             <div style={{ display: 'grid', gap: 4 }}>
               <label style={{ font: "600 11px 'Inter'", opacity: 0.75 }}>Tentative Event Date</label>
               <input
