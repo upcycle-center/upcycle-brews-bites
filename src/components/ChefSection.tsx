@@ -12,6 +12,7 @@ export default function ChefSection() {
   const [calendarYear, setCalendarYear] = useState(today.getFullYear());
   const [calendarMonth, setCalendarMonth] = useState(today.getMonth());
   const [expandedTileKey, setExpandedTileKey] = useState<string | null>(null);
+  const [expandedEventTitle, setExpandedEventTitle] = useState<string | null>(null);
 
   const currentChef = CHEFS[chefIndex];
 
@@ -312,27 +313,67 @@ export default function ChefSection() {
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
           gap: 20,
+          alignItems: 'start',
         }}
       >
-        {RECURRING_EVENTS.map((ev) => (
-          <div
-            key={ev.title}
-            style={{
-              padding: 22,
-              borderRadius: 14,
-              background: 'oklch(100% 0 0)',
-              boxShadow: '0 1px 3px oklch(0% 0 0 / 0.08), 0 8px 24px oklch(0% 0 0 / 0.06)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 8,
-            }}
-          >
-            <div style={{ font: "800 16px 'Inter'", color: 'oklch(22% 0.02 150)' }}>{ev.title}</div>
-            <div style={{ font: "400 13px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>{ev.desc}</div>
-            <div style={{ font: "700 11.5px 'Inter'", letterSpacing: '.04em', color: COLORS.skyDeep, marginTop: 4 }}>{ev.schedule}</div>
-            <div style={{ font: "700 11px 'Inter'", letterSpacing: '.03em', color: COLORS.goldDeep }}>{ev.cta}</div>
-          </div>
-        ))}
+        {RECURRING_EVENTS.map((ev) => {
+          const expanded = expandedEventTitle === ev.title;
+          return (
+            <div
+              key={ev.title}
+              style={{
+                padding: 22,
+                borderRadius: 14,
+                background: 'oklch(100% 0 0)',
+                boxShadow: '0 1px 3px oklch(0% 0 0 / 0.08), 0 8px 24px oklch(0% 0 0 / 0.06)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 8,
+              }}
+            >
+              <div style={{ font: "800 16px 'Inter'", color: 'oklch(22% 0.02 150)' }}>{ev.title}</div>
+              {(ev.paragraphs ?? [ev.desc]).map((p, i) => (
+                <div key={i} style={{ font: "400 13px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
+                  {p}
+                </div>
+              ))}
+              <div style={{ font: "700 11.5px 'Inter'", letterSpacing: '.04em', color: COLORS.skyDeep, marginTop: 4 }}>{ev.schedule}</div>
+              {ev.ctaLine ? (
+                <div style={{ font: "700 12.5px/1.4 'Inter'", color: 'oklch(22% 0.02 150)' }}>{ev.ctaLine}</div>
+              ) : (
+                <div style={{ font: "700 11px 'Inter'", letterSpacing: '.03em', color: COLORS.goldDeep }}>{ev.cta}</div>
+              )}
+              {ev.details && (
+                <>
+                  <button
+                    onClick={() => setExpandedEventTitle(expanded ? null : ev.title)}
+                    style={{
+                      alignSelf: 'flex-start',
+                      marginTop: 4,
+                      padding: '6px 14px',
+                      borderRadius: 7,
+                      border: '1.5px solid oklch(85% 0.01 150)',
+                      background: 'transparent',
+                      color: 'oklch(35% 0.02 150)',
+                      font: "700 11.5px 'Inter'",
+                    }}
+                  >
+                    {expanded ? 'Hide Details' : 'Details'}
+                  </button>
+                  {expanded && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                      {ev.details.map((d) => (
+                        <div key={d} style={{ font: "400 12.5px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
+                          • {d}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          );
+        })}
       </div>
     </section>
   );

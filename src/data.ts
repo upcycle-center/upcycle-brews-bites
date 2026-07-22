@@ -269,6 +269,7 @@ export type EventCategory = 'chef' | 'brunch' | 'yard' | 'sunset' | 'closed' | '
 
 export interface RecurringEvent {
   title: string;
+  /** Short one-liner — used as the summary-card fallback text and the calendar tile's expandable description. */
   desc: string;
   schedule: string;
   cta: string;
@@ -276,11 +277,39 @@ export interface RecurringEvent {
   weekdays: number[];
   label: string;
   category: EventCategory;
+  /** Optional richer body copy for the summary card (each string is its own paragraph). Falls back to `desc` when absent. */
+  paragraphs?: string[];
+  /** Optional standalone call-to-action line, shown emphasized below the paragraphs. */
+  ctaLine?: string;
+  /** Optional bullet list shown behind a Details/Hide Details toggle. */
+  details?: string[];
 }
 
 export const RECURRING_EVENTS: RecurringEvent[] = [
   { title: 'Sunset Sips & Bites', desc: 'Garden cocktails, craft beer & platters over live music every Friday.', schedule: 'FRIDAYS 3P – SUNSET', cta: 'RSVP FOR HAPPY HOUR SPECIALS', weekdays: [5], label: 'Sunset Sips & Bites', category: 'sunset' },
-  { title: 'Weekend Brunch', desc: 'Guest chef experience with rotating farm-to-table specials.', schedule: 'SAT/SUN 1P – 4P', cta: 'RSVP REQUIRED', weekdays: [0, 6], label: 'Weekend Brunch', category: 'brunch' },
+  {
+    title: 'Rise & Shine Brunch',
+    desc: 'A Saturday brunch with a Waffle Sunshine Bar, cheese buns, fresh fruit & juices, and Garden Spritz Specials.',
+    schedule: 'SATURDAYS 1P – 4P',
+    cta: 'RSVP REQUIRED',
+    weekdays: [6],
+    label: 'Rise & Shine Brunch',
+    category: 'brunch',
+    paragraphs: [
+      'Ease into Saturday with a brunch designed for curious travelers, great company, and slow mornings worth savoring. Set in our historic winery and beer garden, Rise & Shine Brunch features a Waffle Sunshine Bar with seasonal toppings, warm cheese buns fresh from the oven, a vibrant fruit bowl, fresh juices, and iced tea and iced coffee to keep the conversation flowing.',
+      'Looking for something a little brighter? Our Garden Spritz Specials are crafted for lingering under the trees and toasting the weekend.',
+      'Come for the brunch, stay for the stories, and discover a place where locals and wanderers gather around the same table.',
+    ],
+    ctaLine: 'Gather your friends, grab a seat, and start your Saturday right!',
+    details: [
+      'Waffle Sunshine bar with toppings',
+      'Cheese Buns fresh out of the oven',
+      'Iced Tea & Iced Coffee service',
+      'Fresh fruit bowl & juices',
+      'Garden Spritz Specials',
+    ],
+  },
+  { title: 'Weekend Brunch', desc: 'Guest chef experience with rotating farm-to-table specials.', schedule: 'SUNDAYS 1P – 4P', cta: 'RSVP REQUIRED', weekdays: [0], label: 'Weekend Brunch', category: 'brunch' },
   { title: 'The Yard League', desc: 'Sunday backyard games — family day, pet friendly.', schedule: 'SUNDAYS 11A – 2P', cta: 'REGISTRATION REQUIRED', weekdays: [0], label: 'The Yard League', category: 'yard' },
 ];
 
