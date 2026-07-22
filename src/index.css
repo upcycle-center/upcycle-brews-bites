@@ -78,6 +78,27 @@ img {
   grid-template-columns: 1fr 1fr;
 }
 
+.hero-content {
+  max-width: 720px;
+}
+.hero-heading {
+  width: auto;
+}
+
+/* "Craft cocktails. Local bites." needs ~1070px unwrapped, so the fixed
+   2-line heading layout only kicks in once the viewport can fit it
+   (content width + 96px of section padding) without overflowing. Below
+   that it falls back to natural wrapping in the narrower 720px column. */
+@media (min-width: 1200px) {
+  .hero-content {
+    max-width: 1200px;
+  }
+  .hero-heading {
+    width: 1080px;
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 860px) {
   .banner-grid,
   .chef-spotlight-grid {

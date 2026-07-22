@@ -10,12 +10,12 @@ export default function Hero() {
       }}
     >
       <div
+        className="hero-content"
         style={{
           padding: '64px 48px',
           display: 'flex',
           flexDirection: 'column',
           gap: 20,
-          maxWidth: 720,
         }}
       >
         <span
@@ -34,6 +34,7 @@ export default function Hero() {
           WE'RE OPEN!
         </span>
         <h1
+          className="hero-heading"
           style={{
             font: "400 64px/1.02 'Anton', sans-serif",
             textTransform: 'uppercase',
