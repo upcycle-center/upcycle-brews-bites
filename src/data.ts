@@ -337,7 +337,7 @@ export const CONTACT_EMAIL = 'info@upcyclebrews.com';
  * this is filled in, the quote button falls back to a plain mailto: link.
  */
 export const QUOTE_ENDPOINT_URL =
-  'https://script.google.com/macros/s/AKfycbxdudAFrYWQZFFP0UTAb0i0YtQKK-HWw1_WFAGMMDWb-z1jgOX0uiG968vLESPPr2_a/exec';
+  'https://script.google.com/macros/s/AKfycbx7hWe-kLh40ydNrZ8DrST7-q83vqoYqr4s1RbylUYPjK-iknpLKmPEp5hQOS2mU3j6/exec';
 /** Optional shared secret — only used if you enabled the check in Code.gs. */
 export const QUOTE_ENDPOINT_SECRET = '';
 
