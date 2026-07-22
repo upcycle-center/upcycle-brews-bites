@@ -79,7 +79,7 @@ function buildConfirmationBody(data) {
   return [
     'Hi ' + firstName + ',',
     '',
-    "Thanks for requesting a catering quote from UPCYCLE Brews & Bites! Your request has been submitted — attached is a copy of your quote estimate for your records.",
+    "Thanks for requesting a quote from UPCYCLE Brews & Bites! Your request has been submitted — attached is a copy of your quote estimate for your records.",
     '',
     (eventDate ? "We'll follow up within 24–48 hours to confirm your " + eventDate + ' date and finalize your quote.' : "We'll follow up within 24–48 hours to confirm the details and finalize your quote."),
     '',
