@@ -1,10 +1,15 @@
 import { useMemo, useState, type ChangeEvent, type CSSProperties } from 'react';
 import { ADD_ONS, ALCOHOL_TIERS, CATERING_PACKAGES, COLORS } from '../data';
-import { computeQuote, isContactComplete, isQuoteEndpointConfigured, submitQuotePdf, type ContactInfo } from '../quote';
+import {
+  computeQuote,
+  EMPTY_CONTACT,
+  isContactComplete,
+  isQuoteEndpointConfigured,
+  submitQuotePdf,
+  type ContactInfo,
+} from '../quote';
 
 type SubmitStatus = 'idle' | 'sending' | 'sent' | 'error';
-
-const EMPTY_CONTACT: ContactInfo = { firstName: '', lastName: '', email: '', phone: '' };
 
 const CONTACT_INPUT_STYLE: CSSProperties = {
   padding: '10px 12px',
@@ -16,6 +21,9 @@ const CONTACT_INPUT_STYLE: CSSProperties = {
 };
 
 const CATERING_INTRO_ALIGN: 'center' | 'left' = 'center';
+
+/** yyyy-mm-dd for today, used as the date inputs' min so past dates can't be picked. */
+const TODAY = new Date().toISOString().slice(0, 10);
 
 export default function CateringSection() {
   const [selectedPackageIds, setSelectedPackageIds] = useState<string[]>([]);
@@ -367,6 +375,28 @@ export default function CateringSection() {
               style={CONTACT_INPUT_STYLE}
             />
           </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 10 }}>
+            <div style={{ display: 'grid', gap: 4 }}>
+              <label style={{ font: "600 11px 'Inter'", opacity: 0.75 }}>Tentative Event Date</label>
+              <input
+                type="date"
+                min={TODAY}
+                value={contact.eventDate}
+                onChange={updateContact('eventDate')}
+                style={CONTACT_INPUT_STYLE}
+              />
+            </div>
+            <div style={{ display: 'grid', gap: 4 }}>
+              <label style={{ font: "600 11px 'Inter'", opacity: 0.75 }}>Alternative Date (optional)</label>
+              <input
+                type="date"
+                min={TODAY}
+                value={contact.altDate}
+                onChange={updateContact('altDate')}
+                style={CONTACT_INPUT_STYLE}
+              />
+            </div>
+          </div>
         </div>
 
         <button
@@ -391,7 +421,7 @@ export default function CateringSection() {
         </button>
         {!contactComplete && (
           <p style={{ font: "400 11.5px 'Inter'", opacity: 0.7, textAlign: 'center', margin: '10px 0 0' }}>
-            Fill in your name, email, and phone above so we can follow up.
+            Fill in your name, email, phone, and event date above so we can follow up.
           </p>
         )}
         {submitStatus === 'sent' && (

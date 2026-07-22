@@ -47,22 +47,26 @@ function doPost(e) {
 }
 
 function buildInternalSubject(data) {
-  var who = data.name ? data.name + ' — ' : '';
-  return 'Catering Quote Request — ' + who + 'UPCYCLE Brews & Bites';
+  return 'UPCYCLE Web Quote Request — ($' + data.grandTotal + ')';
 }
 
 function buildInternalBody(data) {
-  return [
+  var lines = [
     'A new catering quote request came in from the website.',
     'See the attached PDF for the full breakdown.',
     '',
     'Name: ' + (data.name || '(not given)'),
     'Email: ' + (data.email || '(not given)'),
     'Phone: ' + (data.phone || '(not given)'),
-    '',
-    'Adults: ' + data.adults + (data.children ? '\nChildren: ' + data.children : ''),
-    'Estimated Total: $' + data.grandTotal,
-  ].join('\n');
+    'Tentative Event Date: ' + (formatDate(data.eventDate) || '(not given)'),
+  ];
+  if (data.altDate) {
+    lines.push('Alternative Date: ' + formatDate(data.altDate));
+  }
+  lines.push('');
+  lines.push('Adults: ' + data.adults + (data.children ? '\nChildren: ' + data.children : ''));
+  lines.push('Estimated Total: $' + data.grandTotal);
+  return lines.join('\n');
 }
 
 function buildConfirmationSubject() {
@@ -71,12 +75,13 @@ function buildConfirmationSubject() {
 
 function buildConfirmationBody(data) {
   var firstName = data.name ? String(data.name).split(' ')[0] : 'there';
+  var eventDate = formatDate(data.eventDate);
   return [
     'Hi ' + firstName + ',',
     '',
     "Thanks for requesting a catering quote from UPCYCLE Brews & Bites! Your request has been submitted — attached is a copy of your quote estimate for your records.",
     '',
-    "We'll follow up within 24–48 hours to confirm the details and finalize your quote.",
+    (eventDate ? "We'll follow up within 24–48 hours to confirm your " + eventDate + ' date and finalize your quote.' : "We'll follow up within 24–48 hours to confirm the details and finalize your quote."),
     '',
     'Estimated Total: $' + data.grandTotal,
     '',
@@ -119,6 +124,8 @@ function buildQuoteHtml(data) {
     ['Name', data.name],
     ['Email', data.email],
     ['Phone', data.phone],
+    ['Tentative Event Date', formatDate(data.eventDate)],
+    ['Alternative Date', formatDate(data.altDate)],
   ]
     .filter(function (pair) {
       return pair[1];
@@ -146,6 +153,16 @@ function buildQuoteHtml(data) {
     '</p>' +
     '</body></html>'
   );
+}
+
+/** "2027-01-15" -> "January 15, 2027". Returns '' for anything that isn't a plain yyyy-mm-dd string. */
+function formatDate(iso) {
+  if (!iso) return '';
+  var parts = String(iso).split('-');
+  if (parts.length !== 3) return '';
+  var d = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+  if (isNaN(d.getTime())) return '';
+  return Utilities.formatDate(d, Session.getScriptTimeZone(), 'MMMM d, yyyy');
 }
 
 function escapeHtml(str) {

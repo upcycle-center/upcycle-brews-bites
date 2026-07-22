@@ -33,16 +33,28 @@ export interface ContactInfo {
   lastName: string;
   email: string;
   phone: string;
+  /** Tentative event date, ISO yyyy-mm-dd (from a native date input). */
+  eventDate: string;
+  /** Optional alternative event date, same format. */
+  altDate: string;
 }
 
-export const EMPTY_CONTACT: ContactInfo = { firstName: '', lastName: '', email: '', phone: '' };
+export const EMPTY_CONTACT: ContactInfo = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  eventDate: '',
+  altDate: '',
+};
 
 export function isContactComplete(contact: ContactInfo): boolean {
   return (
     contact.firstName.trim().length > 0 &&
     contact.lastName.trim().length > 0 &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email.trim()) &&
-    contact.phone.trim().length > 0
+    contact.phone.trim().length > 0 &&
+    contact.eventDate.trim().length > 0
   );
 }
 
@@ -131,6 +143,8 @@ export function computeQuote(
     ...(fullName ? [`Name: ${fullName}`] : []),
     ...(contact.email ? [`Email: ${contact.email}`] : []),
     ...(contact.phone ? [`Phone: ${contact.phone}`] : []),
+    ...(contact.eventDate ? [`Event Date: ${contact.eventDate}`] : []),
+    ...(contact.altDate ? [`Alternative Date: ${contact.altDate}`] : []),
     ...packageBreakdowns.map((p) => `Package: ${p.name} ($${Math.round(p.bookingFee)} booking fee + $${p.perPerson}/guest)`),
     `Adults: ${adults}`,
     `Children: ${children}`,
@@ -193,6 +207,8 @@ export async function submitQuotePdf(
     name: `${contact.firstName} ${contact.lastName}`.trim(),
     email: contact.email.trim(),
     phone: contact.phone.trim(),
+    eventDate: contact.eventDate.trim(),
+    altDate: contact.altDate.trim(),
     adults,
     children,
     grandTotal: quote.grandTotal,

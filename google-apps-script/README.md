@@ -62,7 +62,7 @@ requester-facing wording separately from the internal notification.
   ```bash
   curl -L --post302 --post303 -X POST 'YOUR_WEB_APP_URL' \
     -H 'Content-Type: text/plain;charset=utf-8' \
-    -d '{"name":"Jane Doe","email":"jane@example.com","phone":"845-555-1234","adults":10,"children":0,"grandTotal":490,"summaryLines":[{"label":"Grazing Tables — Booking Fee","value":235},{"label":"Grazing Tables — Adults: 10 × $18/guest","value":180},{"label":"Tip Jar (18%)","value":75}]}'
+    -d '{"name":"Jane Doe","email":"jane@example.com","phone":"845-555-1234","eventDate":"2027-01-15","altDate":"2027-01-22","adults":10,"children":0,"grandTotal":490,"summaryLines":[{"label":"Grazing Tables — Booking Fee","value":235},{"label":"Grazing Tables — Adults: 10 × $18/guest","value":180},{"label":"Tip Jar (18%)","value":75}]}'
   ```
   `--post302 --post303` keep curl from downgrading the POST to a GET when it
   follows Apps Script's redirect (the default `-L` behavior silently does
