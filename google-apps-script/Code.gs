@@ -70,7 +70,7 @@ function buildInternalBody(data) {
 }
 
 function buildConfirmationSubject() {
-  return 'Your Catering Quote Request — UPCYCLE Brews & Bites';
+  return 'Your Quote Request — UPCYCLE Brews & Bites';
 }
 
 function buildConfirmationBody(data) {
