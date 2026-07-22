@@ -305,7 +305,6 @@ export default function CateringSection() {
                     style={{ accentColor: COLORS.goldDeep }}
                   />
                   <span style={{ flex: 1, font: "600 13px 'Inter'" }}>{addOn.label}</span>
-                  <span style={{ font: "700 13px 'Inter'", color: COLORS.goldDeep }}>+${addOn.price}</span>
                 </label>
                 <button
                   onClick={() => setExpandedAddOnId(expanded ? null : addOn.id)}
