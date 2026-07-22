@@ -309,7 +309,21 @@ export const RECURRING_EVENTS: RecurringEvent[] = [
       'Garden Spritz Specials',
     ],
   },
-  { title: 'Weekend Brunch', desc: 'Guest chef experience with rotating farm-to-table specials.', schedule: 'SUNDAYS 1P – 4P', cta: 'RSVP REQUIRED', weekdays: [0], label: 'Weekend Brunch', category: 'brunch' },
+  {
+    title: 'Brasa Grooves',
+    desc: 'A Sunday churrasco gathering — Brazilian-inspired BBQ skewers, family-style sides, and live bossa nova, samba & Brazilian jazz.',
+    schedule: 'SUNDAYS 1P – 4P',
+    cta: 'RSVP REQUIRED',
+    weekdays: [0],
+    label: 'Brasa Grooves',
+    category: 'brunch',
+    paragraphs: [
+      'Sundays come alive at Brasa Grooves—a relaxed gathering inspired by Brazilian churrasco, shared tables, and the joy of spending time together.',
+      'Enjoy a family-style feast featuring Brazilian-inspired BBQ skewers grilled to order, seasonal sides, fresh salads, and house-made sauces, all meant to be passed around and enjoyed together.',
+      'With the sounds of Bossa Nova, Samba, Brazilian Jazz, and rhythmic grooves creating the atmosphere, the afternoon unfolds with great food, refreshing drinks, and the kind of conversations that make you want to stay a little longer.',
+      'Pair your meal with a Caipirinha Fizz, a Garden Spritz, or a crisp Pilsner, and discover a Sunday tradition where fire, flavor, and community meet in Upstate New York.',
+    ],
+  },
   { title: 'The Yard League', desc: 'Sunday backyard games — family day, pet friendly.', schedule: 'SUNDAYS 11A – 2P', cta: 'REGISTRATION REQUIRED', weekdays: [0], label: 'The Yard League', category: 'yard' },
 ];
 
