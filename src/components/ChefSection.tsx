@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react';
 import ImagePlaceholder from './ImagePlaceholder';
-import { buildCalendarCells, WEEKDAY_LABELS } from '../calendar';
+import { buildCalendarCells, type CalendarCell } from '../calendar';
 import { CATEGORY_COLORS, CHEFS, COLORS, RECURRING_EVENTS, RSVP_URL } from '../data';
+
+type EventDay = Extract<CalendarCell, { hasDay: true }>;
 
 const today = new Date();
 
@@ -34,6 +36,15 @@ export default function ChefSection() {
 
   const monthLabel = new Date(calendarYear, calendarMonth, 1).toLocaleString('en-US', { month: 'long', year: 'numeric' });
   const calendarCells = useMemo(() => buildCalendarCells(calendarYear, calendarMonth), [calendarYear, calendarMonth]);
+
+  // List view only: skip closed/retail-only days entirely, keep days with at least one RSVP-able event.
+  const eventDays = useMemo(
+    () =>
+      calendarCells.filter(
+        (cell): cell is EventDay => cell.hasDay && cell.eventTiles.some((tile) => tile.canRsvp),
+      ),
+    [calendarCells],
+  );
 
   return (
     <section id="chef-section" style={{ padding: '64px 32px', background: 'oklch(98% 0.006 95)' }}>
@@ -185,80 +196,99 @@ export default function ChefSection() {
           </div>
         </div>
 
-        <div className="calendar-scroll">
-        <div className="calendar-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 6, marginBottom: 8 }}>
-          {WEEKDAY_LABELS.map((wd, i) => (
-            <div key={i} style={{ textAlign: 'center', font: "700 11px 'Inter'", color: 'oklch(50% 0.02 150)', padding: '4px 0' }}>
-              {wd}
-            </div>
-          ))}
-        </div>
-        <div className="calendar-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 6 }}>
-          {calendarCells.map((cell, i) => {
-            if (!cell.hasDay) return <div key={i} />;
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {eventDays.length === 0 && (
+            <p style={{ textAlign: 'center', font: "400 13px 'Inter'", color: 'oklch(50% 0.02 150)', margin: 0 }}>
+              No events scheduled this month.
+            </p>
+          )}
+          {eventDays.map((cell) => {
+            const dateLabel = new Date(calendarYear, calendarMonth, cell.day).toLocaleDateString('en-US', {
+              weekday: 'long',
+              month: 'long',
+              day: 'numeric',
+            });
             return (
               <div
-                key={i}
+                key={cell.day}
                 style={{
-                  minHeight: cell.eventTiles.length > 1 ? 92 : 70,
-                  padding: 6,
-                  borderRadius: 8,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 4,
-                  background: cell.holidayLabel ? 'oklch(95% 0.03 25)' : 'oklch(97% 0.006 95)',
-                  border: `1px solid ${cell.holidayLabel ? 'oklch(75% 0.1 25)' : 'oklch(90% 0.01 95)'}`,
+                  padding: '14px 16px',
+                  borderRadius: 10,
+                  border: '1px solid oklch(90% 0.01 95)',
+                  background: 'oklch(97% 0.006 95)',
                 }}
               >
-                <div style={{ font: "700 12px 'Inter'" }}>{cell.day}</div>
-                {cell.holidayLabel && (
-                  <div style={{ font: "700 8.5px/1.3 'Inter'", letterSpacing: '.02em', color: 'oklch(45% 0.14 25)', marginTop: 2 }}>
-                    {cell.holidayLabel}
-                  </div>
-                )}
-                {cell.eventTiles.map((tile) => {
-                  const colors = CATEGORY_COLORS[tile.category];
-                  return (
-                    <div
-                      key={tile.key}
+                <div
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    alignItems: 'baseline',
+                    justifyContent: 'space-between',
+                    gap: 8,
+                    marginBottom: 10,
+                  }}
+                >
+                  <div style={{ font: "700 14px 'Inter'", color: 'oklch(22% 0.02 150)' }}>{dateLabel}</div>
+                  {cell.holidayLabel && (
+                    <span
                       style={{
-                        borderRadius: 6,
-                        padding: '4px 5px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        flex: 1,
-                        background: colors.bg,
-                        border: `1px solid ${colors.border}`,
+                        font: "700 9.5px 'Inter'",
+                        letterSpacing: '.03em',
+                        color: 'oklch(45% 0.14 25)',
+                        padding: '3px 8px',
+                        borderRadius: 999,
+                        background: 'oklch(95% 0.03 25)',
+                        border: '1px solid oklch(75% 0.1 25)',
                       }}
                     >
-                      <div style={{ font: "600 9px/1.25 'Inter'" }}>{tile.label}</div>
-                      {tile.canRsvp && (
-                        <a
-                          href={RSVP_URL}
-                          target="_blank"
-                          rel="noopener"
+                      {cell.holidayLabel}
+                    </span>
+                  )}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {cell.eventTiles
+                    .filter((tile) => tile.canRsvp)
+                    .map((tile) => {
+                      const colors = CATEGORY_COLORS[tile.category];
+                      return (
+                        <div
+                          key={tile.key}
                           style={{
-                            marginTop: 'auto',
-                            alignSelf: 'flex-start',
-                            padding: '3px 6px',
-                            borderRadius: 5,
-                            border: 'none',
-                            font: "700 9px 'Inter'",
-                            textDecoration: 'none',
-                            background: COLORS.skyDeep,
-                            color: 'oklch(98% 0.01 90)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            gap: 10,
+                            padding: '8px 12px',
+                            borderRadius: 8,
+                            background: colors.bg,
+                            border: `1px solid ${colors.border}`,
                           }}
                         >
-                          RSVP
-                        </a>
-                      )}
-                    </div>
-                  );
-                })}
+                          <div style={{ font: "600 12.5px 'Inter'" }}>{tile.label}</div>
+                          <a
+                            href={RSVP_URL}
+                            target="_blank"
+                            rel="noopener"
+                            style={{
+                              padding: '5px 12px',
+                              borderRadius: 6,
+                              border: 'none',
+                              font: "700 11px 'Inter'",
+                              textDecoration: 'none',
+                              whiteSpace: 'nowrap',
+                              background: COLORS.skyDeep,
+                              color: 'oklch(98% 0.01 90)',
+                            }}
+                          >
+                            RSVP
+                          </a>
+                        </div>
+                      );
+                    })}
+                </div>
               </div>
             );
           })}
-        </div>
         </div>
       </div>
 

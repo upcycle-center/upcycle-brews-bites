@@ -77,12 +77,6 @@ img {
 .two-col-grid {
   grid-template-columns: 1fr 1fr;
 }
-.calendar-scroll {
-  overflow-x: auto;
-}
-.calendar-grid {
-  min-width: 560px;
-}
 
 @media (max-width: 860px) {
   .banner-grid,
