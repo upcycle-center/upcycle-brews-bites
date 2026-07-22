@@ -6,6 +6,11 @@ import { CHEFS, COLORS, RECURRING_EVENTS, RSVP_URL } from '../data';
 type EventDay = Extract<CalendarCell, { hasDay: true }>;
 
 const today = new Date();
+const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+function isPastDate(year: number, month: number, day: number): boolean {
+  return new Date(year, month, day) < todayStart;
+}
 
 export default function ChefSection() {
   const [chefIndex, setChefIndex] = useState(0);
@@ -210,6 +215,7 @@ export default function ChefSection() {
               month: 'long',
               day: 'numeric',
             });
+            const isPast = isPastDate(calendarYear, calendarMonth, cell.day);
             return (
               <div
                 key={cell.day}
@@ -228,7 +234,9 @@ export default function ChefSection() {
                     marginBottom: 10,
                   }}
                 >
-                  <div style={{ font: "700 14px 'Inter'", color: COLORS.burntOrange }}>{dateLabel}</div>
+                  <div style={{ font: "700 14px 'Inter'", color: isPast ? 'oklch(78% 0.005 95)' : COLORS.burntOrange }}>
+                    {dateLabel}
+                  </div>
                   {cell.holidayLabel && (
                     <span
                       style={{
@@ -253,32 +261,14 @@ export default function ChefSection() {
                       const expanded = expandedTileKey === tileKey;
                       return (
                         <div key={tile.key}>
-                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
-                            <div style={{ font: "600 12.5px 'Inter'", color: 'oklch(22% 0.02 150)' }}>{tile.label}</div>
-                            <a
-                              href={RSVP_URL}
-                              target="_blank"
-                              rel="noopener"
-                              style={{
-                                padding: '5px 12px',
-                                borderRadius: 6,
-                                border: 'none',
-                                font: "700 11px 'Inter'",
-                                textDecoration: 'none',
-                                whiteSpace: 'nowrap',
-                                background: COLORS.skyDeep,
-                                color: 'oklch(98% 0.01 90)',
-                              }}
-                            >
-                              RSVP
-                            </a>
+                          <div style={{ font: "600 12.5px 'Inter'", color: isPast ? 'oklch(78% 0.005 95)' : 'oklch(22% 0.02 150)' }}>
+                            {tile.label}
                           </div>
-                          {tile.description && (
-                            <>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 6 }}>
+                            {tile.description && (
                               <button
                                 onClick={() => setExpandedTileKey(expanded ? null : tileKey)}
                                 style={{
-                                  marginTop: 6,
                                   padding: '3px 10px',
                                   borderRadius: 6,
                                   border: '1px solid oklch(80% 0.01 150)',
@@ -289,12 +279,46 @@ export default function ChefSection() {
                               >
                                 {expanded ? 'Hide Details' : 'Details'}
                               </button>
-                              {expanded && (
-                                <div style={{ marginTop: 6, font: "400 12px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
-                                  {tile.description}
-                                </div>
-                              )}
-                            </>
+                            )}
+                            {isPast ? (
+                              <span
+                                aria-disabled="true"
+                                style={{
+                                  padding: '5px 12px',
+                                  borderRadius: 6,
+                                  font: "700 11px 'Inter'",
+                                  whiteSpace: 'nowrap',
+                                  background: 'oklch(93% 0.005 95)',
+                                  color: 'oklch(72% 0.005 95)',
+                                  cursor: 'not-allowed',
+                                }}
+                              >
+                                RSVP
+                              </span>
+                            ) : (
+                              <a
+                                href={RSVP_URL}
+                                target="_blank"
+                                rel="noopener"
+                                style={{
+                                  padding: '5px 12px',
+                                  borderRadius: 6,
+                                  border: 'none',
+                                  font: "700 11px 'Inter'",
+                                  textDecoration: 'none',
+                                  whiteSpace: 'nowrap',
+                                  background: COLORS.skyDeep,
+                                  color: 'oklch(98% 0.01 90)',
+                                }}
+                              >
+                                RSVP
+                              </a>
+                            )}
+                          </div>
+                          {expanded && tile.description && (
+                            <div style={{ marginTop: 6, font: "400 12px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
+                              {tile.description}
+                            </div>
                           )}
                         </div>
                       );
