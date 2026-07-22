@@ -48,13 +48,24 @@ export const EMPTY_CONTACT: ContactInfo = {
   altDate: '',
 };
 
+/** Minimum lead time required to book an event, in days. */
+export const MIN_BOOKING_LEAD_DAYS = 7;
+
+/** yyyy-mm-dd for the earliest bookable event date (today + MIN_BOOKING_LEAD_DAYS). */
+export function getMinEventDate(): string {
+  const d = new Date();
+  d.setDate(d.getDate() + MIN_BOOKING_LEAD_DAYS);
+  return d.toISOString().slice(0, 10);
+}
+
 export function isContactComplete(contact: ContactInfo): boolean {
   return (
     contact.firstName.trim().length > 0 &&
     contact.lastName.trim().length > 0 &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email.trim()) &&
     contact.phone.trim().length > 0 &&
-    contact.eventDate.trim().length > 0
+    contact.eventDate.trim().length > 0 &&
+    contact.eventDate.trim() >= getMinEventDate()
   );
 }
 

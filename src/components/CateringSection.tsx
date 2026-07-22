@@ -3,6 +3,7 @@ import { ADD_ONS, ALCOHOL_TIERS, CATERING_PACKAGES, COLORS } from '../data';
 import {
   computeQuote,
   EMPTY_CONTACT,
+  getMinEventDate,
   isContactComplete,
   isQuoteEndpointConfigured,
   submitQuotePdf,
@@ -22,8 +23,7 @@ const CONTACT_INPUT_STYLE: CSSProperties = {
 
 const CATERING_INTRO_ALIGN: 'center' | 'left' = 'center';
 
-/** yyyy-mm-dd for today, used as the date inputs' min so past dates can't be picked. */
-const TODAY = new Date().toISOString().slice(0, 10);
+const MIN_EVENT_DATE = getMinEventDate();
 
 export default function CateringSection() {
   const [selectedPackageIds, setSelectedPackageIds] = useState<string[]>([]);
@@ -379,7 +379,7 @@ export default function CateringSection() {
               <label style={{ font: "600 11px 'Inter'", opacity: 0.75 }}>Tentative Event Date</label>
               <input
                 type="date"
-                min={TODAY}
+                min={MIN_EVENT_DATE}
                 value={contact.eventDate}
                 onChange={updateContact('eventDate')}
                 style={CONTACT_INPUT_STYLE}
@@ -389,13 +389,16 @@ export default function CateringSection() {
               <label style={{ font: "600 11px 'Inter'", opacity: 0.75 }}>Alternative Date (optional)</label>
               <input
                 type="date"
-                min={TODAY}
+                min={MIN_EVENT_DATE}
                 value={contact.altDate}
                 onChange={updateContact('altDate')}
                 style={CONTACT_INPUT_STYLE}
               />
             </div>
           </div>
+          <p style={{ font: "400 11px 'Inter'", opacity: 0.6, margin: '6px 0 0' }}>
+            We require at least 7 days' notice to book an event.
+          </p>
         </div>
 
         <button
