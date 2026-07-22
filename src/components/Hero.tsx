@@ -43,7 +43,7 @@ export default function Hero() {
             color: 'oklch(96% 0.01 95)',
           }}
         >
-          Craft cocktails. Local bites.
+          Craft Drinks. Local Bites.
           <br />
           <span style={{ color: COLORS.gold }}>The perfect pairing.</span>
         </h1>
