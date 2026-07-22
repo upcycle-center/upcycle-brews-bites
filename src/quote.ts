@@ -51,21 +51,40 @@ export const EMPTY_CONTACT: ContactInfo = {
 /** Minimum lead time required to book an event, in days. */
 export const MIN_BOOKING_LEAD_DAYS = 7;
 
-/** yyyy-mm-dd for the earliest bookable event date (today + MIN_BOOKING_LEAD_DAYS). */
+/** Zero-pads a date's local (not UTC) year/month/day into yyyy-mm-dd. */
+function toLocalISODate(d: Date): string {
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+/** yyyy-mm-dd for the earliest bookable event date (today + MIN_BOOKING_LEAD_DAYS), in the visitor's local time. */
 export function getMinEventDate(): string {
   const d = new Date();
   d.setDate(d.getDate() + MIN_BOOKING_LEAD_DAYS);
-  return d.toISOString().slice(0, 10);
+  return toLocalISODate(d);
+}
+
+const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+/** True only for a strict yyyy-mm-dd string representing a real calendar date (rejects malformed/partial input). */
+function isValidISODate(value: string): boolean {
+  if (!ISO_DATE_RE.test(value)) return false;
+  const [year, month, day] = value.split('-').map(Number);
+  const d = new Date(year, month - 1, day);
+  return d.getFullYear() === year && d.getMonth() === month - 1 && d.getDate() === day;
 }
 
 export function isContactComplete(contact: ContactInfo): boolean {
+  const eventDate = contact.eventDate.trim();
   return (
     contact.firstName.trim().length > 0 &&
     contact.lastName.trim().length > 0 &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email.trim()) &&
     contact.phone.trim().length > 0 &&
-    contact.eventDate.trim().length > 0 &&
-    contact.eventDate.trim() >= getMinEventDate()
+    isValidISODate(eventDate) &&
+    eventDate >= getMinEventDate()
   );
 }
 
