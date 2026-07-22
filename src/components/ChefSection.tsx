@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import ImagePlaceholder from './ImagePlaceholder';
 import { buildCalendarCells, type CalendarCell } from '../calendar';
-import { CATEGORY_COLORS, CHEFS, COLORS, RECURRING_EVENTS, RSVP_URL } from '../data';
+import { CHEFS, COLORS, RECURRING_EVENTS, RSVP_URL } from '../data';
 
 type EventDay = Extract<CalendarCell, { hasDay: true }>;
 
@@ -11,6 +11,7 @@ export default function ChefSection() {
   const [chefIndex, setChefIndex] = useState(0);
   const [calendarYear, setCalendarYear] = useState(today.getFullYear());
   const [calendarMonth, setCalendarMonth] = useState(today.getMonth());
+  const [expandedTileKey, setExpandedTileKey] = useState<string | null>(null);
 
   const currentChef = CHEFS[chefIndex];
 
@@ -249,39 +250,61 @@ export default function ChefSection() {
                   {cell.eventTiles
                     .filter((tile) => tile.canRsvp)
                     .map((tile) => {
-                      const colors = CATEGORY_COLORS[tile.category];
+                      const tileKey = `${cell.day}-${tile.key}`;
+                      const expanded = expandedTileKey === tileKey;
                       return (
                         <div
                           key={tile.key}
                           style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            gap: 10,
-                            padding: '8px 12px',
+                            padding: '10px 12px',
                             borderRadius: 8,
-                            background: colors.bg,
-                            border: `1px solid ${colors.border}`,
+                            background: 'oklch(100% 0 0)',
+                            border: '1px solid oklch(90% 0.01 95)',
                           }}
                         >
-                          <div style={{ font: "600 12.5px 'Inter'" }}>{tile.label}</div>
-                          <a
-                            href={RSVP_URL}
-                            target="_blank"
-                            rel="noopener"
-                            style={{
-                              padding: '5px 12px',
-                              borderRadius: 6,
-                              border: 'none',
-                              font: "700 11px 'Inter'",
-                              textDecoration: 'none',
-                              whiteSpace: 'nowrap',
-                              background: COLORS.skyDeep,
-                              color: 'oklch(98% 0.01 90)',
-                            }}
-                          >
-                            RSVP
-                          </a>
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+                            <div style={{ font: "600 12.5px 'Inter'", color: 'oklch(22% 0.02 150)' }}>{tile.label}</div>
+                            <a
+                              href={RSVP_URL}
+                              target="_blank"
+                              rel="noopener"
+                              style={{
+                                padding: '5px 12px',
+                                borderRadius: 6,
+                                border: 'none',
+                                font: "700 11px 'Inter'",
+                                textDecoration: 'none',
+                                whiteSpace: 'nowrap',
+                                background: COLORS.skyDeep,
+                                color: 'oklch(98% 0.01 90)',
+                              }}
+                            >
+                              RSVP
+                            </a>
+                          </div>
+                          {tile.description && (
+                            <>
+                              <button
+                                onClick={() => setExpandedTileKey(expanded ? null : tileKey)}
+                                style={{
+                                  marginTop: 6,
+                                  padding: '3px 10px',
+                                  borderRadius: 6,
+                                  border: '1px solid oklch(80% 0.01 150)',
+                                  background: 'transparent',
+                                  color: 'oklch(40% 0.02 150)',
+                                  font: "700 10.5px 'Inter'",
+                                }}
+                              >
+                                {expanded ? 'Hide Details' : 'Details'}
+                              </button>
+                              {expanded && (
+                                <div style={{ marginTop: 6, font: "400 12px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
+                                  {tile.description}
+                                </div>
+                              )}
+                            </>
+                          )}
                         </div>
                       );
                     })}

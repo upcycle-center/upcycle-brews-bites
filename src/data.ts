@@ -283,15 +283,6 @@ export const RECURRING_EVENTS: RecurringEvent[] = [
   { title: 'The Yard League', desc: 'Sunday backyard games — family day, pet friendly.', schedule: 'SUNDAYS 11A – 2P', cta: 'REGISTRATION REQUIRED', weekdays: [0], label: 'The Yard League', category: 'yard' },
 ];
 
-export const CATEGORY_COLORS: Record<EventCategory, { bg: string; border: string }> = {
-  chef: { bg: 'var(--cat-chef-bg)', border: 'var(--cat-chef-border)' },
-  brunch: { bg: 'var(--cat-brunch-bg)', border: 'var(--cat-brunch-border)' },
-  yard: { bg: 'var(--cat-yard-bg)', border: 'var(--cat-yard-border)' },
-  sunset: { bg: 'var(--cat-sunset-bg)', border: 'var(--cat-sunset-border)' },
-  closed: { bg: 'var(--cat-closed-bg)', border: 'var(--cat-closed-border)' },
-  retail: { bg: 'var(--cat-retail-bg)', border: 'var(--cat-retail-border)' },
-};
-
 /** month key: `${year}-${monthIndex0}` */
 export const US_HOLIDAYS_BY_MONTH: Record<string, Record<number, string>> = {
   '2026-0': { 1: "New Year's Day", 19: 'MLK Day' },

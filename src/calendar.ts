@@ -11,6 +11,8 @@ export interface CalendarEventTile {
   label: string;
   category: EventCategory;
   canRsvp: boolean;
+  /** Short expandable description, when one is available for this event. */
+  description?: string;
 }
 
 export interface CalendarDay {
@@ -46,7 +48,7 @@ export function buildCalendarCells(year: number, month: number): CalendarCell[] 
     const isClosed = weekday === 1 || weekday === 2;
     const isRetailOnly = weekday === 3;
 
-    let dayEvents: { label: string; category: EventCategory; canRsvp: boolean }[] = [];
+    let dayEvents: { label: string; category: EventCategory; canRsvp: boolean; description?: string }[] = [];
 
     if (isClosed) {
       dayEvents = [{ label: 'CLOSED', category: 'closed', canRsvp: false }];
@@ -66,12 +68,12 @@ export function buildCalendarCells(year: number, month: number): CalendarCell[] 
         if (weekday === 4) {
           const chef = CHEF_BY_NTH_THURSDAY.get(thursdayCount as 1 | 2 | 3 | 4);
           if (chef) {
-            dayEvents.push({ label: chef.calendarLabel, category: 'chef', canRsvp: true });
+            dayEvents.push({ label: chef.calendarLabel, category: 'chef', canRsvp: true, description: chef.bio });
           }
         }
         for (const rec of RECURRING_EVENTS) {
           if (rec.weekdays.includes(weekday)) {
-            dayEvents.push({ label: rec.label, category: rec.category, canRsvp: true });
+            dayEvents.push({ label: rec.label, category: rec.category, canRsvp: true, description: rec.desc });
           }
         }
       }
@@ -88,6 +90,7 @@ export function buildCalendarCells(year: number, month: number): CalendarCell[] 
         label: event.label,
         category: event.category,
         canRsvp: event.canRsvp,
+        description: event.description,
       })),
     });
   }
