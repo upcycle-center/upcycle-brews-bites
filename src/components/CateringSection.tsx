@@ -32,12 +32,32 @@ const MIN_EVENT_DATE_LABEL = (() => {
 
 const DATE_INPUT_RE = /^\d{4}-\d{2}-\d{2}$/;
 
+/** Reformats raw digits typed so far into a partial/complete "MM/DD/YYYY" mask. */
+function formatDateMask(digits: string): string {
+  const mm = digits.slice(0, 2);
+  const dd = digits.slice(2, 4);
+  const yyyy = digits.slice(4, 8);
+  let out = mm;
+  if (digits.length > 2) out += '/' + dd;
+  if (digits.length > 4) out += '/' + yyyy;
+  return out;
+}
+
+/** Converts a complete "MM/DD/YYYY" mask into ISO yyyy-mm-dd, or '' if not yet fully typed. */
+function maskToISO(digits: string): string {
+  if (digits.length !== 8) return '';
+  const mm = digits.slice(0, 2);
+  const dd = digits.slice(2, 4);
+  const yyyy = digits.slice(4, 8);
+  return `${yyyy}-${mm}-${dd}`;
+}
+
 const MOBILE_BREAKPOINT = 640;
 
 /**
  * Mobile browsers' native `type="date"` calendar widgets vary wildly and can
  * be confusing to operate accurately on a touchscreen, so below the mobile
- * breakpoint we swap to a plain text field for manual yyyy-mm-dd entry.
+ * breakpoint we swap to a plain text field for manual MM/DD/YYYY entry.
  */
 function useIsMobile(): boolean {
   const [isMobile, setIsMobile] = useState(
@@ -62,12 +82,21 @@ export default function CateringSection() {
   const [addOnSelections, setAddOnSelections] = useState<Record<string, boolean>>({});
   const [expandedAddOnId, setExpandedAddOnId] = useState<string | null>(null);
   const [contact, setContact] = useState<ContactInfo>(EMPTY_CONTACT);
+  const [eventDateDisplay, setEventDateDisplay] = useState('');
+  const [altDateDisplay, setAltDateDisplay] = useState('');
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('idle');
   const isMobile = useIsMobile();
 
   const updateContact = (field: keyof ContactInfo) => (e: ChangeEvent<HTMLInputElement>) => {
     setContact((prev) => ({ ...prev, [field]: e.target.value }));
   };
+
+  const updateMaskedDate =
+    (field: 'eventDate' | 'altDate', setDisplay: (v: string) => void) => (e: ChangeEvent<HTMLInputElement>) => {
+      const digits = e.target.value.replace(/\D/g, '').slice(0, 8);
+      setDisplay(formatDateMask(digits));
+      setContact((prev) => ({ ...prev, [field]: maskToISO(digits) }));
+    };
 
   const addOnsLocked = barServiceId === 'none';
 
@@ -417,10 +446,10 @@ export default function CateringSection() {
                   type="text"
                   inputMode="numeric"
                   autoComplete="off"
-                  placeholder="YYYY-MM-DD"
+                  placeholder="MM/DD/YYYY"
                   maxLength={10}
-                  value={contact.eventDate}
-                  onChange={updateContact('eventDate')}
+                  value={eventDateDisplay}
+                  onChange={updateMaskedDate('eventDate', setEventDateDisplay)}
                   style={CONTACT_INPUT_STYLE}
                 />
               ) : (
@@ -434,7 +463,7 @@ export default function CateringSection() {
               )}
               {eventDateRaw.length > 0 && !eventDateValid && (
                 <span style={{ font: "400 11px 'Inter'", color: 'oklch(72% 0.18 30)' }}>
-                  Enter the date as YYYY-MM-DD.
+                  Enter the date as {isMobile ? 'MM/DD/YYYY' : 'YYYY-MM-DD'}.
                 </span>
               )}
               {eventDateValid && eventDateTooSoon && (
@@ -450,10 +479,10 @@ export default function CateringSection() {
                   type="text"
                   inputMode="numeric"
                   autoComplete="off"
-                  placeholder="YYYY-MM-DD"
+                  placeholder="MM/DD/YYYY"
                   maxLength={10}
-                  value={contact.altDate}
-                  onChange={updateContact('altDate')}
+                  value={altDateDisplay}
+                  onChange={updateMaskedDate('altDate', setAltDateDisplay)}
                   style={CONTACT_INPUT_STYLE}
                 />
               ) : (
@@ -467,7 +496,7 @@ export default function CateringSection() {
               )}
               {altDateRaw.length > 0 && !altDateValid && (
                 <span style={{ font: "400 11px 'Inter'", color: 'oklch(72% 0.18 30)' }}>
-                  Enter the date as YYYY-MM-DD.
+                  Enter the date as {isMobile ? 'MM/DD/YYYY' : 'YYYY-MM-DD'}.
                 </span>
               )}
               {altDateValid && altDateTooSoon && (
@@ -479,7 +508,7 @@ export default function CateringSection() {
           </div>
           <p style={{ font: "400 11px 'Inter'", opacity: 0.6, margin: '6px 0 0' }}>
             We require at least 7 days' notice to book an event
-            {isMobile ? ' — enter your date as YYYY-MM-DD' : ''} ({MIN_EVENT_DATE_LABEL} or later).
+            {isMobile ? ' — enter your date as MM/DD/YYYY' : ''} ({MIN_EVENT_DATE_LABEL} or later).
           </p>
         </div>
 
