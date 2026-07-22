@@ -4,6 +4,7 @@ export const COLORS = {
   goldDeep: 'oklch(60% 0.13 70)',
   sky: 'oklch(78% 0.08 220)',
   skyDeep: 'oklch(48% 0.09 220)',
+  burntOrange: 'oklch(45% 0.15 45)',
 } as const;
 
 export type MenuCategory = 'small' | 'big' | 'latenight';

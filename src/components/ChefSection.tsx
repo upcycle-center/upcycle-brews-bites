@@ -227,7 +227,7 @@ export default function ChefSection() {
                     marginBottom: 10,
                   }}
                 >
-                  <div style={{ font: "700 14px 'Inter'", color: 'oklch(22% 0.02 150)' }}>{dateLabel}</div>
+                  <div style={{ font: "700 14px 'Inter'", color: COLORS.burntOrange }}>{dateLabel}</div>
                   {cell.holidayLabel && (
                     <span
                       style={{
