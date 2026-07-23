@@ -60,13 +60,13 @@ export default function ChefSection() {
   );
 
   return (
-    <section id="chef-section" style={{ padding: '64px 32px', background: 'oklch(98% 0.006 95)' }}>
+    <section id="chef-section" style={{ padding: '64px 32px', background: COLORS.green }}>
       <div style={{ textAlign: 'center', marginBottom: 36 }}>
-        <span style={{ font: "700 12px 'Inter'", letterSpacing: '.12em', color: COLORS.skyDeep }}>ROTATING VENDORS</span>
-        <h2 style={{ font: "400 40px 'Anton', sans-serif", textTransform: 'uppercase', margin: '6px 0 0', color: 'oklch(22% 0.02 150)' }}>
+        <span style={{ font: "700 12px 'Inter'", letterSpacing: '.12em', color: COLORS.gold }}>ROTATING VENDORS</span>
+        <h2 style={{ font: "400 40px 'Anton', sans-serif", textTransform: 'uppercase', margin: '6px 0 0', color: 'oklch(97% 0.01 95)' }}>
           Guest Chef Spotlight
         </h2>
-        <p style={{ font: "400 14px 'Inter'", color: 'oklch(42% 0.02 150)', maxWidth: '60ch', margin: '10px auto 0' }}>
+        <p style={{ font: "400 14px 'Inter'", color: 'oklch(78% 0.01 95)', maxWidth: '60ch', margin: '10px auto 0' }}>
           Our rotating vendors serve tasting platters featuring their signature items — a mixed plate built for
           sampling, so you can experiment with new flavors alongside our core menu.
         </p>
