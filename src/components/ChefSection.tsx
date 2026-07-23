@@ -342,59 +342,64 @@ export default function ChefSection() {
       >
         {RECURRING_EVENTS.map((ev) => {
           const expanded = expandedEventTitle === ev.title;
+          const hasMore = Boolean(ev.paragraphs || ev.ctaLine || ev.details);
           return (
             <div
               key={ev.title}
               style={{
-                padding: 22,
                 borderRadius: 14,
+                overflow: 'hidden',
                 background: 'oklch(100% 0 0)',
                 boxShadow: '0 1px 3px oklch(0% 0 0 / 0.08), 0 8px 24px oklch(0% 0 0 / 0.06)',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 8,
               }}
             >
-              <div style={{ font: "800 16px 'Inter'", color: 'oklch(22% 0.02 150)' }}>{ev.title}</div>
-              {(ev.paragraphs ?? [ev.desc]).map((p, i) => (
-                <div key={i} style={{ font: "400 13px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
-                  {p}
+              <ImagePlaceholder label="Drop event photo" style={{ width: '100%', height: 140 }} />
+              <div style={{ padding: 22, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div style={{ font: "800 16px 'Inter'", color: 'oklch(22% 0.02 150)' }}>{ev.title}</div>
+                <div style={{ font: "400 13px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>{ev.desc}</div>
+                <div style={{ font: "700 11.5px 'Inter'", letterSpacing: '.04em', color: COLORS.skyDeep, marginTop: 4 }}>
+                  {ev.schedule}
                 </div>
-              ))}
-              <div style={{ font: "700 11.5px 'Inter'", letterSpacing: '.04em', color: COLORS.skyDeep, marginTop: 4 }}>{ev.schedule}</div>
-              {ev.ctaLine ? (
-                <div style={{ font: "700 12.5px/1.4 'Inter'", color: 'oklch(22% 0.02 150)' }}>{ev.ctaLine}</div>
-              ) : (
                 <div style={{ font: "700 11px 'Inter'", letterSpacing: '.03em', color: COLORS.goldDeep }}>{ev.cta}</div>
-              )}
-              {ev.details && (
-                <>
-                  <button
-                    onClick={() => setExpandedEventTitle(expanded ? null : ev.title)}
-                    style={{
-                      alignSelf: 'flex-start',
-                      marginTop: 4,
-                      padding: '6px 14px',
-                      borderRadius: 7,
-                      border: '1.5px solid oklch(85% 0.01 150)',
-                      background: 'transparent',
-                      color: 'oklch(35% 0.02 150)',
-                      font: "700 11.5px 'Inter'",
-                    }}
-                  >
-                    {expanded ? 'Hide Details' : 'Details'}
-                  </button>
-                  {expanded && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                      {ev.details.map((d) => (
-                        <div key={d} style={{ font: "400 12.5px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
-                          • {d}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </>
-              )}
+                {hasMore && (
+                  <>
+                    <button
+                      onClick={() => setExpandedEventTitle(expanded ? null : ev.title)}
+                      style={{
+                        alignSelf: 'flex-start',
+                        marginTop: 4,
+                        padding: '6px 14px',
+                        borderRadius: 7,
+                        border: '1.5px solid oklch(85% 0.01 150)',
+                        background: 'transparent',
+                        color: 'oklch(35% 0.02 150)',
+                        font: "700 11.5px 'Inter'",
+                      }}
+                    >
+                      {expanded ? 'Hide Details' : 'Details'}
+                    </button>
+                    {expanded && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 4 }}>
+                        {ev.paragraphs?.map((p, i) => (
+                          <div key={i} style={{ font: "400 13px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
+                            {p}
+                          </div>
+                        ))}
+                        {ev.ctaLine && (
+                          <div style={{ font: "700 12.5px/1.4 'Inter'", color: 'oklch(22% 0.02 150)' }}>{ev.ctaLine}</div>
+                        )}
+                        {ev.details?.map((d) => (
+                          <div key={d} style={{ font: "400 12.5px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
+                            • {d}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           );
         })}
