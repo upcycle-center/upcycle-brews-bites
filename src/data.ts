@@ -286,7 +286,27 @@ export interface RecurringEvent {
 }
 
 export const RECURRING_EVENTS: RecurringEvent[] = [
-  { title: 'Sunset Sips & Bites', desc: 'Garden cocktails, craft beer & platters over live music every Friday.', schedule: 'FRIDAYS 3P – SUNSET', cta: 'RSVP FOR HAPPY HOUR SPECIALS', weekdays: [5], label: 'Sunset Sips & Bites', category: 'sunset' },
+  {
+    title: 'Sunset Sips & Bites',
+    desc: 'Garden cocktails, craft beer & platters over live music every Friday.',
+    schedule: 'FRIDAYS 3P – SUNSET',
+    cta: 'RSVP FOR HAPPY HOUR SPECIALS',
+    weekdays: [5],
+    label: 'Sunset Sips & Bites',
+    category: 'sunset',
+    paragraphs: [
+      'Kick off the weekend early at Sunset Sips & Bites, our Friday happy hour in the garden. Sip handcrafted cocktails and rotating craft beers while sharing bar bites and platters built for passing around the table as the sun goes down.',
+      "Live music sets the mood from golden hour into dusk, with string lights, garden seating, and a laid-back crowd of regulars and first-timers alike. It's the easiest way to trade a long week for a good one.",
+    ],
+    ctaLine: 'Friday just got a happy hour worth showing up for.',
+    details: [
+      'Handcrafted garden cocktails & rotating drafts',
+      'Shareable bar bites & grazing platters',
+      'Live music from golden hour to dusk',
+      'Garden seating under string lights',
+      'Happy hour specials for RSVPs',
+    ],
+  },
   {
     title: 'Rise & Shine Brunch',
     desc: 'A Saturday brunch with a Waffle Sunshine Bar, cheese buns, fresh fruit & juices, and Garden Spritz Specials.',
@@ -296,9 +316,8 @@ export const RECURRING_EVENTS: RecurringEvent[] = [
     label: 'Rise & Shine Brunch',
     category: 'brunch',
     paragraphs: [
-      'Ease into Saturday with a brunch designed for curious travelers, great company, and slow mornings worth savoring. Set in our historic winery and beer garden, Rise & Shine Brunch features a Waffle Sunshine Bar with seasonal toppings, warm cheese buns fresh from the oven, a vibrant fruit bowl, fresh juices, and iced tea and iced coffee to keep the conversation flowing.',
-      'Looking for something a little brighter? Our Garden Spritz Specials are crafted for lingering under the trees and toasting the weekend.',
-      'Come for the brunch, stay for the stories, and discover a place where locals and wanderers gather around the same table.',
+      'Ease into Saturday with a brunch built for slow mornings and good company. Set in our historic winery and beer garden, Rise & Shine features a Waffle Sunshine Bar loaded with toppings, warm cheese buns, fresh fruit, and a full round of juices, iced tea, and iced coffee.',
+      'Garden Spritz Specials keep things bright as easy acoustic tunes drift through the vines, made for lingering under the trees with locals and wanderers alike.',
     ],
     ctaLine: 'Gather your friends, grab a seat, and start your Saturday right!',
     details: [
@@ -318,13 +337,40 @@ export const RECURRING_EVENTS: RecurringEvent[] = [
     label: 'Brasa Grooves',
     category: 'brunch',
     paragraphs: [
-      'Sundays come alive at Brasa Grooves—a relaxed gathering inspired by Brazilian churrasco, shared tables, and the joy of spending time together.',
-      'Enjoy a family-style feast featuring Brazilian-inspired BBQ skewers grilled to order, seasonal sides, fresh salads, and house-made sauces, all meant to be passed around and enjoyed together.',
-      'With the sounds of Bossa Nova, Samba, Brazilian Jazz, and rhythmic grooves creating the atmosphere, the afternoon unfolds with great food, refreshing drinks, and the kind of conversations that make you want to stay a little longer.',
-      'Pair your meal with a Caipirinha Fizz, a Garden Spritz, or a crisp Pilsner, and discover a Sunday tradition where fire, flavor, and community meet in Upstate New York.',
+      'Sundays come alive at Brasa Grooves, a relaxed gathering inspired by Brazilian churrasco, shared tables, and the joy of spending time together. Feast family-style on BBQ skewers grilled to order, seasonal sides, fresh salads, and house-made sauces.',
+      'Bossa Nova, Samba, and Brazilian Jazz set the soundtrack as the afternoon unfolds over Caipirinha Fizzes, Garden Spritzes, and crisp Pilsners — a Sunday tradition where fire, flavor, and community meet in Upstate New York.',
+    ],
+    ctaLine: 'Fire, flavor, and community — every Sunday afternoon.',
+    details: [
+      'Brazilian-inspired BBQ skewers grilled to order',
+      'Family-style seasonal sides & fresh salads',
+      'House-made sauces & condiments',
+      'Live Bossa Nova, Samba & Brazilian Jazz',
+      'Caipirinha Fizz, Garden Spritz & Pilsner on tap',
     ],
   },
-  { title: 'The Yard League', desc: 'Sunday backyard games — family day, pet friendly.', schedule: 'SUNDAYS 11A – 2P', cta: 'REGISTRATION REQUIRED', weekdays: [0], label: 'The Yard League', category: 'yard' },
+  {
+    title: 'The Yard League',
+    desc: 'Sunday backyard games — family day, pet friendly.',
+    schedule: 'SUNDAYS 11A – 2P',
+    cta: 'REGISTRATION REQUIRED',
+    weekdays: [0],
+    label: 'The Yard League',
+    category: 'yard',
+    paragraphs: [
+      'Round out your Sunday with backyard games, cold drinks, and easy bites at The Yard League. Cornhole, giant Jenga, and lawn games keep the energy light while the grill keeps the smells drifting across the garden.',
+      "It's a laid-back, family-day vibe with pets welcome and casual background tunes — pull up a lawn chair, grab a snack, and let the kids (and the dogs) run the yard.",
+    ],
+    ctaLine: 'Family day, pet friendly, zero pressure — just good yard games.',
+    details: [
+      'Cornhole, giant Jenga & lawn games',
+      'Casual grill bites & cold drinks',
+      'Family-friendly and pet-friendly all afternoon',
+      'Laid-back background music',
+      'Lawn seating & shade areas',
+      'Sign up for team rounds at registration',
+    ],
+  },
 ];
 
 /** month key: `${year}-${monthIndex0}` */
