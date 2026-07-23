@@ -357,47 +357,74 @@ export default function ChefSection() {
             >
               <ImagePlaceholder label="Drop event photo" style={{ width: '100%', height: 140 }} />
               <div style={{ padding: 22, display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <div style={{ font: "800 16px 'Inter'", color: 'oklch(22% 0.02 150)' }}>{ev.title}</div>
-                <div style={{ font: "400 13px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>{ev.desc}</div>
+                <div style={{ font: "800 16px 'Inter'", color: 'oklch(22% 0.02 150)', minHeight: 40 }}>{ev.title}</div>
+                <div
+                  style={{
+                    font: "400 13px/1.5 'Inter'",
+                    color: 'oklch(42% 0.02 150)',
+                    minHeight: 39,
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {ev.desc}
+                </div>
                 <div style={{ font: "700 11.5px 'Inter'", letterSpacing: '.04em', color: COLORS.skyDeep, marginTop: 4 }}>
                   {ev.schedule}
                 </div>
                 <div style={{ font: "700 11px 'Inter'", letterSpacing: '.03em', color: COLORS.goldDeep }}>{ev.cta}</div>
-                {hasMore && (
-                  <>
-                    <button
-                      onClick={() => setExpandedEventTitle(expanded ? null : ev.title)}
-                      style={{
-                        alignSelf: 'flex-start',
-                        marginTop: 4,
-                        padding: '6px 14px',
-                        borderRadius: 7,
-                        border: '1.5px solid oklch(85% 0.01 150)',
-                        background: 'transparent',
-                        color: 'oklch(35% 0.02 150)',
-                        font: "700 11.5px 'Inter'",
-                      }}
-                    >
-                      {expanded ? 'Hide Details' : 'Details'}
-                    </button>
-                    {expanded && (
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 4 }}>
-                        {ev.paragraphs?.map((p, i) => (
-                          <div key={i} style={{ font: "400 13px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
-                            {p}
-                          </div>
-                        ))}
-                        {ev.ctaLine && (
-                          <div style={{ font: "700 12.5px/1.4 'Inter'", color: 'oklch(22% 0.02 150)' }}>{ev.ctaLine}</div>
-                        )}
-                        {ev.details?.map((d) => (
-                          <div key={d} style={{ font: "400 12.5px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
-                            • {d}
-                          </div>
-                        ))}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
+                  <button
+                    onClick={() => hasMore && setExpandedEventTitle(expanded ? null : ev.title)}
+                    aria-hidden={!hasMore}
+                    style={{
+                      padding: '6px 14px',
+                      borderRadius: 7,
+                      border: '1.5px solid oklch(85% 0.01 150)',
+                      background: 'transparent',
+                      color: 'oklch(35% 0.02 150)',
+                      font: "700 11.5px 'Inter'",
+                      visibility: hasMore ? 'visible' : 'hidden',
+                      pointerEvents: hasMore ? 'auto' : 'none',
+                    }}
+                  >
+                    {expanded ? 'Hide Details' : 'Details'}
+                  </button>
+                  <a
+                    href={RSVP_URL}
+                    target="_blank"
+                    rel="noopener"
+                    style={{
+                      padding: '6px 14px',
+                      borderRadius: 7,
+                      border: 'none',
+                      font: "700 11.5px 'Inter'",
+                      textDecoration: 'none',
+                      background: COLORS.skyDeep,
+                      color: 'oklch(98% 0.01 90)',
+                    }}
+                  >
+                    RSVP
+                  </a>
+                </div>
+                {hasMore && expanded && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 4 }}>
+                    {ev.paragraphs?.map((p, i) => (
+                      <div key={i} style={{ font: "400 13px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
+                        {p}
                       </div>
+                    ))}
+                    {ev.ctaLine && (
+                      <div style={{ font: "700 12.5px/1.4 'Inter'", color: 'oklch(22% 0.02 150)' }}>{ev.ctaLine}</div>
                     )}
-                  </>
+                    {ev.details?.map((d) => (
+                      <div key={d} style={{ font: "400 12.5px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
+                        • {d}
+                      </div>
+                    ))}
+                  </div>
                 )}
               </div>
             </div>
