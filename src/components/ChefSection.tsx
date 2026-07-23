@@ -151,6 +151,7 @@ export default function ChefSection() {
       </div>
 
       <div
+        id="happening-section"
         style={{
           maxWidth: 920,
           margin: '48px auto 0',

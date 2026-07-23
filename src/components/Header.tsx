@@ -6,7 +6,7 @@ const NAV_LINKS = [
   { label: 'love at first bite', href: '#menu-section' },
   { label: 'sips & cans', href: '#sips-section' },
   { label: 'guest chef spotlight', href: '#chef-section' },
-  { label: 'happening at the garden', href: '#chef-section' },
+  { label: 'happening at the garden', href: '#happening-section' },
   { label: 'casual catering', href: '#catering-section' },
 ];
 
