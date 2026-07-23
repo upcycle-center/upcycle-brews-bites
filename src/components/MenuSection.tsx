@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import ImagePlaceholder from './ImagePlaceholder';
 import { COLORS, DIETARY_LABELS, MENU, type DietaryTag, type MenuCategory } from '../data';
+import { imageUrl } from '../imageUrl';
 
 type CategoryFilter = 'all' | MenuCategory;
 
@@ -118,7 +118,11 @@ export default function MenuSection() {
                 boxShadow: '0 6px 18px oklch(0% 0 0 / 0.18)',
               }}
             >
-              <ImagePlaceholder label="Drop dish photo" style={{ width: '100%', height: 180 }} />
+              <img
+                src={imageUrl(`images/menu/${item.id}.jpg`)}
+                alt={item.name}
+                style={{ width: '100%', height: 180, objectFit: 'cover', display: 'block' }}
+              />
               <div style={{ padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: 8, flex: 1 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10 }}>
                   <h3 style={{ font: "800 17px 'Inter'", margin: 0, color: 'oklch(22% 0.02 150)' }}>{item.name}</h3>

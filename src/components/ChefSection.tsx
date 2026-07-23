@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import ImagePlaceholder from './ImagePlaceholder';
 import { buildCalendarCells, type CalendarCell } from '../calendar';
 import { CHEFS, COLORS, RECURRING_EVENTS, RSVP_URL } from '../data';
+import { imageUrl } from '../imageUrl';
 
 type EventDay = Extract<CalendarCell, { hasDay: true }>;
 
@@ -94,7 +95,11 @@ export default function ChefSection() {
               flexDirection: 'column',
             }}
           >
-            <ImagePlaceholder label="Drop chef photo" style={{ width: '100%', height: 140 }} />
+            <img
+              src={imageUrl(`images/chefs/${chef.id}.jpg`)}
+              alt={chef.name}
+              style={{ width: '100%', height: 140, objectFit: 'cover', display: 'block' }}
+            />
             <div style={{ padding: 22, display: 'flex', flexDirection: 'column', gap: 8 }}>
               <div style={{ font: "800 16px 'Inter'", color: 'oklch(22% 0.02 150)', minHeight: 40 }}>{chef.name}</div>
               <div
