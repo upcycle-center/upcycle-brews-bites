@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import ImagePlaceholder from './ImagePlaceholder';
 import { buildCalendarCells, type CalendarCell } from '../calendar';
 import { CHEFS, COLORS, RECURRING_EVENTS, RSVP_URL } from '../data';
@@ -17,7 +17,16 @@ export default function ChefSection() {
   const [calendarYear, setCalendarYear] = useState(today.getFullYear());
   const [calendarMonth, setCalendarMonth] = useState(today.getMonth());
   const [expandedTileKey, setExpandedTileKey] = useState<string | null>(null);
-  const [expandedEventTitle, setExpandedEventTitle] = useState<string | null>(null);
+  const [detailsModalEvent, setDetailsModalEvent] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!detailsModalEvent) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setDetailsModalEvent(null);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [detailsModalEvent]);
 
   const currentChef = CHEFS[chefIndex];
 
@@ -341,7 +350,6 @@ export default function ChefSection() {
         }}
       >
         {RECURRING_EVENTS.map((ev) => {
-          const expanded = expandedEventTitle === ev.title;
           const hasMore = Boolean(ev.paragraphs || ev.ctaLine || ev.details);
           return (
             <div
@@ -377,7 +385,7 @@ export default function ChefSection() {
                 <div style={{ font: "700 11px 'Inter'", letterSpacing: '.03em', color: COLORS.goldDeep }}>{ev.cta}</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
                   <button
-                    onClick={() => hasMore && setExpandedEventTitle(expanded ? null : ev.title)}
+                    onClick={() => hasMore && setDetailsModalEvent(ev.title)}
                     aria-hidden={!hasMore}
                     style={{
                       padding: '6px 14px',
@@ -390,7 +398,7 @@ export default function ChefSection() {
                       pointerEvents: hasMore ? 'auto' : 'none',
                     }}
                   >
-                    {expanded ? 'Hide Details' : 'Details'}
+                    Details
                   </button>
                   <a
                     href={RSVP_URL}
@@ -409,18 +417,78 @@ export default function ChefSection() {
                     RSVP
                   </a>
                 </div>
-                {hasMore && expanded && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 4 }}>
-                    {ev.paragraphs?.map((p, i) => (
-                      <div key={i} style={{ font: "400 13px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
-                        {p}
-                      </div>
-                    ))}
-                    {ev.ctaLine && (
-                      <div style={{ font: "700 12.5px/1.4 'Inter'", color: 'oklch(22% 0.02 150)' }}>{ev.ctaLine}</div>
-                    )}
-                    {ev.details?.map((d) => (
-                      <div key={d} style={{ font: "400 12.5px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {detailsModalEvent &&
+        (() => {
+          const ev = RECURRING_EVENTS.find((e) => e.title === detailsModalEvent);
+          if (!ev) return null;
+          return (
+            <div
+              onClick={() => setDetailsModalEvent(null)}
+              style={{
+                position: 'fixed',
+                inset: 0,
+                background: 'oklch(0% 0 0 / 0.55)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 20,
+                zIndex: 100,
+              }}
+            >
+              <div
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  position: 'relative',
+                  maxWidth: 480,
+                  width: '100%',
+                  maxHeight: '80vh',
+                  overflowY: 'auto',
+                  background: 'oklch(100% 0 0)',
+                  borderRadius: 14,
+                  padding: 28,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 10,
+                }}
+              >
+                <button
+                  onClick={() => setDetailsModalEvent(null)}
+                  aria-label="Close"
+                  style={{
+                    position: 'absolute',
+                    top: 14,
+                    right: 14,
+                    width: 28,
+                    height: 28,
+                    borderRadius: 999,
+                    border: '1px solid oklch(85% 0.01 150)',
+                    background: 'oklch(98% 0.005 95)',
+                    color: 'oklch(30% 0.02 150)',
+                    font: "700 15px 'Inter'",
+                    lineHeight: 1,
+                  }}
+                >
+                  ×
+                </button>
+                <div style={{ font: "800 18px 'Inter'", color: 'oklch(22% 0.02 150)', paddingRight: 24 }}>{ev.title}</div>
+                {(ev.paragraphs ?? [ev.desc]).map((p, i) => (
+                  <div key={i} style={{ font: "400 13.5px/1.6 'Inter'", color: 'oklch(42% 0.02 150)' }}>
+                    {p}
+                  </div>
+                ))}
+                {ev.ctaLine && (
+                  <div style={{ font: "700 13px/1.4 'Inter'", color: 'oklch(22% 0.02 150)' }}>{ev.ctaLine}</div>
+                )}
+                {ev.details && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 4 }}>
+                    {ev.details.map((d) => (
+                      <div key={d} style={{ font: "400 13px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
                         • {d}
                       </div>
                     ))}
@@ -429,8 +497,7 @@ export default function ChefSection() {
               </div>
             </div>
           );
-        })}
-      </div>
+        })()}
     </section>
   );
 }
