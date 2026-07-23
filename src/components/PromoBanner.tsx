@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import ImagePlaceholder from './ImagePlaceholder';
 import { BANNER_ITEMS, COLORS, RSVP_URL } from '../data';
+import { imageUrl } from '../imageUrl';
 
 const ROTATE_MS = 5000;
 
@@ -34,10 +34,18 @@ export default function PromoBanner() {
       <div className="banner-grid" style={{ display: 'grid', height: '100%', maxWidth: 1280, margin: '0 auto' }}>
         <div className="banner-image-col" style={{ position: 'relative' }}>
           {BANNER_ITEMS.map((slide, i) => (
-            <ImagePlaceholder
+            <img
               key={slide.id}
-              label="Drop a promo photo"
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: i === index ? 'flex' : 'none' }}
+              src={imageUrl(`images/chefs/${slide.chefId}.jpg`)}
+              alt={slide.headline}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: i === index ? 'block' : 'none',
+              }}
             />
           ))}
         </div>

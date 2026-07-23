@@ -348,13 +348,15 @@ export interface BannerSlide {
   headline: string;
   sub: string;
   schedule: string;
+  /** Matches a Chef.id — reuses that chef's photo from public/images/chefs/. */
+  chefId: string;
 }
 
 export const BANNER_ITEMS: BannerSlide[] = [
-  { id: 'chefowen', eyebrow: 'GUEST CHEF', headline: 'Smoke & Barrel BBQ', sub: "Chef Owen Castellano pairs slow-smoked plates with Speakeasy Motors' barrel-aged whiskey.", schedule: '1st Thursday of every month' },
-  { id: 'chefpriya', eyebrow: 'GUEST CHEF', headline: 'Tandoor Takeover', sub: 'Chef Priya Anand reimagines street-cart classics with tandoor-fired flatbreads.', schedule: '2nd Thursday of every month' },
-  { id: 'chefmarisol', eyebrow: 'GUEST CHEF', headline: 'Brazilian Steakhouse Nights', sub: 'Chef Marisol Duarte brings family churrasco recipes from Minas Gerais.', schedule: '3rd Thursday of every month' },
-  { id: 'chefgigi', eyebrow: 'GUEST CHEF', headline: 'Mingle & Sweets Grazing Social', sub: 'Chef Gigi Alvarez curates grazing tables and desserts for networking & birthday-month celebrations.', schedule: '4th Thursday of every month' },
+  { id: 'chefowen', eyebrow: 'GUEST CHEF', headline: 'Smoke & Barrel BBQ', sub: "Chef Owen Castellano pairs slow-smoked plates with Speakeasy Motors' barrel-aged whiskey.", schedule: '1st Thursday of every month', chefId: 'owen' },
+  { id: 'chefpriya', eyebrow: 'GUEST CHEF', headline: 'Tandoor Takeover', sub: 'Chef Priya Anand reimagines street-cart classics with tandoor-fired flatbreads.', schedule: '2nd Thursday of every month', chefId: 'priya' },
+  { id: 'chefmarisol', eyebrow: 'GUEST CHEF', headline: 'Brazilian Steakhouse Nights', sub: 'Chef Marisol Duarte brings family churrasco recipes from Minas Gerais.', schedule: '3rd Thursday of every month', chefId: 'marisol' },
+  { id: 'chefgigi', eyebrow: 'GUEST CHEF', headline: 'Mingle & Sweets Grazing Social', sub: 'Chef Gigi Alvarez curates grazing tables and desserts for networking & birthday-month celebrations.', schedule: '4th Thursday of every month', chefId: 'gigi' },
 ];
 
 export type EventCategory = 'chef' | 'brunch' | 'yard' | 'sunset' | 'closed' | 'retail';
