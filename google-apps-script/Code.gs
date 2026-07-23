@@ -14,6 +14,13 @@
 var RECIPIENT_EMAIL = 'info@upcyclebrews.com';
 var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Google Sheet that collects newsletter signups. Create a Sheet, copy the
+// long ID out of its URL (.../spreadsheets/d/THIS_PART/edit), and paste it
+// here — then redeploy (Manage deployments -> Edit -> New version). Signups
+// silently fail with 'newsletter_not_configured' until this is filled in.
+var NEWSLETTER_SHEET_ID = '';
+var NEWSLETTER_SHEET_NAME = 'Newsletter';
+
 function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
@@ -24,6 +31,10 @@ function doPost(e) {
     // if (data.secret !== 'REPLACE_WITH_A_RANDOM_STRING') {
     //   return jsonResponse({ ok: false, error: 'unauthorized' });
     // }
+
+    if (data.type === 'newsletter') {
+      return handleNewsletterSignup(data);
+    }
 
     var pdfBlob = buildQuotePdf(data);
     var requesterEmail = data.email && EMAIL_RE.test(data.email) ? data.email : null;
@@ -44,6 +55,26 @@ function doPost(e) {
   } catch (err) {
     return jsonResponse({ ok: false, error: String(err) });
   }
+}
+
+function handleNewsletterSignup(data) {
+  var email = data.email && EMAIL_RE.test(data.email) ? data.email : null;
+  if (!email) {
+    return jsonResponse({ ok: false, error: 'invalid_email' });
+  }
+  if (!NEWSLETTER_SHEET_ID) {
+    return jsonResponse({ ok: false, error: 'newsletter_not_configured' });
+  }
+
+  var spreadsheet = SpreadsheetApp.openById(NEWSLETTER_SHEET_ID);
+  var sheet = spreadsheet.getSheetByName(NEWSLETTER_SHEET_NAME);
+  if (!sheet) {
+    sheet = spreadsheet.insertSheet(NEWSLETTER_SHEET_NAME);
+    sheet.appendRow(['Timestamp', 'Email']);
+  }
+  sheet.appendRow([new Date(), email]);
+
+  return jsonResponse({ ok: true });
 }
 
 function buildInternalSubject(data) {

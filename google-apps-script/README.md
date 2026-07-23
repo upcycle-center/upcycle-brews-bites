@@ -38,6 +38,26 @@ requester-facing wording separately from the internal notification.
    Until that constant is filled in, the site keeps using the old `mailto:`
    fallback, so nothing breaks in the meantime.
 
+## Newsletter signups
+
+The footer's "Join Our Newsletter" form POSTs to this same script (with
+`type: 'newsletter'` in the payload) and appends each signup as a row to a
+Google Sheet, rather than sending an email.
+
+1. Create a new Google Sheet (any name) — or reuse an existing one.
+2. Copy the long ID out of its URL: `.../spreadsheets/d/THIS_PART/edit`.
+3. Paste it into `NEWSLETTER_SHEET_ID` at the top of `Code.gs`.
+4. Redeploy (**Deploy → Manage deployments → Edit → New version → Deploy**).
+   Since this is the first time the script touches Sheets, Google will show a
+   fresh authorization prompt for the added permission — approve it the same
+   way you did for Gmail access.
+5. The script creates a "Newsletter" tab automatically (with a header row) the
+   first time someone signs up, if it doesn't already exist.
+
+Until `NEWSLETTER_SHEET_ID` is filled in, signups fail silently on the
+backend (the front end still shows a generic error) with
+`newsletter_not_configured` in the script's **Executions** log.
+
 ## Notes
 
 - **⚠️ Every time `Code.gs` changes in this repo, you must redeploy it** —
