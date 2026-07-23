@@ -74,11 +74,11 @@ export default function ChefSection() {
       </div>
 
       <div
+        className="two-col-grid"
         style={{
           maxWidth: 920,
           margin: '0 auto',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
           gap: 20,
           alignItems: 'start',
         }}
