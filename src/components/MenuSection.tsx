@@ -150,7 +150,7 @@ export default function MenuSection() {
                 <button
                   onClick={() => setExpandedId(expanded ? null : item.id)}
                   style={{
-                    marginTop: 8,
+                    marginTop: 'auto',
                     alignSelf: 'flex-start',
                     padding: '8px 14px',
                     borderRadius: 7,
