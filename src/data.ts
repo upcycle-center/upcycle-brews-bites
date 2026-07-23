@@ -253,28 +253,6 @@ export interface Chef {
 
 export const CHEFS: Chef[] = [
   {
-    id: 'marisol',
-    name: 'Chef Marisol Duarte',
-    specialty: 'Brazilian Steakhouse Nights',
-    dates: 'EVERY 3rd Thursday',
-    nthThursday: 3,
-    bio: 'Third-generation churrasco pitmaster bringing family recipes from Minas Gerais to the truck window.',
-    calendarLabel: 'Chef Marisol — Brazilian Steakhouse',
-    cta: 'RSVP — INCLUDES PLATTER OF CHOICE',
-    paragraphs: [
-      'Chef Marisol Duarte fires up the grill for Brazilian Steakhouse Nights, bringing three generations of churrasco tradition from Minas Gerais straight to the truck window. Expect fire-kissed picanha, garlic-crusted sirloin, and linguiça grilled low and slow.',
-      'Pair it with live-fire smoke drifting through the garden and a rotation of Brazilian classics on the speakers — a full sensory trip to a family churrascaria, one plate at a time.',
-    ],
-    ctaLine: 'Three generations of fire, one unforgettable plate.',
-    details: [
-      'Fire-grilled picanha & garlic sirloin',
-      'House-made linguiça',
-      'Farofa & chimichurri on the side',
-      'Tasting platter built for sharing',
-      'Limited nightly availability — RSVP recommended',
-    ],
-  },
-  {
     id: 'owen',
     name: 'Chef Owen Castellano',
     specialty: 'Smoke & Barrel BBQ',
@@ -316,6 +294,28 @@ export const CHEFS: Chef[] = [
       'Rotating house-made chutneys & raita',
       'Vegetarian options available',
       'Tasting platter built for sharing',
+    ],
+  },
+  {
+    id: 'marisol',
+    name: 'Chef Marisol Duarte',
+    specialty: 'Brazilian Steakhouse Nights',
+    dates: 'EVERY 3rd Thursday',
+    nthThursday: 3,
+    bio: 'Third-generation churrasco pitmaster bringing family recipes from Minas Gerais to the truck window.',
+    calendarLabel: 'Chef Marisol — Brazilian Steakhouse',
+    cta: 'RSVP — INCLUDES PLATTER OF CHOICE',
+    paragraphs: [
+      'Chef Marisol Duarte fires up the grill for Brazilian Steakhouse Nights, bringing three generations of churrasco tradition from Minas Gerais straight to the truck window. Expect fire-kissed picanha, garlic-crusted sirloin, and linguiça grilled low and slow.',
+      'Pair it with live-fire smoke drifting through the garden and a rotation of Brazilian classics on the speakers — a full sensory trip to a family churrascaria, one plate at a time.',
+    ],
+    ctaLine: 'Three generations of fire, one unforgettable plate.',
+    details: [
+      'Fire-grilled picanha & garlic sirloin',
+      'House-made linguiça',
+      'Farofa & chimichurri on the side',
+      'Tasting platter built for sharing',
+      'Limited nightly availability — RSVP recommended',
     ],
   },
   {
