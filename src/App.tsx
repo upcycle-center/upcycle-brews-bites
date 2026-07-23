@@ -15,8 +15,8 @@ function App() {
       <PromoBanner />
       <MenuSection />
       <SipsSection />
-      <CateringSection />
       <ChefSection />
+      <CateringSection />
       <Footer />
     </>
   );

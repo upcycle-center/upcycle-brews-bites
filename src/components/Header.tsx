@@ -5,9 +5,9 @@ import { COLORS, VISIT_US_URL } from '../data';
 const NAV_LINKS = [
   { label: 'love at first bite', href: '#menu-section' },
   { label: 'sips & cans', href: '#sips-section' },
-  { label: 'casual catering', href: '#catering-section' },
   { label: 'guest chef spotlight', href: '#chef-section' },
   { label: 'happening at the garden', href: '#chef-section' },
+  { label: 'casual catering', href: '#catering-section' },
 ];
 
 export default function Header() {
