@@ -274,7 +274,7 @@ export default function ChefSection() {
                             {tile.label}
                           </div>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 6 }}>
-                            {tile.description && (
+                            {tile.category === 'chef' && tile.description && (
                               <button
                                 onClick={() => setExpandedTileKey(expanded ? null : tileKey)}
                                 style={{
@@ -324,7 +324,7 @@ export default function ChefSection() {
                               </a>
                             )}
                           </div>
-                          {expanded && tile.description && (
+                          {tile.category === 'chef' && expanded && tile.description && (
                             <div style={{ marginTop: 6, font: "400 12px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
                               {tile.description}
                             </div>
