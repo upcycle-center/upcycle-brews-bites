@@ -15,7 +15,6 @@ function isPastDate(year: number, month: number, day: number): boolean {
 export default function ChefSection() {
   const [calendarYear, setCalendarYear] = useState(today.getFullYear());
   const [calendarMonth, setCalendarMonth] = useState(today.getMonth());
-  const [expandedTileKey, setExpandedTileKey] = useState<string | null>(null);
   const [detailsModalEvent, setDetailsModalEvent] = useState<string | null>(null);
   const [detailsModalChefId, setDetailsModalChefId] = useState<string | null>(null);
 
@@ -254,73 +253,47 @@ export default function ChefSection() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {cell.eventTiles
                     .filter((tile) => tile.canRsvp)
-                    .map((tile) => {
-                      const tileKey = `${cell.day}-${tile.key}`;
-                      const expanded = expandedTileKey === tileKey;
-                      return (
-                        <div key={tile.key}>
-                          <div style={{ font: "600 12.5px 'Inter'", color: isPast ? 'oklch(78% 0.005 95)' : 'oklch(22% 0.02 150)' }}>
-                            {tile.label}
-                          </div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 6 }}>
-                            {tile.category === 'chef' && tile.description && (
-                              <button
-                                onClick={() => setExpandedTileKey(expanded ? null : tileKey)}
-                                style={{
-                                  padding: '3px 10px',
-                                  borderRadius: 6,
-                                  border: '1px solid oklch(80% 0.01 150)',
-                                  background: 'transparent',
-                                  color: 'oklch(40% 0.02 150)',
-                                  font: "700 10.5px 'Inter'",
-                                }}
-                              >
-                                {expanded ? 'Hide Details' : 'Details'}
-                              </button>
-                            )}
-                            {isPast ? (
-                              <span
-                                aria-disabled="true"
-                                style={{
-                                  padding: '5px 12px',
-                                  borderRadius: 6,
-                                  font: "700 11px 'Inter'",
-                                  whiteSpace: 'nowrap',
-                                  background: 'oklch(93% 0.005 95)',
-                                  color: 'oklch(72% 0.005 95)',
-                                  cursor: 'not-allowed',
-                                }}
-                              >
-                                RSVP
-                              </span>
-                            ) : (
-                              <a
-                                href={RSVP_URL}
-                                target="_blank"
-                                rel="noopener"
-                                style={{
-                                  padding: '5px 12px',
-                                  borderRadius: 6,
-                                  border: 'none',
-                                  font: "700 11px 'Inter'",
-                                  textDecoration: 'none',
-                                  whiteSpace: 'nowrap',
-                                  background: COLORS.skyDeep,
-                                  color: 'oklch(98% 0.01 90)',
-                                }}
-                              >
-                                RSVP
-                              </a>
-                            )}
-                          </div>
-                          {tile.category === 'chef' && expanded && tile.description && (
-                            <div style={{ marginTop: 6, font: "400 12px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
-                              {tile.description}
-                            </div>
-                          )}
+                    .map((tile) => (
+                      <div key={tile.key} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+                        <div style={{ font: "600 12.5px 'Inter'", color: isPast ? 'oklch(78% 0.005 95)' : 'oklch(22% 0.02 150)' }}>
+                          {tile.label}
                         </div>
-                      );
-                    })}
+                        {isPast ? (
+                          <span
+                            aria-disabled="true"
+                            style={{
+                              padding: '5px 12px',
+                              borderRadius: 6,
+                              font: "700 11px 'Inter'",
+                              whiteSpace: 'nowrap',
+                              background: 'oklch(93% 0.005 95)',
+                              color: 'oklch(72% 0.005 95)',
+                              cursor: 'not-allowed',
+                            }}
+                          >
+                            RSVP
+                          </span>
+                        ) : (
+                          <a
+                            href={RSVP_URL}
+                            target="_blank"
+                            rel="noopener"
+                            style={{
+                              padding: '5px 12px',
+                              borderRadius: 6,
+                              border: 'none',
+                              font: "700 11px 'Inter'",
+                              textDecoration: 'none',
+                              whiteSpace: 'nowrap',
+                              background: COLORS.skyDeep,
+                              color: 'oklch(98% 0.01 90)',
+                            }}
+                          >
+                            RSVP
+                          </a>
+                        )}
+                      </div>
+                    ))}
                 </div>
               </div>
             );
