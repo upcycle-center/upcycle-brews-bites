@@ -13,25 +13,23 @@ function isPastDate(year: number, month: number, day: number): boolean {
 }
 
 export default function ChefSection() {
-  const [chefIndex, setChefIndex] = useState(0);
   const [calendarYear, setCalendarYear] = useState(today.getFullYear());
   const [calendarMonth, setCalendarMonth] = useState(today.getMonth());
   const [expandedTileKey, setExpandedTileKey] = useState<string | null>(null);
   const [detailsModalEvent, setDetailsModalEvent] = useState<string | null>(null);
+  const [detailsModalChefId, setDetailsModalChefId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!detailsModalEvent) return;
+    if (!detailsModalEvent && !detailsModalChefId) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setDetailsModalEvent(null);
+      if (e.key === 'Escape') {
+        setDetailsModalEvent(null);
+        setDetailsModalChefId(null);
+      }
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [detailsModalEvent]);
-
-  const currentChef = CHEFS[chefIndex];
-
-  const prevChef = () => setChefIndex((i) => (i - 1 + CHEFS.length) % CHEFS.length);
-  const nextChef = () => setChefIndex((i) => (i + 1) % CHEFS.length);
+  }, [detailsModalEvent, detailsModalChefId]);
 
   const prevMonth = () => {
     if (calendarMonth === 0) {
@@ -76,90 +74,81 @@ export default function ChefSection() {
       </div>
 
       <div
-        className="chef-spotlight-grid"
         style={{
-          display: 'grid',
-          gap: 36,
           maxWidth: 920,
           margin: '0 auto',
-          background: 'oklch(100% 0 0)',
-          borderRadius: 16,
-          overflow: 'hidden',
-          boxShadow: '0 1px 3px oklch(0% 0 0 / 0.08), 0 8px 24px oklch(0% 0 0 / 0.06)',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gap: 20,
+          alignItems: 'start',
         }}
       >
-        <ImagePlaceholder label="Drop chef photo" style={{ width: '100%', height: '100%', minHeight: 280 }} />
-        <div style={{ padding: '32px 32px 32px 0', display: 'flex', flexDirection: 'column', gap: 12, justifyContent: 'center' }}>
-          <span
+        {CHEFS.map((chef) => (
+          <div
+            key={chef.id}
             style={{
-              display: 'inline-flex',
-              alignSelf: 'flex-start',
-              padding: '5px 12px',
-              borderRadius: 999,
-              background: 'oklch(74% 0.14 85 / 0.25)',
-              color: COLORS.goldDeep,
-              font: "700 11px 'Inter'",
-              letterSpacing: '.06em',
+              borderRadius: 14,
+              overflow: 'hidden',
+              background: 'oklch(100% 0 0)',
+              boxShadow: '0 1px 3px oklch(0% 0 0 / 0.08), 0 8px 24px oklch(0% 0 0 / 0.06)',
+              display: 'flex',
+              flexDirection: 'column',
             }}
           >
-            {currentChef.dates}
-          </span>
-          <h3 style={{ font: "800 24px 'Inter'", margin: 0, color: 'oklch(22% 0.02 150)' }}>{currentChef.name}</h3>
-          <div style={{ font: "700 14px 'Inter'", color: COLORS.skyDeep }}>{currentChef.specialty}</div>
-          <p style={{ font: "400 15px/1.6 'Inter'", color: 'oklch(40% 0.02 150)', margin: 0 }}>{currentChef.bio}</p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: 10 }}>
-            <button
-              onClick={prevChef}
-              aria-label="Previous chef"
-              style={{
-                width: 36,
-                height: 36,
-                borderRadius: 999,
-                border: '1px solid oklch(85% 0.01 150)',
-                background: 'oklch(98% 0.005 95)',
-                font: "700 16px 'Inter'",
-              }}
-            >
-              ‹
-            </button>
-            <span style={{ font: "600 12px 'Inter'", color: 'oklch(50% 0.02 150)' }}>
-              {chefIndex + 1} of {CHEFS.length}
-            </span>
-            <button
-              onClick={nextChef}
-              aria-label="Next chef"
-              style={{
-                width: 36,
-                height: 36,
-                borderRadius: 999,
-                border: '1px solid oklch(85% 0.01 150)',
-                background: 'oklch(98% 0.005 95)',
-                font: "700 16px 'Inter'",
-              }}
-            >
-              ›
-            </button>
+            <ImagePlaceholder label="Drop chef photo" style={{ width: '100%', height: 140 }} />
+            <div style={{ padding: 22, display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <div style={{ font: "800 16px 'Inter'", color: 'oklch(22% 0.02 150)', minHeight: 40 }}>{chef.name}</div>
+              <div
+                style={{
+                  font: "400 13px/1.5 'Inter'",
+                  color: 'oklch(42% 0.02 150)',
+                  minHeight: 39,
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
+                }}
+              >
+                {chef.bio}
+              </div>
+              <div style={{ font: "700 11.5px 'Inter'", letterSpacing: '.04em', color: COLORS.skyDeep, marginTop: 4 }}>
+                {chef.dates} — {chef.specialty}
+              </div>
+              <div style={{ font: "700 11px 'Inter'", letterSpacing: '.03em', color: COLORS.goldDeep }}>{chef.cta}</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
+                <button
+                  onClick={() => setDetailsModalChefId(chef.id)}
+                  style={{
+                    padding: '6px 14px',
+                    borderRadius: 7,
+                    border: '1.5px solid oklch(85% 0.01 150)',
+                    background: 'transparent',
+                    color: 'oklch(35% 0.02 150)',
+                    font: "700 11.5px 'Inter'",
+                  }}
+                >
+                  Details
+                </button>
+                <a
+                  href={RSVP_URL}
+                  target="_blank"
+                  rel="noopener"
+                  style={{
+                    padding: '6px 14px',
+                    borderRadius: 7,
+                    border: 'none',
+                    font: "700 11.5px 'Inter'",
+                    textDecoration: 'none',
+                    background: COLORS.skyDeep,
+                    color: 'oklch(98% 0.01 90)',
+                  }}
+                >
+                  RSVP
+                </a>
+              </div>
+            </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 6 }}>
-            <a
-              href={RSVP_URL}
-              target="_blank"
-              rel="noopener"
-              style={{
-                padding: '11px 20px',
-                borderRadius: 8,
-                border: 'none',
-                font: "700 13px 'Inter'",
-                textDecoration: 'none',
-                background: COLORS.skyDeep,
-                color: 'oklch(98% 0.01 90)',
-              }}
-            >
-              RSVP
-            </a>
-            <span style={{ font: "400 12px 'Inter'", color: 'oklch(50% 0.02 150)' }}>— includes platter of choice</span>
-          </div>
-        </div>
+        ))}
       </div>
 
       <div
@@ -494,6 +483,81 @@ export default function ChefSection() {
                     ))}
                   </div>
                 )}
+              </div>
+            </div>
+          );
+        })()}
+
+      {detailsModalChefId &&
+        (() => {
+          const chef = CHEFS.find((c) => c.id === detailsModalChefId);
+          if (!chef) return null;
+          return (
+            <div
+              onClick={() => setDetailsModalChefId(null)}
+              style={{
+                position: 'fixed',
+                inset: 0,
+                background: 'oklch(0% 0 0 / 0.55)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 20,
+                zIndex: 100,
+              }}
+            >
+              <div
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  position: 'relative',
+                  maxWidth: 480,
+                  width: '100%',
+                  maxHeight: '80vh',
+                  overflowY: 'auto',
+                  background: 'oklch(100% 0 0)',
+                  borderRadius: 14,
+                  padding: 28,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 10,
+                }}
+              >
+                <button
+                  onClick={() => setDetailsModalChefId(null)}
+                  aria-label="Close"
+                  style={{
+                    position: 'absolute',
+                    top: 14,
+                    right: 14,
+                    width: 28,
+                    height: 28,
+                    borderRadius: 999,
+                    border: '1px solid oklch(85% 0.01 150)',
+                    background: 'oklch(98% 0.005 95)',
+                    color: 'oklch(30% 0.02 150)',
+                    font: "700 15px 'Inter'",
+                    lineHeight: 1,
+                  }}
+                >
+                  ×
+                </button>
+                <div style={{ font: "800 18px 'Inter'", color: 'oklch(22% 0.02 150)', paddingRight: 24 }}>{chef.name}</div>
+                <div style={{ font: "700 12.5px 'Inter'", color: COLORS.skyDeep }}>
+                  {chef.dates} — {chef.specialty}
+                </div>
+                {chef.paragraphs.map((p, i) => (
+                  <div key={i} style={{ font: "400 13.5px/1.6 'Inter'", color: 'oklch(42% 0.02 150)' }}>
+                    {p}
+                  </div>
+                ))}
+                <div style={{ font: "700 13px/1.4 'Inter'", color: 'oklch(22% 0.02 150)' }}>{chef.ctaLine}</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 4 }}>
+                  {chef.details.map((d) => (
+                    <div key={d} style={{ font: "400 13px/1.5 'Inter'", color: 'oklch(42% 0.02 150)' }}>
+                      • {d}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           );

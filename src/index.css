@@ -58,9 +58,6 @@ img {
 .banner-image-col {
   height: 100%;
 }
-.chef-spotlight-grid {
-  grid-template-columns: 340px 1fr;
-}
 .two-col-grid {
   grid-template-columns: 1fr 1fr;
 }
@@ -91,8 +88,7 @@ img {
 }
 
 @media (max-width: 860px) {
-  .banner-grid,
-  .chef-spotlight-grid {
+  .banner-grid {
     grid-template-columns: 1fr;
   }
   .banner-image-col {

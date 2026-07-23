@@ -241,13 +241,105 @@ export interface Chef {
   nthThursday: 1 | 2 | 3 | 4;
   /** Short label used on calendar event tiles (may abbreviate the full specialty) */
   calendarLabel: string;
+  /** Short call-to-action badge shown on the tile. */
+  cta: string;
+  /** Richer body copy for the Details popup (each string is its own paragraph). */
+  paragraphs: string[];
+  /** Bold standalone tagline shown in the Details popup. */
+  ctaLine: string;
+  /** Bullet list of signature dishes/highlights shown in the Details popup. */
+  details: string[];
 }
 
 export const CHEFS: Chef[] = [
-  { id: 'marisol', name: 'Chef Marisol Duarte', specialty: 'Brazilian Steakhouse Nights', dates: 'EVERY 3rd Thursday', nthThursday: 3, bio: 'Third-generation churrasco pitmaster bringing family recipes from Minas Gerais to the truck window.', calendarLabel: 'Chef Marisol — Brazilian Steakhouse' },
-  { id: 'owen', name: 'Chef Owen Castellano', specialty: 'Smoke & Barrel BBQ', dates: 'EVERY 1st Thursday', nthThursday: 1, bio: "Local pitmaster pairing slow-smoked plates with Speakeasy Motors' barrel-aged whiskey.", calendarLabel: 'Chef Owen — Smoke & Barrel BBQ' },
-  { id: 'priya', name: 'Chef Priya Anand', specialty: 'Tandoor Truck Takeover', dates: 'EVERY 2nd Thursday', nthThursday: 2, bio: 'Reimagines street-cart classics with tandoor-fired flatbreads and house chutneys.', calendarLabel: 'Chef Priya — Tandoor Truck Takeover' },
-  { id: 'gigi', name: 'Chef Gigi Alvarez', specialty: 'Mingle & Sweets Grazing Social', dates: 'EVERY 4th Thursday', nthThursday: 4, bio: 'Curates grazing tables and dessert spreads built for business networking, community mixers, and birthday-month celebrations.', calendarLabel: 'Chef Gigi — Mingle & Sweets Grazing Social' },
+  {
+    id: 'marisol',
+    name: 'Chef Marisol Duarte',
+    specialty: 'Brazilian Steakhouse Nights',
+    dates: 'EVERY 3rd Thursday',
+    nthThursday: 3,
+    bio: 'Third-generation churrasco pitmaster bringing family recipes from Minas Gerais to the truck window.',
+    calendarLabel: 'Chef Marisol — Brazilian Steakhouse',
+    cta: 'RSVP — INCLUDES PLATTER OF CHOICE',
+    paragraphs: [
+      'Chef Marisol Duarte fires up the grill for Brazilian Steakhouse Nights, bringing three generations of churrasco tradition from Minas Gerais straight to the truck window. Expect fire-kissed picanha, garlic-crusted sirloin, and linguiça grilled low and slow.',
+      'Pair it with live-fire smoke drifting through the garden and a rotation of Brazilian classics on the speakers — a full sensory trip to a family churrascaria, one plate at a time.',
+    ],
+    ctaLine: 'Three generations of fire, one unforgettable plate.',
+    details: [
+      'Fire-grilled picanha & garlic sirloin',
+      'House-made linguiça',
+      'Farofa & chimichurri on the side',
+      'Tasting platter built for sharing',
+      'Limited nightly availability — RSVP recommended',
+    ],
+  },
+  {
+    id: 'owen',
+    name: 'Chef Owen Castellano',
+    specialty: 'Smoke & Barrel BBQ',
+    dates: 'EVERY 1st Thursday',
+    nthThursday: 1,
+    bio: "Local pitmaster pairing slow-smoked plates with Speakeasy Motors' barrel-aged whiskey.",
+    calendarLabel: 'Chef Owen — Smoke & Barrel BBQ',
+    cta: 'RSVP — INCLUDES PLATTER OF CHOICE',
+    paragraphs: [
+      "Chef Owen Castellano mans the smoker for Smoke & Barrel BBQ, low-and-slow plates built to stand up to Speakeasy Motors' barrel-aged whiskey pours. Brisket, ribs, and pulled pork spend hours over local hardwood before they ever hit a plate.",
+      'The vibe is easy and unhurried — smoke curling over the garden, whiskey neat or on the rocks, and a menu built for slow bites and longer conversations.',
+    ],
+    ctaLine: 'Low, slow, and worth the wait.',
+    details: [
+      'Hardwood-smoked brisket & ribs',
+      'Pulled pork with house BBQ sauce',
+      'Whiskey pairing flight available',
+      "Tasting platter of chef's choice",
+      'Cash bar & full patio seating',
+    ],
+  },
+  {
+    id: 'priya',
+    name: 'Chef Priya Anand',
+    specialty: 'Tandoor Truck Takeover',
+    dates: 'EVERY 2nd Thursday',
+    nthThursday: 2,
+    bio: 'Reimagines street-cart classics with tandoor-fired flatbreads and house chutneys.',
+    calendarLabel: 'Chef Priya — Tandoor Truck Takeover',
+    cta: 'RSVP — INCLUDES PLATTER OF CHOICE',
+    paragraphs: [
+      'Chef Priya Anand takes over the truck for Tandoor Truck Takeover, reimagining beloved street-cart classics with a tandoor oven fired hot enough to blister flatbread in seconds. Charred naan, tikka skewers, and bold spice blends anchor the menu.',
+      'Every plate comes with a rotating lineup of house-made chutneys and raitas, built for scooping, dipping, and sharing around the table.',
+    ],
+    ctaLine: 'Street-cart classics, tandoor-fired to order.',
+    details: [
+      'Tandoor-fired naan & flatbreads',
+      'Tikka skewers grilled to order',
+      'Rotating house-made chutneys & raita',
+      'Vegetarian options available',
+      'Tasting platter built for sharing',
+    ],
+  },
+  {
+    id: 'gigi',
+    name: 'Chef Gigi Alvarez',
+    specialty: 'Mingle & Sweets Grazing Social',
+    dates: 'EVERY 4th Thursday',
+    nthThursday: 4,
+    bio: 'Curates grazing tables and dessert spreads built for business networking, community mixers, and birthday-month celebrations.',
+    calendarLabel: 'Chef Gigi — Mingle & Sweets Grazing Social',
+    cta: 'RSVP — INCLUDES PLATTER OF CHOICE',
+    paragraphs: [
+      'Chef Gigi Alvarez turns the garden into a grazing table for Mingle & Sweets Social — an elegant spread of cheeses, charcuterie, and seasonal bites designed for easy mingling and conversation.',
+      'Come dessert, the table shifts to house-made pastries, mini tarts, and sweet bites perfect for celebrating a birthday month, closing a business deal, or simply catching up with friends.',
+    ],
+    ctaLine: 'Great bites, better company.',
+    details: [
+      'Curated cheese & charcuterie grazing table',
+      'House-made pastries & mini desserts',
+      'Seasonal fruit & garnish spreads',
+      'Great for business mixers & birthdays',
+      'Custom grazing tables available on request',
+    ],
+  },
 ];
 
 export interface BannerSlide {
