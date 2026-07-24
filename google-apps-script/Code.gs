@@ -74,7 +74,42 @@ function handleNewsletterSignup(data) {
   }
   sheet.appendRow([new Date(), email]);
 
+  GmailApp.sendEmail(RECIPIENT_EMAIL, buildNewsletterInternalSubject(), buildNewsletterInternalBody(email, spreadsheet.getUrl()), {
+    name: 'UPCYCLE Brews & Bites Website',
+  });
+
+  GmailApp.sendEmail(email, buildNewsletterWelcomeSubject(), buildNewsletterWelcomeBody(), {
+    name: 'UPCYCLE Brews & Bites',
+  });
+
   return jsonResponse({ ok: true });
+}
+
+function buildNewsletterInternalSubject() {
+  return 'New Newsletter Signup — UPCYCLE Brews & Bites';
+}
+
+function buildNewsletterInternalBody(email, sheetUrl) {
+  return ['A new member just signed up for the newsletter from the website.', '', 'Email: ' + email, '', 'View the full list: ' + sheetUrl].join(
+    '\n',
+  );
+}
+
+function buildNewsletterWelcomeSubject() {
+  return "You're In! Welcome to UPCYCLE Brews & Bites";
+}
+
+function buildNewsletterWelcomeBody() {
+  return [
+    'Hi there,',
+    '',
+    "Thanks for joining the UPCYCLE Brews & Bites newsletter! You'll be the first to hear about new guest chefs, seasonal menu drops, and event announcements.",
+    '',
+    "We'll only send the good stuff — no spam, promise.",
+    '',
+    'See you at the garden,',
+    'UPCYCLE Brews & Bites',
+  ].join('\n');
 }
 
 function buildInternalSubject(data) {

@@ -41,8 +41,10 @@ requester-facing wording separately from the internal notification.
 ## Newsletter signups
 
 The footer's "Join Our Newsletter" form POSTs to this same script (with
-`type: 'newsletter'` in the payload) and appends each signup as a row to a
-Google Sheet, rather than sending an email.
+`type: 'newsletter'` in the payload). Each signup: appends a row to a Google
+Sheet, sends a "you're in" welcome email to the new subscriber, and sends a
+short internal alert to `info@upcyclebrews.com` with the email address and a
+link to the Sheet — no PDF, unlike the catering-quote flow.
 
 1. Create a new Google Sheet (any name) — or reuse an existing one.
 2. Copy the long ID out of its URL: `.../spreadsheets/d/THIS_PART/edit`.
@@ -54,9 +56,13 @@ Google Sheet, rather than sending an email.
 5. The script creates a "Newsletter" tab automatically (with a header row) the
    first time someone signs up, if it doesn't already exist.
 
-Until `NEWSLETTER_SHEET_ID` is filled in, signups fail silently on the
-backend (the front end still shows a generic error) with
-`newsletter_not_configured` in the script's **Executions** log.
+**⚠️ Until you complete steps 1–4, signups silently fall through to the
+catering-quote code path** (the `type: 'newsletter'` branch only exists in
+the version of `Code.gs` you deploy) — you'll see a nonsensical "quote"
+email with `undefined` fields instead of a welcome email. This isn't a
+NEWSLETTER_SHEET_ID check catching it early; it means the live script is
+simply still running an older version. As always, redeploying is required
+after every `Code.gs` change, not just this one.
 
 ## Notes
 
