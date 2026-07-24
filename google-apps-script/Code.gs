@@ -18,7 +18,7 @@ var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // long ID out of its URL (.../spreadsheets/d/THIS_PART/edit), and paste it
 // here — then redeploy (Manage deployments -> Edit -> New version). Signups
 // silently fail with 'newsletter_not_configured' until this is filled in.
-var NEWSLETTER_SHEET_ID = '';
+var NEWSLETTER_SHEET_ID = '1_spVzvZNo3VHRlQql73v3adok1576x0KPoHmFxizi88';
 var NEWSLETTER_SHEET_NAME = 'Newsletter';
 
 function doPost(e) {
