@@ -51,13 +51,14 @@ export default function ChefSection() {
   const monthLabel = new Date(calendarYear, calendarMonth, 1).toLocaleString('en-US', { month: 'long', year: 'numeric' });
   const calendarCells = useMemo(() => buildCalendarCells(calendarYear, calendarMonth), [calendarYear, calendarMonth]);
 
-  // List view only: skip closed/retail-only days entirely, keep days with at least one RSVP-able event.
+  // List view only: skip closed/retail-only days and past dates, keep days with at least one RSVP-able event.
   const eventDays = useMemo(
     () =>
       calendarCells.filter(
-        (cell): cell is EventDay => cell.hasDay && cell.eventTiles.some((tile) => tile.canRsvp),
+        (cell): cell is EventDay =>
+          cell.hasDay && !isPastDate(calendarYear, calendarMonth, cell.day) && cell.eventTiles.some((tile) => tile.canRsvp),
       ),
-    [calendarCells],
+    [calendarCells, calendarYear, calendarMonth],
   );
 
   return (
@@ -218,7 +219,6 @@ export default function ChefSection() {
               month: 'long',
               day: 'numeric',
             });
-            const isPast = isPastDate(calendarYear, calendarMonth, cell.day);
             return (
               <div
                 key={cell.day}
@@ -237,9 +237,7 @@ export default function ChefSection() {
                     marginBottom: 10,
                   }}
                 >
-                  <div style={{ font: "700 14px 'Inter'", color: isPast ? 'oklch(78% 0.005 95)' : COLORS.burntOrange }}>
-                    {dateLabel}
-                  </div>
+                  <div style={{ font: "700 14px 'Inter'", color: COLORS.burntOrange }}>{dateLabel}</div>
                   {cell.holidayLabel && (
                     <span
                       style={{
@@ -261,43 +259,24 @@ export default function ChefSection() {
                     .filter((tile) => tile.canRsvp)
                     .map((tile) => (
                       <div key={tile.key} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-                        <div style={{ font: "600 12.5px 'Inter'", color: isPast ? 'oklch(78% 0.005 95)' : 'oklch(22% 0.02 150)' }}>
-                          {tile.label}
-                        </div>
-                        {isPast ? (
-                          <span
-                            aria-disabled="true"
-                            style={{
-                              padding: '5px 12px',
-                              borderRadius: 6,
-                              font: "700 11px 'Inter'",
-                              whiteSpace: 'nowrap',
-                              background: 'oklch(93% 0.005 95)',
-                              color: 'oklch(72% 0.005 95)',
-                              cursor: 'not-allowed',
-                            }}
-                          >
-                            RSVP
-                          </span>
-                        ) : (
-                          <a
-                            href={RSVP_URL}
-                            target="_blank"
-                            rel="noopener"
-                            style={{
-                              padding: '5px 12px',
-                              borderRadius: 6,
-                              border: 'none',
-                              font: "700 11px 'Inter'",
-                              textDecoration: 'none',
-                              whiteSpace: 'nowrap',
-                              background: COLORS.skyDeep,
-                              color: 'oklch(98% 0.01 90)',
-                            }}
-                          >
-                            RSVP
-                          </a>
-                        )}
+                        <div style={{ font: "600 12.5px 'Inter'", color: 'oklch(22% 0.02 150)' }}>{tile.label}</div>
+                        <a
+                          href={RSVP_URL}
+                          target="_blank"
+                          rel="noopener"
+                          style={{
+                            padding: '5px 12px',
+                            borderRadius: 6,
+                            border: 'none',
+                            font: "700 11px 'Inter'",
+                            textDecoration: 'none',
+                            whiteSpace: 'nowrap',
+                            background: COLORS.skyDeep,
+                            color: 'oklch(98% 0.01 90)',
+                          }}
+                        >
+                          RSVP
+                        </a>
                       </div>
                     ))}
                 </div>
