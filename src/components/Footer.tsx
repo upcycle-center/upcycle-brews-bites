@@ -20,7 +20,7 @@ export default function Footer() {
           src={NEWSLETTER_FORM_URL}
           title="Newsletter signup"
           width="100%"
-          height="650"
+          height="850"
           style={{ border: 'none', borderRadius: 10, background: 'oklch(98% 0.006 95)' }}
         />
       </div>
