@@ -383,7 +383,7 @@ export const RECURRING_EVENTS: RecurringEvent[] = [
   {
     title: 'Sunset Sips & Bites',
     desc: 'Garden cocktails, craft beer & platters over live music every Friday.',
-    schedule: 'FRIDAYS 3P – SUNSET',
+    schedule: 'FRIDAYS 4P – SUNSET',
     cta: 'RSVP FOR HAPPY HOUR SPECIALS',
     weekdays: [5],
     label: 'Sunset Sips & Bites',
