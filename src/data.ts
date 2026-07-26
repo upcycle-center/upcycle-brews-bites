@@ -504,6 +504,9 @@ export const BASE_SUPPORT_STAFF = 2;
 
 export const RSVP_URL = 'https://www.eventbrite.com/o/60183746723';
 export const VISIT_US_URL = 'https://share.google/RjhrxRhreqaAY210Q';
+/** Brevo-hosted newsletter signup form, embedded via iframe in the footer. */
+export const NEWSLETTER_FORM_URL =
+  'https://88983699.sibforms.com/serve/MUIFANwsLbOp2yIA8bopkFghcnBEpYCzRufntIm4RajGnJwRggFJOo3pHCR7x3KG7Z-7IZ2p-OUGnptgoPZDDnzy9CM7zpINet4RhoizH0i6TJvtXzggmDtd4gOMtxytATdX0Xz-Xjsun20hNpYG8C0MlCPL2UHFuzcht6DrBV9jsUJW9HWVtOb9bzTKf3cL-J7wQdMpX64fOCdOuw==';
 export const CONTACT_EMAIL = 'info@upcyclebrews.com';
 
 /**
