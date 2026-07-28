@@ -124,6 +124,16 @@ export default function CateringSection() {
     [selectedPackageIds],
   );
 
+  const selectedBarTier = useMemo(
+    () => ALCOHOL_TIERS.find((tier) => tier.id === barServiceId && tier.id !== 'none'),
+    [barServiceId],
+  );
+
+  const selectedAddOns = useMemo(
+    () => ADD_ONS.filter((addOn) => addOnSelections[addOn.id]),
+    [addOnSelections],
+  );
+
   const contactComplete = isContactComplete(contact);
 
   const eventDateRaw = contact.eventDate.trim();
@@ -429,6 +439,39 @@ export default function CateringSection() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {selectedBarTier && (
+          <div style={{ marginTop: 20, paddingTop: 18, borderTop: '1px dotted oklch(96% 0.01 95 / 0.2)' }}>
+            <div style={{ font: "700 13px 'Inter'", marginBottom: 6 }}>Bar Service</div>
+            <div style={{ font: "700 13.5px 'Inter'", color: COLORS.gold }}>{selectedBarTier.name}</div>
+            {selectedBarTier.desc && (
+              <p style={{ font: "400 12.5px/1.5 'Inter'", opacity: 0.85, margin: '4px 0 6px' }}>{selectedBarTier.desc}</p>
+            )}
+            {selectedBarTier.includes && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                {selectedBarTier.includes.map((inc) => (
+                  <div key={inc} style={{ font: "400 12px/1.5 'Inter'", opacity: 0.75 }}>
+                    • {inc}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {selectedAddOns.length > 0 && (
+          <div style={{ marginTop: 20, paddingTop: 18, borderTop: '1px dotted oklch(96% 0.01 95 / 0.2)' }}>
+            <div style={{ font: "700 13px 'Inter'", marginBottom: 10 }}>Add-Ons</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {selectedAddOns.map((addOn) => (
+                <div key={addOn.id}>
+                  <div style={{ font: "700 13px 'Inter'", color: COLORS.gold }}>{addOn.label}</div>
+                  <p style={{ font: "400 12px/1.5 'Inter'", opacity: 0.8, margin: '2px 0 0' }}>{addOn.detail}</p>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
