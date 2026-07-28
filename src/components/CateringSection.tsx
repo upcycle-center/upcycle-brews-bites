@@ -119,6 +119,11 @@ export default function CateringSection() {
     [selectedPackageIds, adults, children, barServiceId, addOnSelections, contact],
   );
 
+  const selectedPackages = useMemo(
+    () => CATERING_PACKAGES.filter((pkg) => selectedPackageIds.includes(pkg.id)),
+    [selectedPackageIds],
+  );
+
   const contactComplete = isContactComplete(contact);
 
   const eventDateRaw = contact.eventDate.trim();
@@ -395,6 +400,10 @@ export default function CateringSection() {
         <div style={{ font: "400 22px 'Anton', sans-serif", textTransform: 'uppercase', color: COLORS.gold, marginBottom: 14 }}>
           Your Quote Estimate
         </div>
+        <div style={{ font: "600 13px 'Inter'", opacity: 0.85, marginBottom: 10 }}>
+          Guests: {adults} Adult{adults === 1 ? '' : 's'}
+          {children > 0 ? `, ${children} Child${children === 1 ? '' : 'ren'}` : ''}
+        </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', font: "800 20px 'Inter'" }}>
           <span>Estimated Total</span>
           <span style={{ color: COLORS.gold }}>${quote.grandTotal}</span>
@@ -403,6 +412,25 @@ export default function CateringSection() {
           A $250 non-refundable deposit secures your date. All packages include insurance liability. Travel fees for
           Off-Site/Private events beyond 30 miles discussed upon consultation.
         </p>
+
+        {selectedPackages.length > 0 && (
+          <div style={{ marginTop: 20, paddingTop: 18, borderTop: '1px dotted oklch(96% 0.01 95 / 0.2)', display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <div style={{ font: "700 13px 'Inter'" }}>Selected Packages</div>
+            {selectedPackages.map((pkg) => (
+              <div key={pkg.id}>
+                <div style={{ font: "700 13.5px 'Inter'", color: COLORS.gold }}>{pkg.name}</div>
+                <p style={{ font: "400 12.5px/1.5 'Inter'", opacity: 0.85, margin: '4px 0 6px' }}>{pkg.summary}</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  {pkg.details.map((d) => (
+                    <div key={d} style={{ font: "400 12px/1.5 'Inter'", opacity: 0.75 }}>
+                      • {d}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
         <div style={{ marginTop: 20, paddingTop: 18, borderTop: '1px dotted oklch(96% 0.01 95 / 0.2)' }}>
           <div style={{ font: "700 13px 'Inter'", marginBottom: 10 }}>Your Info</div>
