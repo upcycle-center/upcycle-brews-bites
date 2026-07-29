@@ -113,6 +113,7 @@ export const SIPS: SipItem[] = [
   { id: 'celsius', name: 'Celsius', price: 3, desc: 'Sparkling fitness drink, zero sugar, full flavor.' },
   { id: 'icedtea', name: 'Iced Tea', price: 3, desc: 'By Tiesta Tea — brewed and chilled, rotating seasonal flavors.' },
   { id: 'icedcoffee', name: 'Iced Coffee', price: 3, desc: 'By Mighty Oak — smooth cold brew, ready to go.' },
+  { id: 'dosemushroom', name: 'Dose Mushroom Iced Coffee', price: 6, desc: 'Cold brew blended with adaptogenic mushrooms — smooth energy, no jitters.' },
   { id: 'bottledjuice', name: 'Bottled Juice', price: 7, desc: 'Fresh variety of seasonal rotating flavors.' },
   { id: 'kombucha', name: 'Kombucha', price: 7, desc: 'Small-batch, fermented and fizzy — rotating seasonal flavors.' },
   { id: 'michelada', name: 'MichelaN/A', price: 8, desc: 'Non-alcoholic michelada — tomato, lime, and spice, all the kick, none of the beer.' },
