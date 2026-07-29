@@ -67,6 +67,12 @@ export const MENU: MenuItem[] = [
     beer: 'Brown Ale', beerNote: 'Nutty malt sweetness matches the savory meat blend.',
   },
   {
+    id: 'charcuteriepretzel', name: 'Charcuterie Pretzel', price: 12, category: 'latenight', tags: [],
+    desc: 'Relish our tasty blend of cheeses and meats served on a soft, delectable pretzel.',
+    cocktail: 'Herbed Gin & Tonic', cocktailNote: 'Juniper and fresh herbs cut through the rich cheese and cured meats.',
+    beer: 'Kölsch', beerNote: 'Light and crisp, balances the salty pretzel and cured meats.',
+  },
+  {
     id: 'smasher', name: 'Smasher The Burger', price: 13, category: 'big', tags: [],
     desc: 'Angus beef patty, smashed and layered with boom boom sauce and lettuce, topped with American cheese, grilled onions, and pickles on a toasted brioche bun. Go double, or add a fried egg or bacon for the meat lovers.',
     cocktail: 'Smoked Old Fashioned', cocktailNote: 'Char and caramel stand up to the smashed patty.',
