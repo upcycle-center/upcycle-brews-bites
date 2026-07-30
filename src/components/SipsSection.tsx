@@ -38,10 +38,7 @@ export default function SipsSection() {
                 style={{ width: '100%', height: 180, objectFit: 'cover', display: 'block' }}
               />
               <div style={{ padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: 8, flex: 1 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10 }}>
-                  <h3 style={{ font: "800 17px 'Inter'", margin: 0, color: 'oklch(22% 0.02 150)' }}>{sip.name}</h3>
-                  <span style={{ font: "800 16px 'Inter'", color: COLORS.goldDeep, whiteSpace: 'nowrap' }}>${sip.price}</span>
-                </div>
+                <h3 style={{ font: "800 17px 'Inter'", margin: 0, color: 'oklch(22% 0.02 150)' }}>{sip.name}</h3>
                 <p style={{ font: "400 13.5px/1.55 'Inter'", color: 'oklch(42% 0.02 150)', margin: 0 }}>{sip.desc}</p>
               </div>
             </div>
