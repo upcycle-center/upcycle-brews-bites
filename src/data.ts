@@ -408,6 +408,22 @@ export const NEWSLETTER_FORM_URL =
   'https://88983699.sibforms.com/serve/MUIFANwsLbOp2yIA8bopkFghcnBEpYCzRufntIm4RajGnJwRggFJOo3pHCR7x3KG7Z-7IZ2p-OUGnptgoPZDDnzy9CM7zpINet4RhoizH0i6TJvtXzggmDtd4gOMtxytATdX0Xz-Xjsun20hNpYG8C0MlCPL2UHFuzcht6DrBV9jsUJW9HWVtOb9bzTKf3cL-J7wQdMpX64fOCdOuw==';
 export const CONTACT_EMAIL = 'info@upcyclebrews.com';
 
+export interface OrderChannel {
+  id: string;
+  label: string;
+  icon: string;
+  group: 'Takeout' | 'Delivery';
+  /** Omit while the account/listing isn't set up yet — the tile shows "Coming Soon" instead of a link. */
+  url?: string;
+}
+
+export const ORDER_CHANNELS: OrderChannel[] = [
+  { id: 'direct', label: 'Order Direct', icon: '🥡', group: 'Takeout', url: 'https://upcycle.center/shop' },
+  { id: 'doordash', label: 'DoorDash', icon: '🛵', group: 'Delivery' },
+  { id: 'ubereats', label: 'Uber Eats', icon: '🚗', group: 'Delivery' },
+  { id: 'grubhub', label: 'Grubhub', icon: '🍔', group: 'Delivery' },
+];
+
 /**
  * Google Apps Script Web App URL that emails the catering quote PDF to
  * CONTACT_EMAIL — see google-apps-script/README.md for deploy steps. Until

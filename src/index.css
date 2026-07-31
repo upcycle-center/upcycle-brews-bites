@@ -109,6 +109,7 @@ img {
 /* Offsets anchor-jump targets so the sticky header doesn't cover the
    section heading when navigating via the hamburger menu links. */
 #menu-section,
+#order-section,
 #sips-section,
 #catering-section,
 #chef-section,
