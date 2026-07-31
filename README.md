@@ -1,10 +1,10 @@
 # UPCYCLE Brews & Bites — Web Menu
 
-A React + TypeScript + Vite website for UPCYCLE Brews & Bites, a rotating-vendor food truck
-residing at Speakeasy Motors. Recreates the design handoff prototype (`design_handoff_upcycle_kitchen/`)
-as a real, buildable web app: browsable/filterable menu with dietary tags and drink pairings, a
-Sips & Cans menu, a Casual Catering quote calculator (food packages + bar service + add-ons), a
-Guest Chef spotlight with carousel, and a vendor/events calendar with recurrence rules and RSVP links.
+A React + TypeScript + Vite website for UPCYCLE Brews & Bites, a rotating-location food truck.
+Recreates the design handoff prototype (`design_handoff_upcycle_kitchen/`) as a real, buildable
+web app: browsable/filterable menu with dietary tags and drink pairings, a Sips & Cans menu, a
+Casual Catering quote calculator (food packages + bar service + add-ons), and an events schedule
+with recurrence rules, per-event locations, and RSVP links.
 
 ## Getting started
 
@@ -18,14 +18,14 @@ npm run preview   # preview the production build
 ## Project structure
 
 - `src/data.ts` — all static content and pricing/business-logic constants (menu items, sips,
-  catering packages, bar tiers, add-ons, guest chefs, banner slides, holidays, recurring events,
-  booking-fee formula).
+  catering packages, bar tiers, add-ons, banner slides, holidays, recurring events, booking-fee
+  formula).
 - `src/quote.ts` — pure functions computing the live catering quote (booking fees, per-guest costs,
   bar service, tip jar, grand total), plus `submitQuotePdf` which POSTs the breakdown to the Google
   Apps Script backend (see below) so the business gets a PDF quote by email automatically.
 - `src/calendar.ts` — pure functions building the month calendar grid, applying the recurrence rules
-  (Nth-Thursday guest chefs, weekly recurring events, Mon/Tue closures, Wednesday retail-only day,
-  holiday badges, and the manual override table).
+  (weekly recurring events, Mon/Tue closures, Wednesday retail-only day, holiday badges, and the
+  manual override table).
 - `src/components/` — one component per page section (Header, Hero, PromoBanner, MenuSection,
   SipsSection, CateringSection, ChefSection, Footer).
 - `google-apps-script/` — the email backend for "Request This Quote": a Google Apps Script Web App

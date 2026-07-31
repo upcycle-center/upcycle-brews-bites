@@ -238,135 +238,22 @@ export const ADD_ONS: AddOn[] = [
   { id: 'mobileBar', label: 'Mobile Bar (Trailer) Rental', price: 400, detail: 'Our full mobile bar trailer, delivered and staffed at your venue.' },
 ];
 
-export interface Chef {
-  id: string;
-  name: string;
-  specialty: string;
-  dates: string;
-  bio: string;
-  /** 1-4 = nth Thursday of the month */
-  nthThursday: 1 | 2 | 3 | 4;
-  /** Short label used on calendar event tiles (may abbreviate the full specialty) */
-  calendarLabel: string;
-  /** Short call-to-action badge shown on the tile. */
-  cta: string;
-  /** Richer body copy for the Details popup (each string is its own paragraph). */
-  paragraphs: string[];
-  /** Bold standalone tagline shown in the Details popup. */
-  ctaLine: string;
-  /** Bullet list of signature dishes/highlights shown in the Details popup. */
-  details: string[];
-}
-
-export const CHEFS: Chef[] = [
-  {
-    id: 'owen',
-    name: 'Chef Owen Castellano',
-    specialty: 'Smoke & Barrel BBQ',
-    dates: 'EVERY 1st Thursday',
-    nthThursday: 1,
-    bio: "Local pitmaster pairing slow-smoked plates with Speakeasy Motors' barrel-aged whiskey.",
-    calendarLabel: 'Chef Owen — Smoke & Barrel BBQ',
-    cta: 'RSVP — INCLUDES PLATTER OF CHOICE',
-    paragraphs: [
-      "Chef Owen Castellano mans the smoker for Smoke & Barrel BBQ, low-and-slow plates built to stand up to Speakeasy Motors' barrel-aged whiskey pours. Brisket, ribs, and pulled pork spend hours over local hardwood before they ever hit a plate.",
-      'The vibe is easy and unhurried — smoke curling over the garden, whiskey neat or on the rocks, and a menu built for slow bites and longer conversations.',
-    ],
-    ctaLine: 'Low, slow, and worth the wait.',
-    details: [
-      'Hardwood-smoked brisket & ribs',
-      'Pulled pork with house BBQ sauce',
-      'Whiskey pairing flight available',
-      "Tasting platter of chef's choice",
-      'Cash bar & full patio seating',
-    ],
-  },
-  {
-    id: 'priya',
-    name: 'Chef Priya Anand',
-    specialty: 'Tandoor Truck Takeover',
-    dates: 'EVERY 2nd Thursday',
-    nthThursday: 2,
-    bio: 'Reimagines street-cart classics with tandoor-fired flatbreads and house chutneys.',
-    calendarLabel: 'Chef Priya — Tandoor Truck Takeover',
-    cta: 'RSVP — INCLUDES PLATTER OF CHOICE',
-    paragraphs: [
-      'Chef Priya Anand takes over the truck for Tandoor Truck Takeover, reimagining beloved street-cart classics with a tandoor oven fired hot enough to blister flatbread in seconds. Charred naan, tikka skewers, and bold spice blends anchor the menu.',
-      'Every plate comes with a rotating lineup of house-made chutneys and raitas, built for scooping, dipping, and sharing around the table.',
-    ],
-    ctaLine: 'Street-cart classics, tandoor-fired to order.',
-    details: [
-      'Tandoor-fired naan & flatbreads',
-      'Tikka skewers grilled to order',
-      'Rotating house-made chutneys & raita',
-      'Vegetarian options available',
-      'Tasting platter built for sharing',
-    ],
-  },
-  {
-    id: 'marisol',
-    name: 'Chef Marisol Duarte',
-    specialty: 'Brazilian Steakhouse Nights',
-    dates: 'EVERY 3rd Thursday',
-    nthThursday: 3,
-    bio: 'Third-generation churrasco pitmaster bringing family recipes from Minas Gerais to the truck window.',
-    calendarLabel: 'Chef Marisol — Brazilian Steakhouse',
-    cta: 'RSVP — INCLUDES PLATTER OF CHOICE',
-    paragraphs: [
-      'Chef Marisol Duarte fires up the grill for Brazilian Steakhouse Nights, bringing three generations of churrasco tradition from Minas Gerais straight to the truck window. Expect fire-kissed picanha, garlic-crusted sirloin, and linguiça grilled low and slow.',
-      'Pair it with live-fire smoke drifting through the garden and a rotation of Brazilian classics on the speakers — a full sensory trip to a family churrascaria, one plate at a time.',
-    ],
-    ctaLine: 'Three generations of fire, one unforgettable plate.',
-    details: [
-      'Fire-grilled picanha & garlic sirloin',
-      'House-made linguiça',
-      'Farofa & chimichurri on the side',
-      'Tasting platter built for sharing',
-      'Limited nightly availability — RSVP recommended',
-    ],
-  },
-  {
-    id: 'gigi',
-    name: 'Chef Gigi Alvarez',
-    specialty: 'Mingle & Sweets Grazing Social',
-    dates: 'EVERY 4th Thursday',
-    nthThursday: 4,
-    bio: 'Curates grazing tables and dessert spreads built for business networking, community mixers, and birthday-month celebrations.',
-    calendarLabel: 'Chef Gigi — Mingle & Sweets Grazing Social',
-    cta: 'RSVP — INCLUDES PLATTER OF CHOICE',
-    paragraphs: [
-      'Chef Gigi Alvarez turns the garden into a grazing table for Mingle & Sweets Social — an elegant spread of cheeses, charcuterie, and seasonal bites designed for easy mingling and conversation.',
-      'Come dessert, the table shifts to house-made pastries, mini tarts, and sweet bites perfect for celebrating a birthday month, closing a business deal, or simply catching up with friends.',
-    ],
-    ctaLine: 'Great bites, better company.',
-    details: [
-      'Curated cheese & charcuterie grazing table',
-      'House-made pastries & mini desserts',
-      'Seasonal fruit & garnish spreads',
-      'Great for business mixers & birthdays',
-      'Custom grazing tables available on request',
-    ],
-  },
-];
-
 export interface BannerSlide {
   id: string;
   eyebrow: string;
   headline: string;
   sub: string;
   schedule: string;
-  /** Matches a Chef.id — reuses that chef's photo from public/images/chefs/. */
-  chefId: string;
 }
 
 export const BANNER_ITEMS: BannerSlide[] = [
-  { id: 'chefowen', eyebrow: 'GUEST CHEF', headline: 'Smoke & Barrel BBQ', sub: "Chef Owen Castellano pairs slow-smoked plates with Speakeasy Motors' barrel-aged whiskey.", schedule: '1st Thursday of every month', chefId: 'owen' },
-  { id: 'chefpriya', eyebrow: 'GUEST CHEF', headline: 'Tandoor Takeover', sub: 'Chef Priya Anand reimagines street-cart classics with tandoor-fired flatbreads.', schedule: '2nd Thursday of every month', chefId: 'priya' },
-  { id: 'chefmarisol', eyebrow: 'GUEST CHEF', headline: 'Brazilian Steakhouse Nights', sub: 'Chef Marisol Duarte brings family churrasco recipes from Minas Gerais.', schedule: '3rd Thursday of every month', chefId: 'marisol' },
-  { id: 'chefgigi', eyebrow: 'GUEST CHEF', headline: 'Mingle & Sweets Grazing Social', sub: 'Chef Gigi Alvarez curates grazing tables and desserts for networking & birthday-month celebrations.', schedule: '4th Thursday of every month', chefId: 'gigi' },
+  { id: 'sunset-sips', eyebrow: 'FRIDAYS', headline: 'Sunset Sips & Bites', sub: 'Craft cocktails, cold beer & shareable bites over live music every Friday.', schedule: 'FRIDAYS 4P – SUNSET' },
+  { id: 'rise-shine-brunch', eyebrow: 'SATURDAYS', headline: 'Rise & Shine Brunch', sub: 'A Saturday brunch with a Waffle Sunshine Bar, cheese buns, fresh fruit & juices, and Spritz Specials.', schedule: 'SATURDAYS 1P – 4P' },
+  { id: 'brasa-grooves', eyebrow: 'SUNDAYS', headline: 'Brasa Grooves', sub: 'A Sunday churrasco gathering — Brazilian-inspired BBQ skewers, family-style sides, and live bossa nova, samba & Brazilian jazz.', schedule: 'SUNDAYS 1P – 4P' },
+  { id: 'yard-league', eyebrow: 'SUNDAYS', headline: 'The Yard League', sub: 'Sunday backyard games — family day, pet friendly.', schedule: 'SUNDAYS 11A – 2P' },
 ];
 
-export type EventCategory = 'chef' | 'brunch' | 'yard' | 'sunset' | 'closed' | 'retail';
+export type EventCategory = 'brunch' | 'yard' | 'sunset' | 'closed' | 'retail';
 
 export interface RecurringEvent {
   title: string;
@@ -378,6 +265,8 @@ export interface RecurringEvent {
   weekdays: number[];
   label: string;
   category: EventCategory;
+  /** Where this pop-up happens — each event can be at a different spot, so this is shown on the schedule. */
+  location: string;
   /** Optional richer body copy for the summary card (each string is its own paragraph). Falls back to `desc` when absent. */
   paragraphs?: string[];
   /** Optional standalone call-to-action line, shown emphasized below the paragraphs. */
@@ -389,36 +278,38 @@ export interface RecurringEvent {
 export const RECURRING_EVENTS: RecurringEvent[] = [
   {
     title: 'Sunset Sips & Bites',
-    desc: 'Garden cocktails, craft beer & platters over live music every Friday.',
+    desc: 'Craft cocktails, cold beer & shareable bites over live music every Friday.',
     schedule: 'FRIDAYS 4P – SUNSET',
     cta: 'RSVP FOR HAPPY HOUR SPECIALS',
     weekdays: [5],
     label: 'Sunset Sips & Bites',
     category: 'sunset',
+    location: 'Location TBD — check back soon',
     paragraphs: [
-      'Kick off the weekend early at Sunset Sips & Bites, our Friday happy hour in the garden. Sip handcrafted cocktails and rotating craft beers while sharing bar bites and platters built for passing around the table as the sun goes down.',
-      "Live music sets the mood from golden hour into dusk, with string lights, garden seating, and a laid-back crowd of regulars and first-timers alike. It's the easiest way to trade a long week for a good one.",
+      'Kick off the weekend early at Sunset Sips & Bites, our Friday happy hour pop-up. Sip handcrafted cocktails and rotating craft beers while sharing bar bites and platters built for passing around the table as the sun goes down.',
+      "Live music sets the mood from golden hour into dusk, with outdoor seating and a laid-back crowd of regulars and first-timers alike. It's the easiest way to trade a long week for a good one.",
     ],
     ctaLine: 'Friday just got a happy hour worth showing up for.',
     details: [
-      'Handcrafted garden cocktails & rotating drafts',
+      'Handcrafted cocktails & rotating drafts',
       'Shareable bar bites & grazing platters',
       'Live music from golden hour to dusk',
-      'Garden seating under string lights',
+      'Outdoor seating',
       'Happy hour specials for RSVPs',
     ],
   },
   {
     title: 'Rise & Shine Brunch',
-    desc: 'A Saturday brunch with a Waffle Sunshine Bar, cheese buns, fresh fruit & juices, and Garden Spritz Specials.',
+    desc: 'A Saturday brunch with a Waffle Sunshine Bar, cheese buns, fresh fruit & juices, and Spritz Specials.',
     schedule: 'SATURDAYS 1P – 4P',
     cta: 'RSVP REQUIRED',
     weekdays: [6],
     label: 'Rise & Shine Brunch',
     category: 'brunch',
+    location: 'Location TBD — check back soon',
     paragraphs: [
-      'Ease into Saturday with a brunch built for slow mornings and good company. Set in our historic winery and beer garden, Rise & Shine features a Waffle Sunshine Bar loaded with toppings, warm cheese buns, fresh fruit, and a full round of juices, iced tea, and iced coffee.',
-      'Garden Spritz Specials keep things bright as easy acoustic tunes drift through the vines, made for lingering under the trees with locals and wanderers alike.',
+      'Ease into Saturday with a brunch built for slow mornings and good company. Rise & Shine features a Waffle Sunshine Bar loaded with toppings, warm cheese buns, fresh fruit, and a full round of juices, iced tea, and iced coffee.',
+      'Spritz Specials keep things bright as easy acoustic tunes set the mood, made for lingering with locals and wanderers alike.',
     ],
     ctaLine: 'Gather your friends, grab a seat, and start your Saturday right!',
     details: [
@@ -426,7 +317,7 @@ export const RECURRING_EVENTS: RecurringEvent[] = [
       'Cheese Buns fresh out of the oven',
       'Iced Tea & Iced Coffee service',
       'Fresh fruit bowl & juices',
-      'Garden Spritz Specials',
+      'Spritz Specials',
     ],
   },
   {
@@ -437,9 +328,10 @@ export const RECURRING_EVENTS: RecurringEvent[] = [
     weekdays: [0],
     label: 'Brasa Grooves',
     category: 'brunch',
+    location: 'Location TBD — check back soon',
     paragraphs: [
       'Sundays come alive at Brasa Grooves, a relaxed gathering inspired by Brazilian churrasco, shared tables, and the joy of spending time together. Feast family-style on BBQ skewers grilled to order, seasonal sides, fresh salads, and house-made sauces.',
-      'Bossa Nova, Samba, and Brazilian Jazz set the soundtrack as the afternoon unfolds over Caipirinha Fizzes, Garden Spritzes, and crisp Pilsners — a Sunday tradition where fire, flavor, and community meet in Upstate New York.',
+      'Bossa Nova, Samba, and Brazilian Jazz set the soundtrack as the afternoon unfolds over Caipirinha Fizzes, Spritzes, and crisp Pilsners — a Sunday tradition where fire, flavor, and community meet in Upstate New York.',
     ],
     ctaLine: 'Fire, flavor, and community — every Sunday afternoon.',
     details: [
@@ -447,7 +339,7 @@ export const RECURRING_EVENTS: RecurringEvent[] = [
       'Family-style seasonal sides & fresh salads',
       'House-made sauces & condiments',
       'Live Bossa Nova, Samba & Brazilian Jazz',
-      'Caipirinha Fizz, Garden Spritz & Pilsner on tap',
+      'Caipirinha Fizz, Spritz & Pilsner on tap',
     ],
   },
   {
@@ -458,8 +350,9 @@ export const RECURRING_EVENTS: RecurringEvent[] = [
     weekdays: [0],
     label: 'The Yard League',
     category: 'yard',
+    location: 'Location TBD — check back soon',
     paragraphs: [
-      'Round out your Sunday with backyard games, cold drinks, and easy bites at The Yard League. Cornhole, giant Jenga, and lawn games keep the energy light while the grill keeps the smells drifting across the garden.',
+      'Round out your Sunday with backyard games, cold drinks, and easy bites at The Yard League. Cornhole, giant Jenga, and lawn games keep the energy light while the grill keeps the smells drifting through the air.',
       "It's a laid-back, family-day vibe with pets welcome and casual background tunes — pull up a lawn chair, grab a snack, and let the kids (and the dogs) run the yard.",
     ],
     ctaLine: 'Family day, pet friendly, zero pressure — just good yard games.',
@@ -489,7 +382,7 @@ export const US_HOLIDAYS_BY_MONTH: Record<string, Record<number, string>> = {
 
 export interface CalendarOverrideEvent {
   label: string;
-  type: 'chef' | 'recurring' | 'custom';
+  type: 'recurring' | 'custom';
   category: EventCategory;
 }
 
@@ -510,7 +403,6 @@ export const BASE_HEAD_CHEF_COUNT = 1;
 export const BASE_SUPPORT_STAFF = 2;
 
 export const RSVP_URL = 'https://www.eventbrite.com/o/60183746723';
-export const VISIT_US_URL = 'https://share.google/RjhrxRhreqaAY210Q';
 /** Brevo-hosted newsletter signup form, embedded via iframe in the footer. */
 export const NEWSLETTER_FORM_URL =
   'https://88983699.sibforms.com/serve/MUIFANwsLbOp2yIA8bopkFghcnBEpYCzRufntIm4RajGnJwRggFJOo3pHCR7x3KG7Z-7IZ2p-OUGnptgoPZDDnzy9CM7zpINet4RhoizH0i6TJvtXzggmDtd4gOMtxytATdX0Xz-Xjsun20hNpYG8C0MlCPL2UHFuzcht6DrBV9jsUJW9HWVtOb9bzTKf3cL-J7wQdMpX64fOCdOuw==';

@@ -48,14 +48,12 @@ export default function Hero() {
           <span style={{ color: COLORS.gold }}>The perfect pairing.</span>
         </h1>
         <p style={{ font: "400 17px/1.6 'Inter'", color: 'oklch(88% 0.01 95)', maxWidth: '46ch', margin: 0 }}>
-          Discover the best of Upstate New York with UPCYCLE Brews &amp; Bites and The Baldwin Speakeasy by Liquid
-          Mercantile. Together, we're bringing handcrafted food, signature cocktails, local brews, and unforgettable
-          experiences to one destination.
+          UPCYCLE Brews &amp; Bites is a rotating food truck bringing handcrafted cocktails, local brews, and
+          scratch-made bites to Upstate New York — one pop-up at a time.
         </p>
         <p style={{ font: "400 17px/1.6 'Inter'", color: 'oklch(88% 0.01 95)', maxWidth: '46ch', margin: 0 }}>
-          Featuring chef-inspired menus, rotating guest chefs, regional vendors, and community events, every visit
-          offers something new to enjoy. Come hungry, stay for the cocktails, and gather with friends for the perfect
-          pairing of great food, great drinks, and great company.
+          From Friday happy hours to Sunday brunch and backyard games, every stop is a chance to gather with friends
+          over great food, great drinks, and great company. Check the schedule below to find us.
         </p>
         <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
           <a

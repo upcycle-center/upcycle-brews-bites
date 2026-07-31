@@ -36,7 +36,7 @@ export default function PromoBanner() {
           {BANNER_ITEMS.map((slide, i) => (
             <img
               key={slide.id}
-              src={imageUrl(`images/chefs/${slide.chefId}.jpg`)}
+              src={imageUrl(`images/events/${slide.id}.jpg`)}
               alt={slide.headline}
               style={{
                 position: 'absolute',

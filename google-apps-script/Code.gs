@@ -103,11 +103,11 @@ function buildNewsletterWelcomeBody() {
   return [
     'Hi there,',
     '',
-    "Thanks for joining the UPCYCLE Brews & Bites newsletter! You'll be the first to hear about new guest chefs, seasonal menu drops, and event announcements.",
+    "Thanks for joining the UPCYCLE Brews & Bites newsletter! You'll be the first to hear about new pop-up locations, seasonal menu drops, and event announcements.",
     '',
     "We'll only send the good stuff — no spam, promise.",
     '',
-    'See you at the garden,',
+    'See you soon,',
     'UPCYCLE Brews & Bites',
   ].join('\n');
 }

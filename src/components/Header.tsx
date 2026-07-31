@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import logo from '../assets/logo.png';
-import { COLORS, VISIT_US_URL } from '../data';
+import { COLORS } from '../data';
 
 const NAV_LINKS = [
   { label: 'love at first bite', href: '#menu-section' },
   { label: 'sips & cans', href: '#sips-section' },
-  { label: 'guest chef spotlight', href: '#chef-section' },
   { label: 'happening at the garden', href: '#happening-section' },
   { label: 'casual catering', href: '#catering-section' },
 ];
@@ -83,7 +82,7 @@ export default function Header() {
               zIndex: 60,
             }}
           >
-            {NAV_LINKS.map((link) => (
+            {NAV_LINKS.map((link, i) => (
               <a
                 key={link.label}
                 href={link.href}
@@ -93,21 +92,12 @@ export default function Header() {
                   font: "600 14px 'Inter'",
                   color: 'oklch(24% 0.045 152)',
                   letterSpacing: '.03em',
-                  borderBottom: '1px solid oklch(92% 0.01 95)',
+                  borderBottom: i === NAV_LINKS.length - 1 ? 'none' : '1px solid oklch(92% 0.01 95)',
                 }}
               >
                 {link.label}
               </a>
             ))}
-            <a
-              href={VISIT_US_URL}
-              target="_blank"
-              rel="noopener"
-              onClick={() => setMenuOpen(false)}
-              style={{ padding: '14px 20px', font: "600 14px 'Inter'", color: 'oklch(24% 0.045 152)', letterSpacing: '.03em' }}
-            >
-              visit us
-            </a>
           </nav>
         )}
       </div>

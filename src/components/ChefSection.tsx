@@ -58,68 +58,11 @@ export default function ChefSection() {
 
   return (
     <section id="chef-section" style={{ padding: '64px 32px', background: COLORS.green }}>
-      <div style={{ textAlign: 'center', marginBottom: 36 }}>
-        <span style={{ font: "700 12px 'Inter'", letterSpacing: '.12em', color: COLORS.gold }}>ROTATING VENDORS</span>
-        <h2 style={{ font: "400 40px 'Anton', sans-serif", textTransform: 'uppercase', margin: '6px 0 0', color: 'oklch(97% 0.01 95)' }}>
-          Guest Chef Spotlight
-        </h2>
-      </div>
-
-      <div
-        style={{
-          maxWidth: 560,
-          margin: '0 auto',
-          padding: '32px 28px',
-          borderRadius: 16,
-          background: 'oklch(100% 0 0)',
-          boxShadow: '0 1px 3px oklch(0% 0 0 / 0.08), 0 8px 24px oklch(0% 0 0 / 0.06)',
-          textAlign: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 10,
-        }}
-      >
-        <span
-          style={{
-            display: 'inline-flex',
-            padding: '6px 14px',
-            borderRadius: 999,
-            background: 'oklch(74% 0.14 85 / 0.25)',
-            color: COLORS.goldDeep,
-            font: "700 11px 'Inter'",
-            letterSpacing: '.06em',
-          }}
-        >
-          COMING SOON
-        </span>
-        <p style={{ font: "700 15px/1.5 'Inter'", color: 'oklch(22% 0.02 150)', margin: 0 }}>
-          Every Thursday, rotating local chefs.
-        </p>
-        <a
-          href={RSVP_URL}
-          target="_blank"
-          rel="noopener"
-          style={{
-            marginTop: 6,
-            padding: '10px 20px',
-            borderRadius: 8,
-            border: 'none',
-            font: "700 13px 'Inter'",
-            textDecoration: 'none',
-            background: COLORS.skyDeep,
-            color: 'oklch(98% 0.01 90)',
-          }}
-        >
-          Register for Pre-Sale Specials
-        </a>
-      </div>
-
       <div
         id="happening-section"
         style={{
           maxWidth: 920,
-          margin: '48px auto 0',
+          margin: '0 auto',
           padding: '28px 32px',
           borderRadius: 16,
           background: 'oklch(100% 0 0)',
@@ -131,7 +74,7 @@ export default function ChefSection() {
             HAPPENING AT THE GARDEN
           </h3>
           <p style={{ font: "400 13px 'Inter'", color: 'oklch(45% 0.02 150)', margin: '6px 0 12px' }}>
-            See who's parked at Speakeasy Motors and RSVP for special nights.
+            See what's coming up and RSVP for our next pop-up.
           </p>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
             <button
@@ -218,7 +161,12 @@ export default function ChefSection() {
                     .filter((tile) => tile.canRsvp)
                     .map((tile) => (
                       <div key={tile.key} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-                        <div style={{ font: "600 12.5px 'Inter'", color: 'oklch(22% 0.02 150)' }}>{tile.label}</div>
+                        <div>
+                          <div style={{ font: "600 12.5px 'Inter'", color: 'oklch(22% 0.02 150)' }}>{tile.label}</div>
+                          {tile.location && (
+                            <div style={{ font: "400 11px 'Inter'", color: 'oklch(50% 0.02 150)', marginTop: 2 }}>📍 {tile.location}</div>
+                          )}
+                        </div>
                         <a
                           href={RSVP_URL}
                           target="_blank"
@@ -288,6 +236,7 @@ export default function ChefSection() {
                 <div style={{ font: "700 11.5px 'Inter'", letterSpacing: '.04em', color: COLORS.skyDeep, marginTop: 4 }}>
                   {ev.schedule}
                 </div>
+                <div style={{ font: "600 11.5px 'Inter'", color: 'oklch(42% 0.02 150)' }}>📍 {ev.location}</div>
                 <div style={{ font: "700 11px 'Inter'", letterSpacing: '.03em', color: COLORS.goldDeep }}>{ev.cta}</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
                   <button
@@ -383,6 +332,9 @@ export default function ChefSection() {
                   ×
                 </button>
                 <div style={{ font: "800 18px 'Inter'", color: 'oklch(22% 0.02 150)', paddingRight: 24 }}>{ev.title}</div>
+                <div style={{ font: "600 12.5px 'Inter'", color: COLORS.skyDeep }}>
+                  {ev.schedule} · 📍 {ev.location}
+                </div>
                 {(ev.paragraphs ?? [ev.desc]).map((p, i) => (
                   <div key={i} style={{ font: "400 13.5px/1.6 'Inter'", color: 'oklch(42% 0.02 150)' }}>
                     {p}
