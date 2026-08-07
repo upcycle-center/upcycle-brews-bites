@@ -67,7 +67,7 @@ export const MENU: MenuItem[] = [
     beer: 'Brown Ale', beerNote: 'Nutty malt sweetness matches the savory meat blend.',
   },
   {
-    id: 'charcuteriepretzel', name: 'Charcuterie Pretzel', price: 12, category: 'latenight', tags: [],
+    id: 'pretzelcharcuterie', name: 'Charcuterie Pretzel', price: 12, category: 'latenight', tags: [],
     desc: 'Relish our tasty blend of cheeses and meats served on a soft, delectable pretzel.',
     cocktail: 'Herbed Gin & Tonic', cocktailNote: 'Juniper and fresh herbs cut through the rich cheese and cured meats.',
     beer: 'Kölsch', beerNote: 'Light and crisp, balances the salty pretzel and cured meats.',
@@ -119,7 +119,7 @@ export const SIPS: SipItem[] = [
   { id: 'celsius', name: 'Celsius', price: 3, desc: 'Sparkling fitness drink, zero sugar, full flavor.' },
   { id: 'icedtea', name: 'Iced Tea', price: 3, desc: 'By Tiesta Tea — brewed and chilled, rotating seasonal flavors.' },
   { id: 'icedcoffee', name: 'Iced Coffee', price: 3, desc: 'By Mighty Oak — smooth cold brew, ready to go.' },
-  { id: 'dosemushroom', name: 'Mushroom Iced Coffee', price: 6, desc: "By Everyday Dose — their Coffee+ blend: \"We took everything we loved about coffee, removed what we didn't, and added in supplements to optimize your body and mind.\"" },
+  { id: 'mushroomcoffee', name: 'Mushroom Iced Coffee', price: 6, desc: "By Everyday Dose — their Coffee+ blend: \"We took everything we loved about coffee, removed what we didn't, and added in supplements to optimize your body and mind.\"" },
   { id: 'bottledjuice', name: 'Bottled Juice', price: 7, desc: 'Fresh variety of seasonal rotating flavors.' },
   { id: 'kombucha', name: 'Kombucha', price: 7, desc: 'Small-batch, fermented and fizzy — rotating seasonal flavors.' },
   { id: 'michelada', name: 'MichelaN/A', price: 8, desc: 'Non-alcoholic michelada — tomato, lime, and spice, all the kick, none of the beer.' },
@@ -247,7 +247,7 @@ export interface BannerSlide {
 }
 
 export const BANNER_ITEMS: BannerSlide[] = [
-  { id: 'sunset-sips', eyebrow: 'FRIDAYS', headline: 'Sunset Sips & Bites', sub: 'Craft cocktails, cold beer & shareable bites over live music every Friday.', schedule: 'FRIDAYS 4P – SUNSET' },
+  { id: 'eventsunsetbites', eyebrow: 'FRIDAYS', headline: 'Sunset Sips & Bites', sub: 'Craft cocktails, cold beer & shareable bites over live music every Friday.', schedule: 'FRIDAYS 4P – SUNSET' },
   { id: 'rise-shine-brunch', eyebrow: 'SATURDAYS', headline: 'Rise & Shine Brunch', sub: 'A Saturday brunch with a Waffle Sunshine Bar, cheese buns, fresh fruit & juices, and Spritz Specials.', schedule: 'SATURDAYS 1P – 4P' },
   { id: 'brasa-grooves', eyebrow: 'SUNDAYS', headline: 'Brasa Grooves', sub: 'A Sunday churrasco gathering — Brazilian-inspired BBQ skewers, family-style sides, and live bossa nova, samba & Brazilian jazz.', schedule: 'SUNDAYS 1P – 4P' },
   { id: 'yard-league', eyebrow: 'SUNDAYS', headline: 'The Yard League', sub: 'Sunday backyard games — family day, pet friendly.', schedule: 'SUNDAYS 11A – 2P' },
@@ -256,6 +256,8 @@ export const BANNER_ITEMS: BannerSlide[] = [
 export type EventCategory = 'brunch' | 'yard' | 'sunset' | 'closed' | 'retail';
 
 export interface RecurringEvent {
+  /** Matches the image filename in public/images/events/ (e.g. 'eventsunsetbites' -> images/events/eventsunsetbites.jpg). */
+  id: string;
   title: string;
   /** Short one-liner — used as the summary-card fallback text and the calendar tile's expandable description. */
   desc: string;
@@ -277,6 +279,7 @@ export interface RecurringEvent {
 
 export const RECURRING_EVENTS: RecurringEvent[] = [
   {
+    id: 'eventsunsetbites',
     title: 'Sunset Sips & Bites',
     desc: 'Craft cocktails, cold beer & shareable bites over live music every Friday.',
     schedule: 'FRIDAYS 4P – SUNSET',
@@ -299,6 +302,7 @@ export const RECURRING_EVENTS: RecurringEvent[] = [
     ],
   },
   {
+    id: 'rise-shine-brunch',
     title: 'Rise & Shine Brunch',
     desc: 'A Saturday brunch with a Waffle Sunshine Bar, cheese buns, fresh fruit & juices, and Spritz Specials.',
     schedule: 'SATURDAYS 1P – 4P',
@@ -321,6 +325,7 @@ export const RECURRING_EVENTS: RecurringEvent[] = [
     ],
   },
   {
+    id: 'brasa-grooves',
     title: 'Brasa Grooves',
     desc: 'A Sunday churrasco gathering — Brazilian-inspired BBQ skewers, family-style sides, and live bossa nova, samba & Brazilian jazz.',
     schedule: 'SUNDAYS 1P – 4P',
@@ -343,6 +348,7 @@ export const RECURRING_EVENTS: RecurringEvent[] = [
     ],
   },
   {
+    id: 'yard-league',
     title: 'The Yard League',
     desc: 'Sunday backyard games — family day, pet friendly.',
     schedule: 'SUNDAYS 11A – 2P',
