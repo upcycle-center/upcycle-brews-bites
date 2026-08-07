@@ -30,7 +30,7 @@ export default function PromoBanner() {
   const item = BANNER_ITEMS[index];
 
   return (
-    <div className="promo-banner" style={{ position: 'relative', height: 220, overflow: 'hidden', background: COLORS.gold }}>
+    <div className="promo-banner" style={{ position: 'relative', height: 330, overflow: 'hidden', background: COLORS.gold }}>
       <div className="banner-grid" style={{ display: 'grid', height: '100%', maxWidth: 1280, margin: '0 auto' }}>
         <div className="banner-image-col" style={{ position: 'relative' }}>
           {BANNER_ITEMS.map((slide, i) => (

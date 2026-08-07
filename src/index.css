@@ -53,7 +53,7 @@ img {
 }
 
 .banner-grid {
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 440px 1fr;
 }
 .banner-image-col {
   height: 100%;
@@ -92,7 +92,8 @@ img {
     grid-template-columns: 1fr;
   }
   .banner-image-col {
-    height: 160px;
+    height: auto;
+    aspect-ratio: 4 / 3;
   }
   .promo-banner {
     height: auto !important;
