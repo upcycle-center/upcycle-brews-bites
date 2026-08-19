@@ -16,6 +16,7 @@ export default function ChefSection() {
   const [calendarYear, setCalendarYear] = useState(today.getFullYear());
   const [calendarMonth, setCalendarMonth] = useState(today.getMonth());
   const [detailsModalEvent, setDetailsModalEvent] = useState<string | null>(null);
+  const [brokenImages, setBrokenImages] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     if (!detailsModalEvent) return;
@@ -217,11 +218,29 @@ export default function ChefSection() {
                 flexDirection: 'column',
               }}
             >
-              <img
-                src={imageUrl(`images/events/${ev.id}.jpg`)}
-                alt={ev.title}
-                style={{ width: '100%', height: 140, objectFit: 'cover', display: 'block' }}
-              />
+              {brokenImages.has(ev.id) ? (
+                <div
+                  style={{
+                    width: '100%',
+                    aspectRatio: '4 / 3',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: COLORS.gold,
+                    color: 'oklch(24% 0.045 152)',
+                    font: "600 12px 'Inter'",
+                  }}
+                >
+                  Photo coming soon
+                </div>
+              ) : (
+                <img
+                  src={imageUrl(`images/events/${ev.id}.jpg`)}
+                  alt={ev.title}
+                  onError={() => setBrokenImages((prev) => new Set(prev).add(ev.id))}
+                  style={{ width: '100%', aspectRatio: '4 / 3', objectFit: 'cover', display: 'block' }}
+                />
+              )}
               <div style={{ padding: 22, display: 'flex', flexDirection: 'column', gap: 8 }}>
                 <div style={{ font: "800 16px 'Inter'", color: 'oklch(22% 0.02 150)', minHeight: 40 }}>{ev.title}</div>
                 <div
