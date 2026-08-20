@@ -248,7 +248,7 @@ export interface BannerSlide {
 
 export const BANNER_ITEMS: BannerSlide[] = [
   { id: 'eventsunsetbites', eyebrow: 'FRIDAYS', headline: 'Sunset Sips & Bites', sub: 'Craft cocktails, cold beer & shareable bites over live music every Friday.', schedule: 'FRIDAYS 4P – SUNSET' },
-  { id: 'rise-shine-brunch', eyebrow: 'SATURDAYS', headline: 'Rise & Shine Brunch', sub: 'A Saturday brunch with a Waffle Sunshine Bar, cheese buns, fresh fruit & juices, and Spritz Specials.', schedule: 'SATURDAYS 1P – 4P' },
+  { id: 'eventriseshine', eyebrow: 'SATURDAYS', headline: 'Rise & Shine Brunch', sub: 'A Saturday brunch with a Waffle Sunshine Bar, cheese buns, fresh fruit & juices, and Spritz Specials.', schedule: 'SATURDAYS 1P – 4P' },
   { id: 'brasa-grooves', eyebrow: 'SUNDAYS', headline: 'Brasa Grooves', sub: 'A Sunday churrasco gathering — Brazilian-inspired BBQ skewers, family-style sides, and live bossa nova, samba & Brazilian jazz.', schedule: 'SUNDAYS 1P – 4P' },
   { id: 'yard-league', eyebrow: 'SUNDAYS', headline: 'The Yard League', sub: 'Sunday backyard games — family day, pet friendly.', schedule: 'SUNDAYS 11A – 2P' },
 ];
@@ -302,7 +302,7 @@ export const RECURRING_EVENTS: RecurringEvent[] = [
     ],
   },
   {
-    id: 'rise-shine-brunch',
+    id: 'eventriseshine',
     title: 'Rise & Shine Brunch',
     desc: 'A Saturday brunch with a Waffle Sunshine Bar, cheese buns, fresh fruit & juices, and Spritz Specials.',
     schedule: 'SATURDAYS 1P – 4P',
